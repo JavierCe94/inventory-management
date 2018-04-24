@@ -61,4 +61,10 @@ class WorkerStatus
      * @ORM\ManyToOne(targetEntity="App\Domain\Model\Entity\SubDepartment\SubDepartment")
      */
     private $subDepartment;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Domain\Model\Entity\Worker\Worker")
+     */
+    private $worker;
+
 }

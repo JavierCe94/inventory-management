@@ -17,11 +17,6 @@ class Worker
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Domain\Model\Entity\WorkerStatus\WorkerStatus")
-     */
-    private $workerStatus;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
@@ -45,9 +40,4 @@ class Worker
      * @ORM\Column(type="string", length=12, nullable=false, unique=true, options={"default"="-"})
      */
     private $tel;
-
-
-
-
-
 }
