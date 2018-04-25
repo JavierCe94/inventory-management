@@ -14,11 +14,20 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ControllerGarment extends Controller
 {
+
+    public function insertGarment(string $name, int $garmentTypeId)
+    {
+        $insertGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $insertGarmentTransform = new InsertGarmentTransform();
+        return $this->json(['insert garment']);
+    }
+
     public function insertGarmentType(string $name)
     {
         $insertGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);

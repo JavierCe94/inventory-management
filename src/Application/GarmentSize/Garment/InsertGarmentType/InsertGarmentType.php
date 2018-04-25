@@ -15,13 +15,22 @@ class InsertGarmentType
     private $garmentTypeRepository;
     private $insertGarmentTypeTransform;
 
+    /**
+     * InsertGarmentType constructor.
+     *
+     * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
+     * @param InsertGarmentTypeTransformInterface $insertGarmentTypeTransform
+     */
     public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository, InsertGarmentTypeTransformInterface $insertGarmentTypeTransform)
     {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTypeTransform = $insertGarmentTypeTransform;
     }
 
-    public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand)
+    /**
+     * @param InsertGarmentTypeCommand $insertGarmentTypeCommand
+     */
+    public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): void
     {
         $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($insertGarmentTypeCommand->getName());
         $this->garmentTypeRepository->persistAndFlush($garmentTypeEntity);

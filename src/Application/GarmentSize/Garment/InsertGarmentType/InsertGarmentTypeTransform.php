@@ -10,6 +10,9 @@ namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType
 
 class InsertGarmentTypeTransform implements InsertGarmentTypeTransformInterface
 {
+    /**
+     * @return array
+     */
     public function transform(): array
     {
         return [

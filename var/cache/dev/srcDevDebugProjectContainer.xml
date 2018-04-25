@@ -10,15 +10,20 @@
     <parameter key="kernel.logs_dir">/home/programador/inventory-management/var/log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
+      <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
       <parameter key="DoctrineCacheBundle">Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle</parameter>
       <parameter key="DoctrineBundle">Doctrine\Bundle\DoctrineBundle\DoctrineBundle</parameter>
       <parameter key="DoctrineMigrationsBundle">Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle</parameter>
-      <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
+      <parameter key="WebServerBundle">Symfony\Bundle\WebServerBundle\WebServerBundle</parameter>
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
         <parameter key="path">/home/programador/inventory-management/vendor/symfony/framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
+      </parameter>
+      <parameter key="MakerBundle" type="collection">
+        <parameter key="path">/home/programador/inventory-management/vendor/symfony/maker-bundle/src</parameter>
+        <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="DoctrineCacheBundle" type="collection">
         <parameter key="path">/home/programador/inventory-management/vendor/doctrine/doctrine-cache-bundle</parameter>
@@ -32,9 +37,9 @@
         <parameter key="path">/home/programador/inventory-management/vendor/doctrine/doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
-      <parameter key="MakerBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/symfony/maker-bundle/src</parameter>
-        <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
+      <parameter key="WebServerBundle" type="collection">
+        <parameter key="path">/home/programador/inventory-management/vendor/symfony/web-server-bundle</parameter>
+        <parameter key="namespace">Symfony\Bundle\WebServerBundle</parameter>
       </parameter>
     </parameter>
     <parameter key="kernel.charset">UTF-8</parameter>
@@ -178,7 +183,7 @@
     <parameter key="doctrine.orm.proxy_dir">/home/programador/inventory-management/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
     <parameter key="doctrine_migrations.dir_name">/home/programador/inventory-management/src/Infrastructure/Migrations</parameter>
-    <parameter key="doctrine_migrations.namespace">App\Infrastructure\Migrations</parameter>
+    <parameter key="doctrine_migrations.namespace">Inventory\Management\Infrastructure\Migrations</parameter>
     <parameter key="doctrine_migrations.table_name">migration_versions</parameter>
     <parameter key="doctrine_migrations.name">Application Migrations</parameter>
     <parameter key="doctrine_migrations.custom_template">null</parameter>
@@ -199,29 +204,47 @@
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" public="true" synthetic="true"/>
-    <service id="App\Domain\Model\Entity\Department\Department" class="App\Domain\Model\Entity\Department\Department" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Domain\Model\Entity\SubDepartment\SubDepartment" class="App\Domain\Model\Entity\SubDepartment\SubDepartment" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Domain\Model\Entity\Worker\Worker" class="App\Domain\Model\Entity\Worker\Worker" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Domain\Model\Entity\WorkerStatus\WorkerStatus" class="App\Domain\Model\Entity\WorkerStatus\WorkerStatus" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Infrastructure\Migrations\Version20180424134150" class="App\Infrastructure\Migrations\Version20180424134150" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Infrastructure\Migrations\Version20180424134209" class="App\Infrastructure\Migrations\Version20180424134209" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Infrastructure\Migrations\Version20180424134310" class="App\Infrastructure\Migrations\Version20180424134310" public="false" autowire="true" autoconfigure="true"/>
-    <service id="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" class="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.repository_service"/>
-      <argument type="service" id="doctrine"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository"/>
+      <argument type="service" id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform"/>
     </service>
-    <service id="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" class="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.repository_service"/>
-      <argument type="service" id="doctrine"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes" class="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository"/>
+      <argument type="service" id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform"/>
     </service>
-    <service id="App\Infrastructure\Repository\WorkerRepository\WorkerRepository" class="App\Infrastructure\Repository\WorkerRepository\WorkerRepository" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.repository_service"/>
-      <argument type="service" id="doctrine"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand" class="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform" class="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\Employee\Department" class="Inventory\Management\Domain\Model\Entity\Employee\Department" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\Employee\Employee" class="Inventory\Management\Domain\Model\Entity\Employee\Employee" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus" class="Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\Employee\SubDepartment" class="Inventory\Management\Domain\Model\Entity\Employee\SubDepartment" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment" class="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType" class="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize" class="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size" class="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeType" class="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeType" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\RequestEmployee\Firm" class="Inventory\Management\Domain\Model\Entity\RequestEmployee\Firm" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee" class="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment" class="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Controller\ControllerGarment" class="Inventory\Management\Infrastructure\Controller\ControllerGarment" public="true" autowire="true" autoconfigure="true">
+      <tag name="controller.service_arguments"/>
     </service>
-    <service id="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" class="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" public="false" autowire="true" autoconfigure="true">
-      <tag name="doctrine.repository_service"/>
-      <argument type="service" id="doctrine"/>
-    </service>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425132345" class="Inventory\Management\Infrastructure\Migrations\Version20180425132345" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\Employee\DepartmentRepository" class="Inventory\Management\Infrastructure\Repository\Employee\DepartmentRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository" class="Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository" class="Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\Employee\SubDepartmentRepository" class="Inventory\Management\Infrastructure\Repository\Employee\SubDepartmentRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository" class="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository" class="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\GarmentSize\GarmentSizeRepository" class="Inventory\Management\Infrastructure\Repository\GarmentSize\GarmentSizeRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeRepository" class="Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeTypeRepository" class="Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeTypeRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\RequestEmployee\FilmRepository" class="Inventory\Management\Infrastructure\Repository\RequestEmployee\FilmRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeGarmentRepository" class="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeGarmentRepository" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository" class="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository" public="false" autowire="true" autoconfigure="true"/>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -381,14 +404,6 @@
       </call>
       <call method="addListener">
         <argument>kernel.request</argument>
-        <argument type="collection">
-          <argument type="service" id="debug.debug_handlers_listener"/>
-          <argument>configure</argument>
-        </argument>
-        <argument>2048</argument>
-      </call>
-      <call method="addListener">
-        <argument>console.command</argument>
         <argument type="collection">
           <argument type="service" id="debug.debug_handlers_listener"/>
           <argument>configure</argument>
@@ -954,6 +969,76 @@
     <service id="annotations.cache" class="Symfony\Component\Cache\DoctrineProvider" public="false">
       <argument type="service" id="2_PhpArrayAdapter~9Xftf2N"/>
     </service>
+    <service id="maker.file_manager" class="Symfony\Bundle\MakerBundle\FileManager" public="false">
+      <argument type="service" id="filesystem"/>
+      <argument type="service" id="maker.autoloader_util"/>
+      <argument>/home/programador/inventory-management</argument>
+    </service>
+    <service id="maker.autoloader_util" class="Symfony\Bundle\MakerBundle\Util\AutoloaderUtil" public="false">
+      <argument>/home/programador/inventory-management</argument>
+    </service>
+    <service id="maker.event_registry" class="Symfony\Bundle\MakerBundle\EventRegistry" public="false">
+      <argument type="service" id="event_dispatcher"/>
+    </service>
+    <service id="maker.console_error_listener" class="Symfony\Bundle\MakerBundle\Event\ConsoleErrorSubscriber" public="false">
+      <tag name="kernel.event_subscriber"/>
+    </service>
+    <service id="maker.doctrine_helper" class="Symfony\Bundle\MakerBundle\Doctrine\DoctrineHelper" public="false">
+      <argument type="service" id="doctrine" on-invalid="ignore"/>
+    </service>
+    <service id="maker.maker.make_authenticator" class="Symfony\Bundle\MakerBundle\Maker\MakeAuthenticator" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_command" class="Symfony\Bundle\MakerBundle\Maker\MakeCommand" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeController" public="false">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.file_manager"/>
+    </service>
+    <service id="maker.maker.make_crud" class="Symfony\Bundle\MakerBundle\Maker\MakeCrud" public="false">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.doctrine_helper"/>
+    </service>
+    <service id="maker.maker.make_entity" class="Symfony\Bundle\MakerBundle\Maker\MakeEntity" public="false">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.file_manager"/>
+      <argument>/home/programador/inventory-management</argument>
+      <argument type="service" id="maker.doctrine_helper"/>
+    </service>
+    <service id="maker.maker.make_fixtures" class="Symfony\Bundle\MakerBundle\Maker\MakeFixtures" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_form" class="Symfony\Bundle\MakerBundle\Maker\MakeForm" public="false">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.doctrine_helper"/>
+    </service>
+    <service id="maker.maker.make_functional_test" class="Symfony\Bundle\MakerBundle\Maker\MakeFunctionalTest" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_serializer_encoder" class="Symfony\Bundle\MakerBundle\Maker\MakeSerializerEncoder" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_subscriber" class="Symfony\Bundle\MakerBundle\Maker\MakeSubscriber" public="false">
+      <tag name="maker.command"/>
+      <argument type="service" id="maker.event_registry"/>
+    </service>
+    <service id="maker.maker.make_twig_extension" class="Symfony\Bundle\MakerBundle\Maker\MakeTwigExtension" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_unit_test" class="Symfony\Bundle\MakerBundle\Maker\MakeUnitTest" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_validator" class="Symfony\Bundle\MakerBundle\Maker\MakeValidator" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_voter" class="Symfony\Bundle\MakerBundle\Maker\MakeVoter" public="false">
+      <tag name="maker.command"/>
+    </service>
+    <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration" public="false">
+      <tag name="maker.command"/>
+      <argument>/home/programador/inventory-management</argument>
+    </service>
     <service id="doctrine_cache.abstract.apc" class="Doctrine\Common\Cache\ApcCache" abstract="true"/>
     <service id="doctrine_cache.abstract.apcu" class="Doctrine\Common\Cache\ApcuCache" abstract="true"/>
     <service id="doctrine_cache.abstract.array" class="Doctrine\Common\Cache\ArrayCache" abstract="true"/>
@@ -1108,7 +1193,7 @@
       <factory class="Doctrine\ORM\EntityManager" method="create"/>
     </service>
     <service id="doctrine.orm.container_repository_factory" class="Doctrine\Bundle\DoctrineBundle\Repository\ContainerRepositoryFactory" public="false">
-      <argument type="service" id="service_locator.hUe1kxl"/>
+      <argument type="service" id="service_locator.v5YYcZp"/>
     </service>
     <service id="doctrine.orm.manager_configurator.abstract" class="Doctrine\Bundle\DoctrineBundle\ManagerConfigurator" abstract="true">
       <argument type="collection"/>
@@ -1229,7 +1314,7 @@
     <service id="doctrine.orm.default_configuration" class="Doctrine\ORM\Configuration" public="false">
       <call method="setEntityNamespaces">
         <argument type="collection">
-          <argument key="App">App\Domain\Model\Entity</argument>
+          <argument key="Inventory\Management">Inventory\Management\Domain\Model\Entity</argument>
         </argument>
       </call>
       <call method="setMetadataCacheImpl">
@@ -1281,7 +1366,7 @@
     <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false">
       <call method="addDriver">
         <argument type="service" id="doctrine.orm.default_annotation_metadata_driver"/>
-        <argument>App\Domain\Model\Entity</argument>
+        <argument>Inventory\Management\Domain\Model\Entity</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
@@ -1336,84 +1421,36 @@
     <service id="doctrine_migrations.version_command" class="Doctrine\Bundle\MigrationsBundle\Command\MigrationsVersionDoctrineCommand">
       <tag name="console.command"/>
     </service>
-    <service id="maker.file_manager" class="Symfony\Bundle\MakerBundle\FileManager" public="false">
-      <argument type="service" id="filesystem"/>
-      <argument type="service" id="maker.autoloader_util"/>
-      <argument>/home/programador/inventory-management</argument>
+    <service id="web_server.command.server_run" class="Symfony\Bundle\WebServerBundle\Command\ServerRunCommand" public="false">
+      <tag name="console.command" command="server:run"/>
+      <argument>/home/programador/inventory-management/public</argument>
+      <argument>dev</argument>
+      <call method="setName">
+        <argument>server:run</argument>
+      </call>
     </service>
-    <service id="maker.autoloader_util" class="Symfony\Bundle\MakerBundle\Util\AutoloaderUtil" public="false">
-      <argument>/home/programador/inventory-management</argument>
+    <service id="web_server.command.server_start" class="Symfony\Bundle\WebServerBundle\Command\ServerStartCommand" public="false">
+      <tag name="console.command" command="server:start"/>
+      <argument>/home/programador/inventory-management/public</argument>
+      <argument>dev</argument>
+      <call method="setName">
+        <argument>server:start</argument>
+      </call>
     </service>
-    <service id="maker.event_registry" class="Symfony\Bundle\MakerBundle\EventRegistry" public="false">
-      <argument type="service" id="event_dispatcher"/>
+    <service id="web_server.command.server_stop" class="Symfony\Bundle\WebServerBundle\Command\ServerStopCommand" public="false">
+      <tag name="console.command" command="server:stop"/>
+      <call method="setName">
+        <argument>server:stop</argument>
+      </call>
     </service>
-    <service id="maker.console_error_listener" class="Symfony\Bundle\MakerBundle\Event\ConsoleErrorSubscriber" public="false">
-      <tag name="kernel.event_subscriber"/>
+    <service id="web_server.command.server_status" class="Symfony\Bundle\WebServerBundle\Command\ServerStatusCommand" public="false">
+      <tag name="console.command" command="server:status"/>
+      <call method="setName">
+        <argument>server:status</argument>
+      </call>
     </service>
-    <service id="maker.doctrine_helper" class="Symfony\Bundle\MakerBundle\Doctrine\DoctrineHelper" public="false">
-      <argument type="service" id="doctrine" on-invalid="ignore"/>
-    </service>
-    <service id="maker.maker.make_authenticator" class="Symfony\Bundle\MakerBundle\Maker\MakeAuthenticator" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_command" class="Symfony\Bundle\MakerBundle\Maker\MakeCommand" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_controller" class="Symfony\Bundle\MakerBundle\Maker\MakeController" public="false">
-      <tag name="maker.command"/>
-      <argument type="service" id="maker.file_manager"/>
-    </service>
-    <service id="maker.maker.make_crud" class="Symfony\Bundle\MakerBundle\Maker\MakeCrud" public="false">
-      <tag name="maker.command"/>
-      <argument type="service" id="maker.doctrine_helper"/>
-    </service>
-    <service id="maker.maker.make_entity" class="Symfony\Bundle\MakerBundle\Maker\MakeEntity" public="false">
-      <tag name="maker.command"/>
-      <argument type="service" id="maker.file_manager"/>
-      <argument>/home/programador/inventory-management</argument>
-      <argument type="service" id="maker.doctrine_helper"/>
-    </service>
-    <service id="maker.maker.make_fixtures" class="Symfony\Bundle\MakerBundle\Maker\MakeFixtures" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_form" class="Symfony\Bundle\MakerBundle\Maker\MakeForm" public="false">
-      <tag name="maker.command"/>
-      <argument type="service" id="maker.doctrine_helper"/>
-    </service>
-    <service id="maker.maker.make_functional_test" class="Symfony\Bundle\MakerBundle\Maker\MakeFunctionalTest" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_serializer_encoder" class="Symfony\Bundle\MakerBundle\Maker\MakeSerializerEncoder" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_subscriber" class="Symfony\Bundle\MakerBundle\Maker\MakeSubscriber" public="false">
-      <tag name="maker.command"/>
-      <argument type="service" id="maker.event_registry"/>
-    </service>
-    <service id="maker.maker.make_twig_extension" class="Symfony\Bundle\MakerBundle\Maker\MakeTwigExtension" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_unit_test" class="Symfony\Bundle\MakerBundle\Maker\MakeUnitTest" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_validator" class="Symfony\Bundle\MakerBundle\Maker\MakeValidator" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_voter" class="Symfony\Bundle\MakerBundle\Maker\MakeVoter" public="false">
-      <tag name="maker.command"/>
-    </service>
-    <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration" public="false">
-      <tag name="maker.command"/>
-      <argument>/home/programador/inventory-management</argument>
-    </service>
-    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" class="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" class="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" class="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" class="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Infrastructure\Repository\WorkerRepository\WorkerRepository" class="App\Infrastructure\Repository\WorkerRepository\WorkerRepository" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.App\Infrastructure\Repository\WorkerRepository\WorkerRepository" class="App\Infrastructure\Repository\WorkerRepository\WorkerRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
-    <service id="instanceof.Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepositoryInterface.0.App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" class="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" public="false" autowire="true" abstract="true"/>
-    <service id="abstract.instanceof.App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" class="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" public="false" autowire="true" autoconfigure="true" abstract="true"/>
+    <service id="instanceof.Symfony\Bundle\FrameworkBundle\Controller\Controller.0.Inventory\Management\Infrastructure\Controller\ControllerGarment" class="Inventory\Management\Infrastructure\Controller\ControllerGarment" public="false" autowire="true" abstract="true"/>
+    <service id="abstract.instanceof.Inventory\Management\Infrastructure\Controller\ControllerGarment" class="Inventory\Management\Infrastructure\Controller\ControllerGarment" public="false" autowire="true" autoconfigure="true" abstract="true"/>
     <service id="maker.auto_command.make_auth" class="Symfony\Bundle\MakerBundle\Command\MakerCommand">
       <tag name="console.command" command="make:auth"/>
       <argument type="service" id="maker.maker.make_authenticator"/>
@@ -1539,7 +1576,7 @@
       <argument type="collection"/>
     </service>
     <service id="console.command_loader" class="Symfony\Component\Console\CommandLoader\ContainerCommandLoader" public="true">
-      <argument type="service" id="service_locator.y_bs07A"/>
+      <argument type="service" id="service_locator.L0vFFCc"/>
       <argument type="collection">
         <argument key="about">console.command.about</argument>
         <argument key="assets:install">console.command.assets_install</argument>
@@ -1575,6 +1612,10 @@
         <argument key="doctrine:query:sql">doctrine.query_sql_command</argument>
         <argument key="doctrine:schema:update">doctrine.schema_update_command</argument>
         <argument key="doctrine:schema:validate">doctrine.schema_validate_command</argument>
+        <argument key="server:run">web_server.command.server_run</argument>
+        <argument key="server:start">web_server.command.server_start</argument>
+        <argument key="server:stop">web_server.command.server_stop</argument>
+        <argument key="server:status">web_server.command.server_status</argument>
         <argument key="make:auth">maker.auto_command.make_auth</argument>
         <argument key="make:command">maker.auto_command.make_command</argument>
         <argument key="make:controller">maker.auto_command.make_controller</argument>
@@ -1592,7 +1633,7 @@
         <argument key="make:migration">maker.auto_command.make_migration</argument>
       </argument>
     </service>
-    <service id="service_locator.y_bs07A" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="service_locator.L0vFFCc" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="console.command.about" type="service" id="console.command.about"/>
@@ -1644,21 +1685,16 @@
         <argument key="maker.auto_command.make_unit_test" type="service" id="maker.auto_command.make_unit_test"/>
         <argument key="maker.auto_command.make_validator" type="service" id="maker.auto_command.make_validator"/>
         <argument key="maker.auto_command.make_voter" type="service" id="maker.auto_command.make_voter"/>
+        <argument key="web_server.command.server_run" type="service" id="web_server.command.server_run"/>
+        <argument key="web_server.command.server_start" type="service" id="web_server.command.server_start"/>
+        <argument key="web_server.command.server_status" type="service" id="web_server.command.server_status"/>
+        <argument key="web_server.command.server_stop" type="service" id="web_server.command.server_stop"/>
       </argument>
     </service>
     <service id="service_locator.GaqeV69" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="inline" type="service" id="fragment.renderer.inline"/>
-      </argument>
-    </service>
-    <service id="service_locator.hUe1kxl" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
-      <tag name="container.service_locator"/>
-      <argument type="collection">
-        <argument key="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository" type="service" id="App\Infrastructure\Repository\DepartmentRepository\DepartmentRepository"/>
-        <argument key="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository" type="service" id="App\Infrastructure\Repository\SubDepartmentRepository\SubDepartmentRepository"/>
-        <argument key="App\Infrastructure\Repository\WorkerRepository\WorkerRepository" type="service" id="App\Infrastructure\Repository\WorkerRepository\WorkerRepository"/>
-        <argument key="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository" type="service" id="App\Infrastructure\Repository\WorkerStatusRepository\WorkerStatusRepository"/>
       </argument>
     </service>
     <service id="logger" class="Symfony\Component\HttpKernel\Log\Logger" public="false"/>
@@ -1675,6 +1711,9 @@
     </service>
     <service id="Psr\Container\ContainerInterface" alias="service_container" public="false"/>
     <service id="Symfony\Component\DependencyInjection\ContainerInterface" alias="service_container" public="false"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransformInterface" alias="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform" public="false"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransformInterface" alias="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform" public="false"/>
+    <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface" alias="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository" public="false"/>
     <service id="Symfony\Component\EventDispatcher\EventDispatcherInterface" alias="event_dispatcher" public="false"/>
     <service id="Symfony\Component\HttpKernel\HttpKernelInterface" alias="http_kernel" public="false"/>
     <service id="Symfony\Component\HttpFoundation\RequestStack" alias="request_stack" public="false"/>

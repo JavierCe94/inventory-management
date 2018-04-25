@@ -1,0 +1,11 @@
+insertGarmentType:
+    path: /insertGarmentType/{name}
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarmentType
+
+listGarmentTypes:
+    path: /listGarmentTypes
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarmentTypes
+
+insertGarment:
+    path: /insertGarment/{name}/{garment_type_id}
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarment

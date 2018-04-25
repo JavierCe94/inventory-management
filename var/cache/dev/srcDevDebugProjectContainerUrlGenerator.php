@@ -18,6 +18,8 @@ class srcDevDebugProjectContainerUrlGenerator extends Symfony\Component\Routing\
         $this->logger = $logger;
         if (null === self::$declaredRoutes) {
             self::$declaredRoutes = array(
+        'insertGarmentType' => array (  0 =>   array (    0 => 'name',  ),  1 =>   array (    '_controller' => 'Inventory\\Management\\Infrastructure\\Controller\\ControllerGarment::insertGarmentType',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'variable',      1 => '/',      2 => '[^/]++',      3 => 'name',    ),    1 =>     array (      0 => 'text',      1 => '/garment/insertGarmentType',    ),  ),  4 =>   array (  ),  5 =>   array (  ),),
+        'listGarmentTypes' => array (  0 =>   array (  ),  1 =>   array (    '_controller' => 'Inventory\\Management\\Infrastructure\\Controller\\ControllerGarment::listGarmentTypes',  ),  2 =>   array (  ),  3 =>   array (    0 =>     array (      0 => 'text',      1 => '/garment/listGarmentTypes',    ),  ),  4 =>   array (  ),  5 =>   array (  ),),
     );
         }
     }
