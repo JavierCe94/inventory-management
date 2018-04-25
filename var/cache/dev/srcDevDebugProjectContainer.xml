@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <container xmlns="http://symfony.com/schema/dic/services" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
   <parameters>
-    <parameter key="kernel.root_dir">/home/programador/inventory-management/src</parameter>
-    <parameter key="kernel.project_dir">/home/programador/inventory-management</parameter>
+    <parameter key="kernel.root_dir">/home/jose/inventory-management/src</parameter>
+    <parameter key="kernel.project_dir">/home/jose/inventory-management</parameter>
     <parameter key="kernel.environment">dev</parameter>
     <parameter key="kernel.debug">true</parameter>
     <parameter key="kernel.name">src</parameter>
-    <parameter key="kernel.cache_dir">/home/programador/inventory-management/var/cache/dev</parameter>
-    <parameter key="kernel.logs_dir">/home/programador/inventory-management/var/log</parameter>
+    <parameter key="kernel.cache_dir">/home/jose/inventory-management/var/cache/dev</parameter>
+    <parameter key="kernel.logs_dir">/home/jose/inventory-management/var/log</parameter>
     <parameter key="kernel.bundles" type="collection">
       <parameter key="FrameworkBundle">Symfony\Bundle\FrameworkBundle\FrameworkBundle</parameter>
       <parameter key="MakerBundle">Symfony\Bundle\MakerBundle\MakerBundle</parameter>
@@ -18,27 +18,27 @@
     </parameter>
     <parameter key="kernel.bundles_metadata" type="collection">
       <parameter key="FrameworkBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/symfony/framework-bundle</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/symfony/framework-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\FrameworkBundle</parameter>
       </parameter>
       <parameter key="MakerBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/symfony/maker-bundle/src</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/symfony/maker-bundle/src</parameter>
         <parameter key="namespace">Symfony\Bundle\MakerBundle</parameter>
       </parameter>
       <parameter key="DoctrineCacheBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/doctrine/doctrine-cache-bundle</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/doctrine/doctrine-cache-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineCacheBundle</parameter>
       </parameter>
       <parameter key="DoctrineBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/doctrine/doctrine-bundle</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/doctrine/doctrine-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\DoctrineBundle</parameter>
       </parameter>
       <parameter key="DoctrineMigrationsBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/doctrine/doctrine-migrations-bundle</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/doctrine/doctrine-migrations-bundle</parameter>
         <parameter key="namespace">Doctrine\Bundle\MigrationsBundle</parameter>
       </parameter>
       <parameter key="WebServerBundle" type="collection">
-        <parameter key="path">/home/programador/inventory-management/vendor/symfony/web-server-bundle</parameter>
+        <parameter key="path">/home/jose/inventory-management/vendor/symfony/web-server-bundle</parameter>
         <parameter key="namespace">Symfony\Bundle\WebServerBundle</parameter>
       </parameter>
     </parameter>
@@ -61,11 +61,11 @@
       <parameter key="cookie_httponly">true</parameter>
       <parameter key="gc_probability">1</parameter>
     </parameter>
-    <parameter key="session.save_path">/home/programador/inventory-management/var/cache/dev/sessions</parameter>
+    <parameter key="session.save_path">/home/jose/inventory-management/var/cache/dev/sessions</parameter>
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="data_collector.templates" type="collection"/>
     <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">/home/programador/inventory-management/var/cache/dev/srcDevDebugProjectContainer.xml</parameter>
+    <parameter key="debug.container.dump">/home/jose/inventory-management/var/cache/dev/srcDevDebugProjectContainer.xml</parameter>
     <parameter key="router.request_context.host">localhost</parameter>
     <parameter key="router.request_context.scheme">http</parameter>
     <parameter key="router.request_context.base_url"></parameter>
@@ -180,9 +180,9 @@
     <parameter key="doctrine.orm.second_level_cache.cache_configuration.class">Doctrine\ORM\Cache\CacheConfiguration</parameter>
     <parameter key="doctrine.orm.second_level_cache.regions_configuration.class">Doctrine\ORM\Cache\RegionsConfiguration</parameter>
     <parameter key="doctrine.orm.auto_generate_proxy_classes">true</parameter>
-    <parameter key="doctrine.orm.proxy_dir">/home/programador/inventory-management/var/cache/dev/doctrine/orm/Proxies</parameter>
+    <parameter key="doctrine.orm.proxy_dir">/home/jose/inventory-management/var/cache/dev/doctrine/orm/Proxies</parameter>
     <parameter key="doctrine.orm.proxy_namespace">Proxies</parameter>
-    <parameter key="doctrine_migrations.dir_name">/home/programador/inventory-management/src/Infrastructure/Migrations</parameter>
+    <parameter key="doctrine_migrations.dir_name">/home/jose/inventory-management/src/Infrastructure/Migrations</parameter>
     <parameter key="doctrine_migrations.namespace">Inventory\Management\Infrastructure\Migrations</parameter>
     <parameter key="doctrine_migrations.table_name">migration_versions</parameter>
     <parameter key="doctrine_migrations.name">Application Migrations</parameter>
@@ -204,7 +204,12 @@
   </parameters>
   <services>
     <service id="service_container" class="Symfony\Component\DependencyInjection\ContainerInterface" public="true" synthetic="true"/>
-    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment" public="false" autowire="true" autoconfigure="true">
+      <argument type="service" id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository"/>
+      <argument type="service" id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransform"/>
+    </service>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentCommand" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentCommand" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransform" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransform" public="false" autowire="true" autoconfigure="true"/>
     <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType" class="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType" public="false" autowire="true" autoconfigure="true">
       <argument type="service" id="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository"/>
       <argument type="service" id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform"/>
@@ -232,7 +237,12 @@
     <service id="Inventory\Management\Infrastructure\Controller\ControllerGarment" class="Inventory\Management\Infrastructure\Controller\ControllerGarment" public="true" autowire="true" autoconfigure="true">
       <tag name="controller.service_arguments"/>
     </service>
-    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425132345" class="Inventory\Management\Infrastructure\Migrations\Version20180425132345" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425155029" class="Inventory\Management\Infrastructure\Migrations\Version20180425155029" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425155759" class="Inventory\Management\Infrastructure\Migrations\Version20180425155759" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425161826" class="Inventory\Management\Infrastructure\Migrations\Version20180425161826" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425162213" class="Inventory\Management\Infrastructure\Migrations\Version20180425162213" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425170931" class="Inventory\Management\Infrastructure\Migrations\Version20180425170931" public="false" autowire="true" autoconfigure="true"/>
+    <service id="Inventory\Management\Infrastructure\Migrations\Version20180425171038" class="Inventory\Management\Infrastructure\Migrations\Version20180425171038" public="false" autowire="true" autoconfigure="true"/>
     <service id="Inventory\Management\Infrastructure\Repository\Employee\DepartmentRepository" class="Inventory\Management\Infrastructure\Repository\Employee\DepartmentRepository" public="false" autowire="true" autoconfigure="true"/>
     <service id="Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository" class="Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository" public="false" autowire="true" autoconfigure="true"/>
     <service id="Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository" class="Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository" public="false" autowire="true" autoconfigure="true"/>
@@ -411,6 +421,14 @@
         <argument>2048</argument>
       </call>
       <call method="addListener">
+        <argument>console.command</argument>
+        <argument type="collection">
+          <argument type="service" id="debug.debug_handlers_listener"/>
+          <argument>configure</argument>
+        </argument>
+        <argument>2048</argument>
+      </call>
+      <call method="addListener">
         <argument>kernel.request</argument>
         <argument type="collection">
           <argument type="service" id="router_listener"/>
@@ -461,9 +479,9 @@
     <service id="filesystem" class="Symfony\Component\Filesystem\Filesystem" public="true"/>
     <service id="file_locator" class="Symfony\Component\HttpKernel\Config\FileLocator" public="false">
       <argument type="service" id="kernel"/>
-      <argument>/home/programador/inventory-management/src/Resources</argument>
+      <argument>/home/jose/inventory-management/src/Resources</argument>
       <argument type="collection">
-        <argument>/home/programador/inventory-management/src</argument>
+        <argument>/home/jose/inventory-management/src</argument>
       </argument>
     </service>
     <service id="uri_signer" class="Symfony\Component\HttpKernel\UriSigner" public="false">
@@ -592,46 +610,46 @@
     </service>
     <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter" public="true">
       <tag name="cache.pool"/>
-      <argument>QwAYWkxJQO</argument>
+      <argument>Ai5pJ9lW+E</argument>
       <argument>0</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
       </call>
     </service>
     <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="true">
       <tag name="cache.pool"/>
-      <argument>lzfSLcsGN-</argument>
+      <argument>TbKgNgLKcb</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.validator" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
       <tag name="cache.pool"/>
-      <argument>sOyoaz8Qs7</argument>
+      <argument>j6mLSM-MXS</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.serializer" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
       <tag name="cache.pool"/>
-      <argument>3SX57iBvZ2</argument>
+      <argument>pmDk2uJwia</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
     <service id="cache.annotations" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
       <tag name="cache.pool"/>
-      <argument>V43y-8OuaB</argument>
+      <argument>4J5sJr+nZ6</argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -641,7 +659,7 @@
       <argument></argument>
       <argument>0</argument>
       <argument>%container.build_id%</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <argument type="service" id="logger" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
     </service>
@@ -670,7 +688,7 @@
       <tag name="monolog.logger" channel="cache"/>
       <argument></argument>
       <argument>0</argument>
-      <argument>/home/programador/inventory-management/var/cache/dev/pools</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/pools</argument>
       <call method="setLogger">
         <argument type="service" id="logger" on-invalid="ignore"/>
       </call>
@@ -727,14 +745,14 @@
         <argument key="cache.annotations" type="service" id="cache.annotations" on-invalid="ignore_uninitialized"/>
       </argument>
     </service>
-    <service id="2_ServiceLocator~quUPd3u" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
+    <service id="2_ServiceLocator~0E7P4es" class="Symfony\Component\DependencyInjection\ServiceLocator" public="false">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="session" type="service" id="session" on-invalid="ignore"/>
       </argument>
     </service>
-    <service id="1_NativeFileSessionHandler~quUPd3u" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler" public="false">
-      <argument>/home/programador/inventory-management/var/cache/dev/sessions</argument>
+    <service id="1_NativeFileSessionHandler~0E7P4es" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\NativeFileSessionHandler" public="false">
+      <argument>/home/jose/inventory-management/var/cache/dev/sessions</argument>
     </service>
     <service id="session" class="Symfony\Component\HttpFoundation\Session\Session" public="true">
       <argument type="service" id="session.storage.native"/>
@@ -757,18 +775,18 @@
     <service id="session.flash_bag" class="Symfony\Component\HttpFoundation\Session\Flash\FlashBag" public="false"/>
     <service id="session.attribute_bag" class="Symfony\Component\HttpFoundation\Session\Attribute\AttributeBag" public="false"/>
     <service id="session.storage.mock_file" class="Symfony\Component\HttpFoundation\Session\Storage\MockFileSessionStorage" public="false">
-      <argument>/home/programador/inventory-management/var/cache/dev/sessions</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/sessions</argument>
       <argument>MOCKSESSID</argument>
       <argument type="service" id="session.storage.metadata_bag"/>
     </service>
     <service id="session.handler.native_file" class="Symfony\Component\HttpFoundation\Session\Storage\Handler\StrictSessionHandler" public="false">
-      <argument type="service" id="1_NativeFileSessionHandler~quUPd3u"/>
+      <argument type="service" id="1_NativeFileSessionHandler~0E7P4es"/>
     </service>
     <service id="session_listener" class="Symfony\Component\HttpKernel\EventListener\SessionListener" public="false">
       <tag name="kernel.event_subscriber"/>
       <tag name="container.hot_path"/>
       <tag name="container.hot_path"/>
-      <argument type="service" id="2_ServiceLocator~quUPd3u"/>
+      <argument type="service" id="2_ServiceLocator~0E7P4es"/>
     </service>
     <service id="session.save_listener" class="Symfony\Component\HttpKernel\EventListener\SaveSessionListener" public="false">
       <tag name="kernel.event_subscriber"/>
@@ -864,7 +882,7 @@
       <argument type="service" id="service_container"/>
       <argument>kernel:loadRoutes</argument>
       <argument type="collection">
-        <argument key="cache_dir">/home/programador/inventory-management/var/cache/dev</argument>
+        <argument key="cache_dir">/home/jose/inventory-management/var/cache/dev</argument>
         <argument key="debug">true</argument>
         <argument key="generator_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
         <argument key="generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</argument>
@@ -905,7 +923,7 @@
       <argument type="service" id="request_stack"/>
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="logger" on-invalid="ignore"/>
-      <argument>/home/programador/inventory-management</argument>
+      <argument>/home/jose/inventory-management</argument>
       <argument>true</argument>
     </service>
     <service id="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" class="Symfony\Bundle\FrameworkBundle\Controller\RedirectController" public="true">
@@ -931,12 +949,12 @@
       <argument type="service" id="file_locator"/>
       <argument type="service" id="routing.loader.annotation"/>
     </service>
-    <service id="2_PhpArrayAdapter~9Xftf2N" class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
-      <argument>/home/programador/inventory-management/var/cache/dev/annotations.php</argument>
+    <service id="2_PhpArrayAdapter~GaikCr." class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
+      <argument>/home/jose/inventory-management/var/cache/dev/annotations.php</argument>
       <argument type="service" id="cache.annotations"/>
       <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
     </service>
-    <service id="1_ArrayCache~9Xftf2N" class="Doctrine\Common\Cache\ArrayCache" public="false"/>
+    <service id="1_ArrayCache~GaikCr." class="Doctrine\Common\Cache\ArrayCache" public="false"/>
     <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader" public="false">
       <call method="addGlobalIgnoredName">
         <argument>required</argument>
@@ -951,7 +969,7 @@
     <service id="annotations.cached_reader" class="Doctrine\Common\Annotations\CachedReader" public="false">
       <tag name="annotations.cached_reader"/>
       <argument type="service" id="annotations.reader"/>
-      <argument type="service" id="1_ArrayCache~9Xftf2N"/>
+      <argument type="service" id="1_ArrayCache~GaikCr."/>
       <argument>true</argument>
       <property name="cacheProviderBackup" type="service" id="annotations.cache"/>
     </service>
@@ -961,21 +979,21 @@
     <service id="annotations.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer" public="false">
       <tag name="kernel.cache_warmer"/>
       <argument type="service" id="annotations.reader"/>
-      <argument>/home/programador/inventory-management/var/cache/dev/annotations.php</argument>
+      <argument>/home/jose/inventory-management/var/cache/dev/annotations.php</argument>
       <argument type="service" id="cache.annotations"/>
       <argument>#^Symfony\\(?:Component\\HttpKernel\\|Bundle\\FrameworkBundle\\Controller\\(?!AbstractController$|Controller$))#</argument>
       <argument>true</argument>
     </service>
     <service id="annotations.cache" class="Symfony\Component\Cache\DoctrineProvider" public="false">
-      <argument type="service" id="2_PhpArrayAdapter~9Xftf2N"/>
+      <argument type="service" id="2_PhpArrayAdapter~GaikCr."/>
     </service>
     <service id="maker.file_manager" class="Symfony\Bundle\MakerBundle\FileManager" public="false">
       <argument type="service" id="filesystem"/>
       <argument type="service" id="maker.autoloader_util"/>
-      <argument>/home/programador/inventory-management</argument>
+      <argument>/home/jose/inventory-management</argument>
     </service>
     <service id="maker.autoloader_util" class="Symfony\Bundle\MakerBundle\Util\AutoloaderUtil" public="false">
-      <argument>/home/programador/inventory-management</argument>
+      <argument>/home/jose/inventory-management</argument>
     </service>
     <service id="maker.event_registry" class="Symfony\Bundle\MakerBundle\EventRegistry" public="false">
       <argument type="service" id="event_dispatcher"/>
@@ -1003,7 +1021,7 @@
     <service id="maker.maker.make_entity" class="Symfony\Bundle\MakerBundle\Maker\MakeEntity" public="false">
       <tag name="maker.command"/>
       <argument type="service" id="maker.file_manager"/>
-      <argument>/home/programador/inventory-management</argument>
+      <argument>/home/jose/inventory-management</argument>
       <argument type="service" id="maker.doctrine_helper"/>
     </service>
     <service id="maker.maker.make_fixtures" class="Symfony\Bundle\MakerBundle\Maker\MakeFixtures" public="false">
@@ -1037,7 +1055,7 @@
     </service>
     <service id="maker.maker.make_migration" class="Symfony\Bundle\MakerBundle\Maker\MakeMigration" public="false">
       <tag name="maker.command"/>
-      <argument>/home/programador/inventory-management</argument>
+      <argument>/home/jose/inventory-management</argument>
     </service>
     <service id="doctrine_cache.abstract.apc" class="Doctrine\Common\Cache\ApcCache" abstract="true"/>
     <service id="doctrine_cache.abstract.apcu" class="Doctrine\Common\Cache\ApcuCache" abstract="true"/>
@@ -1330,7 +1348,7 @@
         <argument type="service" id="doctrine.orm.default_metadata_driver"/>
       </call>
       <call method="setProxyDir">
-        <argument>/home/programador/inventory-management/var/cache/dev/doctrine/orm/Proxies</argument>
+        <argument>/home/jose/inventory-management/var/cache/dev/doctrine/orm/Proxies</argument>
       </call>
       <call method="setProxyNamespace">
         <argument>Proxies</argument>
@@ -1360,7 +1378,7 @@
     <service id="doctrine.orm.default_annotation_metadata_driver" class="Doctrine\ORM\Mapping\Driver\AnnotationDriver" public="false">
       <argument type="service" id="annotations.cached_reader"/>
       <argument type="collection">
-        <argument>/home/programador/inventory-management/src/Domain/Model/Entity</argument>
+        <argument>/home/jose/inventory-management/src/Domain/Model/Entity</argument>
       </argument>
     </service>
     <service id="doctrine.orm.default_metadata_driver" class="Doctrine\Common\Persistence\Mapping\Driver\MappingDriverChain" public="false">
@@ -1371,17 +1389,17 @@
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_metadata_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
-        <argument>sf_orm_default_e3e8cf69c1f0308925eff73b199222cc2d9aae52b509353935cf1fd771e9e5ea</argument>
+        <argument>sf_orm_default_435d12fe9473838cab1cc3e951c88dae75e172448ea27504d19182c58096a37b</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_result_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
-        <argument>sf_orm_default_e3e8cf69c1f0308925eff73b199222cc2d9aae52b509353935cf1fd771e9e5ea</argument>
+        <argument>sf_orm_default_435d12fe9473838cab1cc3e951c88dae75e172448ea27504d19182c58096a37b</argument>
       </call>
     </service>
     <service id="doctrine_cache.providers.doctrine.orm.default_query_cache" class="Doctrine\Common\Cache\ArrayCache" public="true">
       <call method="setNamespace">
-        <argument>sf_orm_default_e3e8cf69c1f0308925eff73b199222cc2d9aae52b509353935cf1fd771e9e5ea</argument>
+        <argument>sf_orm_default_435d12fe9473838cab1cc3e951c88dae75e172448ea27504d19182c58096a37b</argument>
       </call>
     </service>
     <service id="doctrine.orm.default_entity_listener_resolver" class="Doctrine\Bundle\DoctrineBundle\Mapping\ContainerAwareEntityListenerResolver">
@@ -1423,7 +1441,7 @@
     </service>
     <service id="web_server.command.server_run" class="Symfony\Bundle\WebServerBundle\Command\ServerRunCommand" public="false">
       <tag name="console.command" command="server:run"/>
-      <argument>/home/programador/inventory-management/public</argument>
+      <argument>/home/jose/inventory-management/public</argument>
       <argument>dev</argument>
       <call method="setName">
         <argument>server:run</argument>
@@ -1431,7 +1449,7 @@
     </service>
     <service id="web_server.command.server_start" class="Symfony\Bundle\WebServerBundle\Command\ServerStartCommand" public="false">
       <tag name="console.command" command="server:start"/>
-      <argument>/home/programador/inventory-management/public</argument>
+      <argument>/home/jose/inventory-management/public</argument>
       <argument>dev</argument>
       <call method="setName">
         <argument>server:start</argument>
@@ -1711,6 +1729,7 @@
     </service>
     <service id="Psr\Container\ContainerInterface" alias="service_container" public="false"/>
     <service id="Symfony\Component\DependencyInjection\ContainerInterface" alias="service_container" public="false"/>
+    <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransformInterface" alias="Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransform" public="false"/>
     <service id="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransformInterface" alias="Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform" public="false"/>
     <service id="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransformInterface" alias="Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform" public="false"/>
     <service id="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface" alias="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository" public="false"/>
@@ -1766,6 +1785,6 @@
     <service id="console.command.public_alias.doctrine_migrations.status_command" alias="doctrine_migrations.status_command" public="true"/>
     <service id="console.command.public_alias.doctrine_migrations.version_command" alias="doctrine_migrations.version_command" public="true"/>
     <service id="Psr\Log\LoggerInterface" alias="logger" public="false"/>
-    <service id="service_locator.FaDxC1e" alias="2_ServiceLocator~quUPd3u" public="false"/>
+    <service id="service_locator.FaDxC1e" alias="2_ServiceLocator~0E7P4es" public="false"/>
   </services>
 </container>

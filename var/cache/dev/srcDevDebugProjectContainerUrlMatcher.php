@@ -35,7 +35,7 @@ class srcDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
             }
 
             // insertGarment
-            if (preg_match('#^/garment/insertGarment/(?P<name>[^/]++)/(?P<garment_type_id>[^/]++)$#sD', $pathinfo, $matches)) {
+            if (preg_match('#^/garment/insertGarment/(?P<name>[^/]++)/(?P<garmentTypeId>[^/]++)$#sD', $pathinfo, $matches)) {
                 return $this->mergeDefaults(array_replace($matches, array('_route' => 'insertGarment')), array (  '_controller' => 'Inventory\\Management\\Infrastructure\\Controller\\ControllerGarment::insertGarment',));
             }
 
