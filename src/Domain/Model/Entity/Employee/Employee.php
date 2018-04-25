@@ -21,6 +21,10 @@ class Employee
      */
     private $employeeStatus;
     /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default"=false})
+     */
+    private $typeAdmin;
+    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
@@ -54,6 +58,16 @@ class Employee
     public function setEmployeeStatus($employeeStatus): void
     {
         $this->employeeStatus = $employeeStatus;
+    }
+
+    public function getTypeAdmin(): bool
+    {
+        return $this->typeAdmin;
+    }
+
+    public function setTypeAdmin(bool $typeAdmin): void
+    {
+        $this->typeAdmin = $typeAdmin;
     }
 
     public function getImage()

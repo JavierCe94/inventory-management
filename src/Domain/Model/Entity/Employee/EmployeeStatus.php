@@ -35,11 +35,11 @@ class EmployeeStatus
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
-    private $availableHollyDays;
+    private $availableHolidays;
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
-    private $hollyDaysPendingToApplyFor;
+    private $holidaysPendingToApplyFor;
     /**
      * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Department")
      */
@@ -94,24 +94,24 @@ class EmployeeStatus
         $this->possibleRenewal = $possibleRenewal;
     }
 
-    public function getAvailableHollyDays()
+    public function getAvailableHolidays()
     {
-        return $this->availableHollyDays;
+        return $this->availableHolidays;
     }
 
-    public function setAvailableHollyDays($availableHollyDays): void
+    public function setAvailableHolidays($availableHolidays): void
     {
-        $this->availableHollyDays = $availableHollyDays;
+        $this->availableHolidays = $availableHolidays;
     }
 
-    public function getHollyDaysPendingToApplyFor()
+    public function getHolidaysPendingToApplyFor()
     {
-        return $this->hollyDaysPendingToApplyFor;
+        return $this->holidaysPendingToApplyFor;
     }
 
-    public function setHollyDaysPendingToApplyFor($hollyDaysPendingToApplyFor): void
+    public function setHolidaysPendingToApplyFor($holidaysPendingToApplyFor): void
     {
-        $this->hollyDaysPendingToApplyFor = $hollyDaysPendingToApplyFor;
+        $this->holidaysPendingToApplyFor = $holidaysPendingToApplyFor;
     }
 
     public function getDepartment()

@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\FilmRepository")
- * @ORM\Table(name="film")
+ * @ORM\Table(name="firm")
  */
 class Firm
 {
@@ -18,8 +18,7 @@ class Firm
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee", inversedBy="request_employees")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee")
      */
     private $requestEmployee;
 
