@@ -3,6 +3,7 @@
 namespace Inventory\Management\Domain\Model\Entity\RequestEmployee;
 
 use Doctrine\ORM\Mapping as ORM;
+use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 
 /**
  * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository")
@@ -27,17 +28,27 @@ class RequestEmployee
      */
     private $dateCreation;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true, options={"default"=null})
+     */
+    private $dateModification;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false, options={"default"="DRAFT"})
+     */
+    private $status;
+
     public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmployee()
+    public function getEmployee(): Employee
     {
         return $this->employee;
     }
 
-    public function setEmployee($employee): void
+    public function setEmployee(Employee $employee): void
     {
         $this->employee = $employee;
     }
@@ -50,5 +61,25 @@ class RequestEmployee
     public function setDateCreation(string $dateCreation): void
     {
         $this->dateCreation = $dateCreation;
+    }
+
+    public function getDateModification(): string
+    {
+        return $this->dateModification;
+    }
+
+    public function setDateModification(string $dateModification): void
+    {
+        $this->dateModification = $dateModification;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 }

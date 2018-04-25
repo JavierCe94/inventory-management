@@ -28,27 +28,27 @@ class SubDepartment
      */
     private $name;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getDepartment()
+    public function getDepartment(): Department
     {
         return $this->department;
     }
 
-    public function setDepartment($department): void
+    public function setDepartment(Department $department): void
     {
         $this->department = $department;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
