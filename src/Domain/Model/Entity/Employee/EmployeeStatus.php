@@ -53,12 +53,12 @@ class EmployeeStatus
     private $holidaysPendingToApplyFor;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Department")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Department\Department")
      */
     private $department;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\SubDepartment")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Department\SubDepartment")
      */
     private $subDepartment;
 

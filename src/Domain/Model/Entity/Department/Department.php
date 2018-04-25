@@ -1,11 +1,11 @@
 <?php
 
-namespace Inventory\Management\Domain\Model\Entity\Employee;
+namespace Inventory\Management\Domain\Model\Entity\Department;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\Employee\DepartmentRepository")
+ * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\Department\DepartmentRepository")
  * @ORM\Table(name="department")
  */
 class Department

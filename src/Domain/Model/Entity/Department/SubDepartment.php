@@ -1,11 +1,11 @@
 <?php
 
-namespace Inventory\Management\Domain\Model\Entity\Employee;
+namespace Inventory\Management\Domain\Model\Entity\Department;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\Employee\SubDepartmentRepository")
+ * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\Department\SubDepartmentRepository")
  * @ORM\Table(name="sub_department")
  */
 class SubDepartment
@@ -18,7 +18,7 @@ class SubDepartment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Department")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Department\Department")
      * @ORM\JoinColumn(nullable=false)
      */
     private $department;
