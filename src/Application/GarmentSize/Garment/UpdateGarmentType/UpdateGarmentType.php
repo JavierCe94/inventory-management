@@ -8,7 +8,9 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class UpdateGarmentType
 {
@@ -21,18 +23,27 @@ class UpdateGarmentType
      * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
      * @param UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform
      */
-    public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository, UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform)
-    {
+    public function __construct(
+        GarmentTypeRepositoryInterface $garmentTypeRepository,
+        UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform
+    ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
     }
 
     /**
      * @param UpdateGarmentTypeCommand $updateGarmentTypeCommand
+     *
+     * @throws GarmentTypeNotExistsException
      */
     public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): void
     {
+
         $garmentTypeEntity = $this->garmentTypeRepository->findGarmentTypeById($updateGarmentTypeCommand->getId());
+
+        if (is_null($garmentTypeEntity)) {
+            throw new GarmentTypeNotExistsException();
+        }
 
         $this
             ->garmentTypeRepository

@@ -22,6 +22,17 @@ class GarmentRepository extends EntityRepository implements GarmentRepositoryInt
         return $this->findAll();
     }
 
+    public function updateGarment(Garment $garmentEntity, string $name):void
+    {
+        $garmentEntity->setName($name);
+        $this->persistAndFlush($garmentEntity);
+    }
+
+    public function findGarmentById(int $id): ?Garment
+    {
+        return $this->findOneBy(["id" => $id]);
+    }
+
     public function persistAndFlush(Garment $garmentEntity): void
     {
         $this->getEntityManager()->persist($garmentEntity);

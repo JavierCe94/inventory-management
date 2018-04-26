@@ -17,3 +17,7 @@ insertGarment:
 listGarment:
     path: /listGarment
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarment
+
+updateGarment:
+    path: /updateGarment/{id}/{name}
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::updateGarment

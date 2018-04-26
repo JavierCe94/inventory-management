@@ -15,11 +15,12 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarment;
-use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarmentCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarmentTransform;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes;
-use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarment;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentCommand;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentTransform;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentType;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
@@ -39,6 +40,31 @@ class ControllerGarment extends Controller
         $insertGarment = new InsertGarment($garmentRepository, $garmentTypeRepository, $insertGarmentTransform);
         $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeId));
         return $this->json(['insert garment']);
+    }
+
+    public function listGarment()
+    {
+        $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
+        $listGarmentTransform = new ListGarmentTransform();
+        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTypeRepository, $listGarmentTransform);
+        $queryOutput = $queryOutput->handle();
+
+        return $this->json([$queryOutput]);
+    }
+
+    public function updateGarment(int $id, string $name)
+    {
+        $updateGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $updateGarmentTransform = new UpdateGarmentTransform();
+        $updateGarment = new UpdateGarment($updateGarmentRepository, $updateGarmentTransform);
+        $updateGarment->handle(new UpdateGarmentCommand($id, $name));
+
+        return $this->json(
+            [
+                'Status' => 'Garment actualizado con exito'
+            ]
+        );
     }
 
     public function insertGarmentType(string $name)
@@ -73,20 +99,11 @@ class ControllerGarment extends Controller
 
         return $this->json(
             [
-                'Status' => 'GarmentType Actualizado con exito'
+                'Status' => 'GarmentType actualizado con exito'
             ]
         );
     }
 
 
-    public function listGarment()
-    {
-        $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
-        $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
-        $listGarmentTransform = new ListGarmentTransform();
-        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTypeRepository, $listGarmentTransform);
-        $queryOutput = $queryOutput->handle();
 
-        return $this->json([$queryOutput]);
-    }
 }

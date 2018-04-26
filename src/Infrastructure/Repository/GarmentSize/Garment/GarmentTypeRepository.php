@@ -20,10 +20,14 @@ class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepos
         return $this->findAll();
     }
 
-    public function findGarmentTypeById(int $id): GarmentType
+    /**
+     * @param int $id
+     *
+     * @return GarmentType
+     */
+    public function findGarmentTypeById(int $id): ?GarmentType
     {
-        $garmentTypeEntity = $this->findOneBy(['id' => $id]);
-        return $garmentTypeEntity;
+        return $this->findOneBy(['id' => $id]);
     }
 
     public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void

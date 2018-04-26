@@ -14,5 +14,9 @@ interface GarmentRepositoryInterface
 
     public function listGarment(): array;
 
+    public function updateGarment(Garment $garmentEntity, string $name):void;
+
+    public function findGarmentById(int $id): ?Garment;
+
     public function persistAndFlush(Garment $garmentEntity): void;
 }
