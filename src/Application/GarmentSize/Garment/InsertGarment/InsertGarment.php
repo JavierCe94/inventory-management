@@ -9,17 +9,21 @@
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 
 class InsertGarment
 {
     private $garmentRepository;
+    private $garmentTypeRepository;
     private $insertGarmentTransform;
 
     public function __construct(
         GarmentRepository $garmentRepository,
+        GarmentTypeRepository $garmentTypeRepository,
         InsertGarmentTransformInterface $insertGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
+        $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTransform = $insertGarmentTransform;
     }
 

@@ -9,3 +9,7 @@ listGarmentTypes:
 insertGarment:
     path: /insertGarment/{name}/{garmentTypeId}
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarment
+
+listGarment:
+    path: /listGarment/{id}
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarment

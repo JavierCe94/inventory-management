@@ -27,9 +27,10 @@ class ControllerGarment extends Controller
     public function insertGarment(string $name, int $garmentTypeId)
     {
         $garmentTypeIdEntity = $this->findGarmentTypeById($garmentTypeId);
-        $insertGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $garmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $garmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
         $insertGarmentTransform = new InsertGarmentTransform();
-        $insertGarment = new InsertGarment($insertGarmentRepository, $insertGarmentTransform);
+        $insertGarment = new InsertGarment($garmentRepository, $garmentTypeRepository, $insertGarmentTransform);
         $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeIdEntity));
         return $this->json(['insert garment']);
     }
@@ -64,5 +65,18 @@ class ControllerGarment extends Controller
         $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
         $garmentTypeEntity = $listGarmentTypeRepository->findOneBy(['id' => $id]);
         return $garmentTypeEntity;
+    }
+
+    public function listGarment($id)
+    {
+        $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $garmentEntity = $listGarmentRepository->findBy(['id' => $id]);
+        $tipo = $garmentEntity[0]->getGarmentType();
+        return $this->json(
+            [
+                'garmentEntity' => '',
+                'tipo' => $tipo->getName()
+            ]
+        );
     }
 }

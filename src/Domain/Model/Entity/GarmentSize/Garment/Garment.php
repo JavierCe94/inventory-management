@@ -34,9 +34,9 @@ class Garment
     }
 
     /**
-     * @return mixed
+     * @return GarmentType
      */
-    public function getGarmentType()
+    public function getGarmentType(): GarmentType
     {
         return $this->garmentType;
     }

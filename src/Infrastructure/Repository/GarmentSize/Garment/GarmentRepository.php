@@ -4,9 +4,10 @@ namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
 use Doctrine\ORM\EntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 
-class GarmentRepository extends EntityRepository
+class GarmentRepository extends EntityRepository implements GarmentRepositoryInterface
 {
     public function insertGarment(string $name, GarmentType $garmentTypeId): Garment
     {
