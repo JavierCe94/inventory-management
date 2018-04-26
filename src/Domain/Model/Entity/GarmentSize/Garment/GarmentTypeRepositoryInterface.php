@@ -17,4 +17,6 @@ interface GarmentTypeRepositoryInterface
     public function findGarmentTypeById(int $id): GarmentType;
 
     public function persistAndFlush(GarmentType $garmentTypeEntity): void;
+
+    public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void;
 }

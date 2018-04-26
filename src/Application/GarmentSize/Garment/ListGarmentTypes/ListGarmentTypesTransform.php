@@ -10,13 +10,19 @@ namespace Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes;
 
 class ListGarmentTypesTransform implements ListGarmentTypesTransformInterface
 {
+    /**
+     * @param array/GarmentType[] $queryInput
+     *
+     * @return array
+     */
     public function transform(array $queryInput): array
     {
         $queryOutput = [];
         foreach ($queryInput as $garmentType) {
             $queryOutput [] =
                 [
-                    "Tipo" => $garmentType->getName()
+                    "id" => $garmentType->getId(),
+                    "tipo" => $garmentType->getName()
                 ];
         }
         return $queryOutput;

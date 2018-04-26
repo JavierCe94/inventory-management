@@ -31,7 +31,9 @@ class InsertGarment
     {
         $garmentEntity = $this->garmentRepository->insertGarment(
             $insertGarmentCommand->getName(),
-            $insertGarmentCommand->getGarmentTypeId()
+            $this->garmentTypeRepository->findGarmentTypeById(
+                $insertGarmentCommand->getGarmentTypeId()
+            )
         );
 
         $this->garmentRepository->persistAndFlush($garmentEntity);

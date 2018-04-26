@@ -14,9 +14,15 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGar
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
+use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarment;
+use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarmentCommand;
+use Inventory\Management\Application\GarmentSize\Garment\ListGarment\ListGarmentTransform;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentType;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeCommand;
+use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -26,12 +32,12 @@ class ControllerGarment extends Controller
 
     public function insertGarment(string $name, int $garmentTypeId)
     {
-        $garmentTypeIdEntity = $this->findGarmentTypeById($garmentTypeId);
+//        $garmentTypeIdEntity = $this->findGarmentTypeById($garmentTypeId);
         $garmentRepository = $this->getDoctrine()->getRepository(Garment::class);
         $garmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
         $insertGarmentTransform = new InsertGarmentTransform();
         $insertGarment = new InsertGarment($garmentRepository, $garmentTypeRepository, $insertGarmentTransform);
-        $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeIdEntity));
+        $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeId));
         return $this->json(['insert garment']);
     }
 
@@ -53,30 +59,34 @@ class ControllerGarment extends Controller
     {
         $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
         $listGarmentTypesTransform = new ListGarmentTypesTransform();
-        $queryOutput = (new ListGarmentTypes($listGarmentTypeRepository, $listGarmentTypesTransform))->handle(new ListGarmentTypesCommand());
+        $queryOutput = (new ListGarmentTypes($listGarmentTypeRepository, $listGarmentTypesTransform))->handle();
 
-        return $this->json(
-            [$queryOutput]
-        );
+        return $this->json([$queryOutput]);
     }
 
-    private function findGarmentTypeById(int $id): GarmentType
+    public function updateGarmentType(int $id, string $name)
     {
-        $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
-        $garmentTypeEntity = $listGarmentTypeRepository->findOneBy(['id' => $id]);
-        return $garmentTypeEntity;
-    }
+        $updateGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
+        $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
+        $updateGarmentType = new UpdateGarmentType($updateGarmentTypeRepository, $updateGarmentTypeTransform);
+        $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
 
-    public function listGarment($id)
-    {
-        $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
-        $garmentEntity = $listGarmentRepository->findBy(['id' => $id]);
-        $tipo = $garmentEntity[0]->getGarmentType();
         return $this->json(
             [
-                'garmentEntity' => '',
-                'tipo' => $tipo->getName()
+                'Status' => 'GarmentType Actualizado con exito'
             ]
         );
+    }
+
+
+    public function listGarment()
+    {
+        $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
+        $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
+        $listGarmentTransform = new ListGarmentTransform();
+        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTypeRepository, $listGarmentTransform);
+        $queryOutput = $queryOutput->handle();
+
+        return $this->json([$queryOutput]);
     }
 }

@@ -23,7 +23,7 @@ class ListGarmentTypes
         $this->listGarmentTypesTransform = $listGarmentTypesTransform;
     }
 
-    public function handle(ListGarmentTypesCommand $listGarmentTypesCommand): array
+    public function handle(): array
     {
         $queryOutput = $this->garmentTypeRepository->listGarmentTypes();
         return $this->listGarmentTypesTransform->transform($queryOutput);

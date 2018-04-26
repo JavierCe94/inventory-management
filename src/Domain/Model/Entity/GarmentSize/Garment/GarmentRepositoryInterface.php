@@ -12,5 +12,7 @@ interface GarmentRepositoryInterface
 {
     public function insertGarment(string $name, GarmentType $garmentTypeId): Garment;
 
+    public function listGarment(): array;
+
     public function persistAndFlush(Garment $garmentEntity): void;
 }

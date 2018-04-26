@@ -1,0 +1,44 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: programador
+ * Date: 26/04/18
+ * Time: 12:25
+ */
+
+namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
+
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+
+class UpdateGarmentType
+{
+    private $garmentTypeRepository;
+    private $updateGarmentTypeTransform;
+
+    /**
+     * UpdateGarmentType constructor.
+     *
+     * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
+     * @param UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform
+     */
+    public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository, UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform)
+    {
+        $this->garmentTypeRepository = $garmentTypeRepository;
+        $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
+    }
+
+    /**
+     * @param UpdateGarmentTypeCommand $updateGarmentTypeCommand
+     */
+    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): void
+    {
+        $garmentTypeEntity = $this->garmentTypeRepository->findGarmentTypeById($updateGarmentTypeCommand->getId());
+
+        $this
+            ->garmentTypeRepository
+            ->updateGarmentType(
+                $garmentTypeEntity,
+                $updateGarmentTypeCommand->getName()
+            );
+    }
+}

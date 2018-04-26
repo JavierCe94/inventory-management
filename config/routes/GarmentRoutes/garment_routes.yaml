@@ -6,10 +6,14 @@ listGarmentTypes:
     path: /listGarmentTypes
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarmentTypes
 
+updateGarmentType:
+    path: /updateGarmentType/{id}/{name}
+    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::updateGarmentType
+
 insertGarment:
     path: /insertGarment/{name}/{garmentTypeId}
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarment
 
 listGarment:
-    path: /listGarment/{id}
+    path: /listGarment
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarment

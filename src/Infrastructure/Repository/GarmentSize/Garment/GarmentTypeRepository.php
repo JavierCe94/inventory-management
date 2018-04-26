@@ -26,6 +26,13 @@ class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepos
         return $garmentTypeEntity;
     }
 
+    public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void
+    {
+        $garmentTypeEntity->setName($name);
+        $this->persistAndFlush($garmentTypeEntity);
+    }
+
+
     public function persistAndFlush(GarmentType $garmentTypeEntity): void
     {
         $this->getEntityManager()->persist($garmentTypeEntity);
