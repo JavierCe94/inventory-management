@@ -4,7 +4,7 @@
 
 addEntidad();
 findAllEntidad();
-findByPropiedadEntidad();
+findEntidadByPropiedad();
 disabledEntidad();
 update(propiedad)Entidad();
 persistAndflush();
