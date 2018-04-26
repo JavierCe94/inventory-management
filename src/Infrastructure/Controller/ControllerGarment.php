@@ -8,6 +8,9 @@
 
 namespace Inventory\Management\Infrastructure\Controller;
 
+use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment;
+use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentCommand;
+use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentTransform;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentType;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
@@ -23,8 +26,11 @@ class ControllerGarment extends Controller
 
     public function insertGarment(string $name, int $garmentTypeId)
     {
+        $garmentTypeIdEntity = $this->findGarmentTypeById($garmentTypeId);
         $insertGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
         $insertGarmentTransform = new InsertGarmentTransform();
+        $insertGarment = new InsertGarment($insertGarmentRepository, $insertGarmentTransform);
+        $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeIdEntity));
         return $this->json(['insert garment']);
     }
 
@@ -51,5 +57,12 @@ class ControllerGarment extends Controller
         return $this->json(
             [$queryOutput]
         );
+    }
+
+    private function findGarmentTypeById(int $id): GarmentType
+    {
+        $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
+        $garmentTypeEntity = $listGarmentTypeRepository->findOneBy(['id' => $id]);
+        return $garmentTypeEntity;
     }
 }

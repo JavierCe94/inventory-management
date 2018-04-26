@@ -7,5 +7,5 @@ listGarmentTypes:
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarmentTypes
 
 insertGarment:
-    path: /insertGarment/{name}/{garment_type_id}
+    path: /insertGarment/{name}/{garmentTypeId}
     controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarment

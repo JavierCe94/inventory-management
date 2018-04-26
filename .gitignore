@@ -1,4 +1,6 @@
-/var
+/var/cache
+/var/logs
+/var/log
 /vendor
 .env
 .idea

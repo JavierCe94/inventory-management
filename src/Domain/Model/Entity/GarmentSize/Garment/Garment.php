@@ -33,23 +33,37 @@ class Garment
         return $this->id;
     }
 
-    public function getGarmentType(): GarmentType
+    /**
+     * @return mixed
+     */
+    public function getGarmentType()
     {
         return $this->garmentType;
     }
 
-    public function setGarmentType(GarmentType $garmentType): void
+    /**
+     * @param mixed $garmentType
+     */
+    public function setGarmentType($garmentType): void
     {
         $this->garmentType = $garmentType;
     }
 
-    public function getName(): string
+    /**
+     * @return mixed
+     */
+    public function getName()
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
     {
         $this->name = $name;
     }
+
+
 }

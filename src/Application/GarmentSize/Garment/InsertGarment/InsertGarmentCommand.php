@@ -9,19 +9,18 @@
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
 use Assert\Assertion;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 
 class InsertGarmentCommand
 {
     private $name;
     private $garmentTypeId;
 
-    public function __construct($name, $garmentTypeId)
+    public function __construct(string $name, GarmentType $garmentTypeId)
     {
         Assertion::notBlank($name);
         Assertion::string($name);
-        Assertion::notBlank($garmentTypeId);
-        Assertion::numeric($garmentTypeId);
-
+        Assertion::isInstanceOf($garmentTypeId, GarmentType::class);
         $this->name = $name;
         $this->garmentTypeId = $garmentTypeId;
     }
@@ -35,9 +34,9 @@ class InsertGarmentCommand
     }
 
     /**
-     * @return int
+     * @return GarmentType
      */
-    public function getGarmentTypeId(): int
+    public function getGarmentTypeId(): GarmentType
     {
         return $this->garmentTypeId;
     }
