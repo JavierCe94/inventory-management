@@ -35,6 +35,7 @@ class EmployeeStatus
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
+<<<<<<< HEAD
     private $availableHoliDays;
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
@@ -44,6 +45,13 @@ class EmployeeStatus
      * @ORM\Column(type="boolean", nullable=false, options={"default"= 0})
      */
     private $disabledEmployee;
+=======
+    private $availableHolidays;
+    /**
+     * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
+     */
+    private $holidaysPendingToApplyFor;
+>>>>>>> 266d76ff7d7ae4b4f7620f54be82032e40c93958
     /**
      * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Department")
      */
@@ -98,6 +106,7 @@ class EmployeeStatus
         $this->possibleRenewal = $possibleRenewal;
     }
 
+<<<<<<< HEAD
     public function getAvailableHoliDays()
     {
         return $this->availableHoliDays;
@@ -126,6 +135,26 @@ class EmployeeStatus
     public function setDisabledEmployee($disabledEmployee): void
     {
         $this->disabledEmployee = $disabledEmployee;
+=======
+    public function getAvailableHolidays()
+    {
+        return $this->availableHolidays;
+    }
+
+    public function setAvailableHolidays($availableHolidays): void
+    {
+        $this->availableHolidays = $availableHolidays;
+    }
+
+    public function getHolidaysPendingToApplyFor()
+    {
+        return $this->holidaysPendingToApplyFor;
+    }
+
+    public function setHolidaysPendingToApplyFor($holidaysPendingToApplyFor): void
+    {
+        $this->holidaysPendingToApplyFor = $holidaysPendingToApplyFor;
+>>>>>>> 266d76ff7d7ae4b4f7620f54be82032e40c93958
     }
 
     public function getDepartment()
