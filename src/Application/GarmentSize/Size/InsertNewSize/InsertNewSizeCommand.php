@@ -10,7 +10,6 @@ namespace Inventory\Management\Application\GarmentSize\Size\InsertNewSize;
 
 
 use Assert\Assertion;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 
 class InsertNewSizeCommand
 {

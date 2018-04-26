@@ -9,6 +9,9 @@
 namespace Inventory\Management\Infrastructure\Controller;
 
 use Inventory\Management\Application\GarmentSize\Size\InsertNewSize\InsertNewSizeTransform;
+use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSize;
+use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeCommand;
+use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +25,18 @@ class ControllerSize extends Controller
     {
         return $this->getDoctrine()->getRepository(Size::class);
     }
+    private function sendRepositoryGarmentType()
+    {
+        return $this->getDoctrine()->getRepository(
+            'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType'
+        );
+    }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Assert\AssertionFailedException
+     */
     public function insertNewSize(Request $request)
     {
         $sizeValue = $request->request->get('sizeValue');
@@ -42,18 +56,33 @@ class ControllerSize extends Controller
         return $this->json($dataToShow);
     }
 
-    public function deleteSize(Request $request)
+    public function updateSize(Request $request)
     {
         ;
     }
 
     public function listAllSize()
     {
-        ;
+        $listAll = new ListAllSize(
+            $this->sendRepositorySize(),
+            new ListAllSizeTransform()
+        );
+
+        $dataToShow = $listAll->handle(new ListAllSizeCommand());
+
+        return $this->json($dataToShow);
     }
 
-    public function listByGarmentType(Request $request)
+    public function listSizeByGarmentType(Request $request)
     {
-        ;
+        /**
+         * Hacer el caso de uso y ver que esta respondiendo
+         */
+        $garmentType = $request->request->get('garmentType');
+        $GarmentTypeEntity = $this->sendRepositoryGarmentType()->findGarmentTypeById($garmentType);
+       /* $list = $this->sendRepositorySize()->findByGarmentType($GarmentTypeEntity);*/
+
+
+        return $this->json($GarmentTypeEntity->getSizes());
     }
 }

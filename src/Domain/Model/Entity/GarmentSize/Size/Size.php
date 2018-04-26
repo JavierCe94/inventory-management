@@ -21,7 +21,7 @@ class Size
     /**
      * @ORM\ManyToOne(
      *     targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType",
-     *      inversedBy="GarmentType")
+     *      inversedBy="sizes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $garmentType;

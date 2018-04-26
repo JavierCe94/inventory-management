@@ -21,7 +21,7 @@ class CheckIfGarmentTypeExist
     public function execute(array $garmentType): array
     {
         if (0 === count($garmentType)) {
-            throw new GarmentTypeDoNotExist('No se encontraro el tipo de prenda');
+            throw new GarmentTypeDoNotExist('No se encontro el tipo de prenda');
         }
         return $garmentType;
     }

@@ -1,4 +1,14 @@
-index:
-    path: /
+insert_size:
+    path: /new
     controller: Inventory\Management\Infrastructure\Controller\ControllerSize::insertNewSize
+    methods: [POST]
+
+list_sizes:
+    path: /
+    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::listAllSize
+    methods: [GET]
+
+list_sizes_by_garmentType:
+    path: /garmentType
+    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::listSizeByGarmentType
     methods: [POST]

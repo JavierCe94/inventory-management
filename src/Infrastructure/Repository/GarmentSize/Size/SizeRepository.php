@@ -15,6 +15,7 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
      */
     public function persistAndFlush(Size $size)
     {
+
         $this->getEntityManager()->persist($size);
         $this->getEntityManager()->flush();
     }
@@ -28,5 +29,39 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
         return $size;
     }
 
+    public function updateSize($sizeValue, Size $size): Size
+    {
+        $size->setSizeValue($sizeValue);
 
+        return $size;
+    }
+
+    public function findAllSize()
+    {
+        return $this->findAll();
+    }
+
+    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId): ?Size
+    {
+        $query = $this->createQueryBuilder('size')
+            ->andWhere('size.sizeValue = :sizeValue')
+            ->andWhere('size.garmentType = :$garmentTypeId')
+            ->setParameter('sizeValue', $sizeValue)
+            ->setParameter('garmentTypeId', $garmentTypeId)
+            ->getQuery()
+            ->execute();
+
+        return $query;
+    }
+
+    public function findByGarmentType($garmentTypeId): array
+    {
+        $query = $this->createQueryBuilder('size')
+            ->andWhere('size.garmentType = :$garmentTypeId')
+            ->setParameter('garmentTypeId', $garmentTypeId)
+            ->getQuery()
+            ->execute();
+
+        return $query;
+    }
 }
