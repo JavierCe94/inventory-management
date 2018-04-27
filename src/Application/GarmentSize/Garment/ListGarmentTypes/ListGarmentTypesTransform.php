@@ -22,7 +22,7 @@ class ListGarmentTypesTransform implements ListGarmentTypesTransformInterface
             $queryOutput [] =
                 [
                     "id" => $garmentType->getId(),
-                    "tipo" => $garmentType->getName()
+                    "name" => $garmentType->getName()
                 ];
         }
         return $queryOutput;

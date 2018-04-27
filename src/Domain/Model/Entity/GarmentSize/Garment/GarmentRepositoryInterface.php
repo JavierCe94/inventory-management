@@ -10,7 +10,7 @@ namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
 interface GarmentRepositoryInterface
 {
-    public function insertGarment(string $name, GarmentType $garmentTypeId): Garment;
+    public function insertGarment(string $name, GarmentType $garmentTypeId): ?Garment;
 
     public function listGarment(): array;
 

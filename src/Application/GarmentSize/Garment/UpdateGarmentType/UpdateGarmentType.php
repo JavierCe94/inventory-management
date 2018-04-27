@@ -10,7 +10,6 @@ namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Symfony\Component\Debug\Exception\FatalThrowableError;
 
 class UpdateGarmentType
 {

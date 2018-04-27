@@ -10,4 +10,5 @@ namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
 class GarmentNotExistsException extends \Exception
 {
+
 }

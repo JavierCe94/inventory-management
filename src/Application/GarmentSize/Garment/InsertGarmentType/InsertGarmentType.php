@@ -21,8 +21,10 @@ class InsertGarmentType
      * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
      * @param InsertGarmentTypeTransformInterface $insertGarmentTypeTransform
      */
-    public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository, InsertGarmentTypeTransformInterface $insertGarmentTypeTransform)
-    {
+    public function __construct(
+        GarmentTypeRepositoryInterface $garmentTypeRepository,
+        InsertGarmentTypeTransformInterface $insertGarmentTypeTransform
+    ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTypeTransform = $insertGarmentTypeTransform;
     }

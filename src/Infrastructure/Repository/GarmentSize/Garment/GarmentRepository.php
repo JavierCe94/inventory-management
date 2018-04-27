@@ -9,7 +9,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 
 class GarmentRepository extends EntityRepository implements GarmentRepositoryInterface
 {
-    public function insertGarment(string $name, GarmentType $garmentTypeId): Garment
+    public function insertGarment(string $name, GarmentType $garmentTypeId): ?Garment
     {
         $garmentEntity = new Garment();
         $garmentEntity->setName($name);

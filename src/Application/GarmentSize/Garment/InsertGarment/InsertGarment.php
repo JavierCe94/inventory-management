@@ -8,6 +8,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 
@@ -29,11 +30,17 @@ class InsertGarment
 
     public function handle(InsertGarmentCommand $insertGarmentCommand)
     {
+        $garmentTypeEntity = $this
+            ->garmentTypeRepository
+            ->findGarmentTypeById($insertGarmentCommand->getGarmentTypeId());
+
+        if (is_null($garmentTypeEntity)) {
+            throw new GarmentTypeNotExistsException();
+        }
+
         $garmentEntity = $this->garmentRepository->insertGarment(
             $insertGarmentCommand->getName(),
-            $this->garmentTypeRepository->findGarmentTypeById(
-                $insertGarmentCommand->getGarmentTypeId()
-            )
+            $garmentTypeEntity
         );
 
         $this->garmentRepository->persistAndFlush($garmentEntity);
