@@ -47,7 +47,7 @@ class ControllerGarment extends Controller
         $listGarmentRepository = $this->getDoctrine()->getRepository(Garment::class);
         $listGarmentTypeRepository = $this->getDoctrine()->getRepository(GarmentType::class);
         $listGarmentTransform = new ListGarmentTransform();
-        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTypeRepository, $listGarmentTransform);
+        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTransform);
         $queryOutput = $queryOutput->handle();
 
         return $this->json([$queryOutput]);

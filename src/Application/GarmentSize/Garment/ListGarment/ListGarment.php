@@ -15,16 +15,16 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepo
 class ListGarment
 {
     private $garmentRepository;
-    private $garmentTypeRepository;
+//    private $garmentTypeRepository;
     private $listGarmentTransform;
 
     public function __construct(
         GarmentRepositoryInterface $garmentRepository,
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
+//        GarmentTypeRepositoryInterface $garmentTypeRepository,
         ListGarmentTransformInterface $listGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
-        $this->garmentTypeRepository = $garmentTypeRepository;
+//        $this->garmentTypeRepository = $garmentTypeRepository;
         $this->listGarmentTransform = $listGarmentTransform;
     }
 
