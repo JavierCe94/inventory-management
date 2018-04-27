@@ -38,7 +38,9 @@ class UpdateGarmentType
     public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): void
     {
 
-        $garmentTypeEntity = $this->garmentTypeRepository->findGarmentTypeById($updateGarmentTypeCommand->getId());
+        $garmentTypeId = $updateGarmentTypeCommand->getId();
+
+        $garmentTypeEntity = $this->garmentTypeRepository->findGarmentTypeById($garmentTypeId);
 
         if (is_null($garmentTypeEntity)) {
             throw new GarmentTypeNotExistsException();
