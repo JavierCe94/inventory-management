@@ -43,8 +43,9 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
 
     public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId): ?Size
     {
-        $query = $this->createQueryBuilder('size')
-            ->andWhere('size.sizeValue = :sizeValue')
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
+            ->Where('size.sizeValue = :sizeValue')
             ->andWhere('size.garmentType = :$garmentTypeId')
             ->setParameter('sizeValue', $sizeValue)
             ->setParameter('garmentTypeId', $garmentTypeId)
@@ -54,14 +55,30 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
         return $query;
     }
 
+
     public function findByGarmentType($garmentTypeId): array
     {
-        $query = $this->createQueryBuilder('size')
-            ->andWhere('size.garmentType = :$garmentTypeId')
+        $query = $this->getEntityManager()->createQueryBuilder()
+            ->select('size.sizeValue')
+            ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
+            ->Where('size.garmentType = :garmentTypeId')
             ->setParameter('garmentTypeId', $garmentTypeId)
             ->getQuery()
             ->execute();
 
+//      $query = $this->getEntityManager()->createQueryBuilder()
+//            ->select('size.sizeValue')
+//            ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
+//            ->innerJoin(
+//                'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType',
+//                'gt'
+//            )
+//            ->where('gt.name = :garmentTypeName')
+//            ->setParameter('garmentTypeName', $garmentTypeName)
+//            ->getQuery()
+//            ->execute();
+
         return $query;
     }
+    
 }

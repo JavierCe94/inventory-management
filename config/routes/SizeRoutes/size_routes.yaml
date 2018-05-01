@@ -3,6 +3,11 @@ insert_size:
     controller: Inventory\Management\Infrastructure\Controller\ControllerSize::insertNewSize
     methods: [POST]
 
+update_size:
+    path: /update
+    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::updateSize
+    methods: [POST]
+
 list_sizes:
     path: /
     controller: Inventory\Management\Infrastructure\Controller\ControllerSize::listAllSize

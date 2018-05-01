@@ -12,6 +12,12 @@ use Inventory\Management\Application\GarmentSize\Size\InsertNewSize\InsertNewSiz
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSize;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeCommand;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform;
+use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentType;
+use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeCommand;
+use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform;
+use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSize;
+use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeCommand;
+use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -36,6 +42,7 @@ class ControllerSize extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\JsonResponse
      * @throws \Assert\AssertionFailedException
+     * @throws \Exception
      */
     public function insertNewSize(Request $request)
     {
@@ -46,6 +53,7 @@ class ControllerSize extends Controller
 
         $insertSize = new InsertNewSize(
             $this->sendRepositorySize(),
+            $this->sendRepositoryGarmentType(),
             new InsertNewSizeTransform(),
             $sizeAlreadyExistException
         );
@@ -56,9 +64,28 @@ class ControllerSize extends Controller
         return $this->json($dataToShow);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Assert\AssertionFailedException
+     * @throws \Exception
+     */
     public function updateSize(Request $request)
     {
-        ;
+        $sizeValue = $request->request->get('sizeValue');
+        $garmentType = $request->request->get('garmentType');
+
+        $exception = 0; //REFACTOR
+        $updateSize = new UpdateSize(
+            $this->sendRepositorySize(),
+            $this->sendRepositoryGarmentType(),
+            new UpdateSizeTransform(),
+            $exception
+        );
+
+        $dataToShow = $updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType));
+
+        return $this->json($dataToShow);
     }
 
     public function listAllSize()
@@ -73,16 +100,29 @@ class ControllerSize extends Controller
         return $this->json($dataToShow);
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\JsonResponse
+     * @throws \Assert\AssertionFailedException
+     * @throws \Exception
+     */
     public function listSizeByGarmentType(Request $request)
     {
-        /**
-         * Hacer el caso de uso y ver que esta respondiendo
-         */
+
         $garmentType = $request->request->get('garmentType');
-        $GarmentTypeEntity = $this->sendRepositoryGarmentType()->findGarmentTypeById($garmentType);
-       /* $list = $this->sendRepositorySize()->findByGarmentType($GarmentTypeEntity);*/
 
+        $exceptionService = 0; //Refactor
 
-        return $this->json($GarmentTypeEntity->getSizes());
+        $listByGarmentType = new ListSizeByGarmentType(
+            $this->sendRepositorySize(),
+            new ListSizeByGarmentTypeTransform(),
+            $exceptionService
+        );
+
+        $dataToShow = $listByGarmentType->handle(
+            new ListSizeByGarmentTypeCommand($garmentType)
+        );
+
+        return $this->json($dataToShow);
     }
 }

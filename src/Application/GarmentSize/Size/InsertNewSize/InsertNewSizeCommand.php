@@ -14,7 +14,7 @@ use Assert\Assertion;
 class InsertNewSizeCommand
 {
     private $sizeValue;
-    private $garmentType;
+    private $garmentTypeId;
 
     /**
      * InsertNewSizeCommand constructor.
@@ -22,12 +22,12 @@ class InsertNewSizeCommand
      * @param int $garmentType
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(int $sizeValue, int $garmentType)
+    public function __construct(int $sizeValue, int $garmentTypeId)
     {
-        Assertion::integer($sizeValue, "El valor no es un integer valido");
-        Assertion::integer($garmentType, 'No es un string Valido');
+        Assertion::numeric($sizeValue, "El valor no es un integer valido");
+        Assertion::numeric($garmentTypeId, 'No es un valor Valido');
         $this->sizeValue = $sizeValue;
-        $this->garmentType = $garmentType;
+        $this->garmentTypeId = $garmentTypeId;
     }
 
     /**
@@ -41,9 +41,9 @@ class InsertNewSizeCommand
     /**
      * @return mixed
      */
-    public function getGarmentType()
+    public function getGarmentTypeId()
     {
-        return $this->garmentType;
+        return $this->garmentTypeId;
     }
 
 

@@ -2,26 +2,28 @@
 /**
  * Created by PhpStorm.
  * User: Fran Moraton
- * Date: 26/04/2018
- * Time: 12:52
+ * Date: 27/04/2018
+ * Time: 13:05
  */
 
-namespace Inventory\Management\Application\GarmentSize\Size\ListAllSize;
+namespace Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType;
 
+use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface;
 
-class ListAllSizeTransform implements ListAllSizeTransformInterface
+class ListSizeByGarmentTypeTransform implements ListAllSizeTransformInterface
 {
+
     /**
      * @param array/Size[] $sizes
      * @return array
      */
     public function transform(array $sizes): array
     {
+
         $transformed = [];
         foreach ($sizes as $size) {
             $transformed [] = [
-                'size' => $size->getSizeValue(),
-                'tipoRopa' => $size->getGarmentType()->getName()
+                'size' => $size['sizeValue']
             ];
         }
         return $transformed;

@@ -8,6 +8,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\InsertNewSize;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
 
 class InsertNewSize
@@ -19,34 +20,46 @@ class InsertNewSize
 
     /**
      * InsertNewSize constructor.
-     * @param $sizeRepository
-     * @param $insertNewSizeTransform
+     * @param SizeRepositoryInterface $sizeRepository
+     * @param GarmentTypeRepositoryInterface $garmentTypeRepository
+     * @param InsertNewSizeTransformInterface $insertNewSizeTransform
      * @param $sizeAlreadyExistException
      */
     public function __construct(
         SizeRepositoryInterface $sizeRepository,
+        GarmentTypeRepositoryInterface $garmentTypeRepository,
         InsertNewSizeTransformInterface $insertNewSizeTransform,
         $sizeAlreadyExistException
     ) {
         $this->sizeRepository = $sizeRepository;
+        $this->garmentTypeRespository = $garmentTypeRepository;
         $this->insertNewSizeTransform = $insertNewSizeTransform;
         $this->sizeAlreadyExistException = $sizeAlreadyExistException;
     }
 
     /**
      * @param InsertNewSizeCommand $insertNewSizeCommand
-     * @return mixed
+     * @return array|\Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size
+     * @throws \Exception
      */
     public function handle(InsertNewSizeCommand $insertNewSizeCommand)
     {
-        $newSize = $this->sizeRepository->addSize(
+        $garmentTypeEntity = $this->garmentTypeRespository
+            ->findGarmentTypeById($insertNewSizeCommand->getGarmentTypeId());
+
+        if (null === $garmentTypeEntity) {
+            throw new \Exception();
+        }
+
+
+        $newSize  = $this->sizeRepository->addSize(
             $insertNewSizeCommand->getSizeValue(),
-            $insertNewSizeCommand->getGarmentType()
+            $garmentTypeEntity
         );
 
-        $newSize = $this->sizeRepository->persistAndFlush($newSize);
+        $this->sizeRepository->persistAndFlush($newSize);
 
-        $this->insertNewSizeTransform->transform($newSize);
+        $newSize = $this->insertNewSizeTransform->transform([$newSize]);
 
         return $newSize;
     }
