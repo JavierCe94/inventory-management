@@ -26,8 +26,17 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    Inventory\Management\Infrastructure\Repository\:
-        resource: '../src/Infrastructure/Repository'
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository:
         arguments:
         - '@Doctrine\Common\Persistence\ManagerRegistry'
-        - ''
+        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment'
+
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository:
+        arguments:
+        - '@Doctrine\Common\Persistence\ManagerRegistry'
+        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType'
+
+#    Cuando el dataTransform implementa una interfaz tenemos que especificar la ruta de la clase que queremos
+#    que se ejecute
+#    Inventory\Management\Application\GarmentSize\Garment\InsertGarment\ListGarment\ListGarmentTransformInterface:
+#        alias: Inventory\Management\Application\GarmentSize\Garment\InsertGarment\ListGarment\ListGarmentTransform

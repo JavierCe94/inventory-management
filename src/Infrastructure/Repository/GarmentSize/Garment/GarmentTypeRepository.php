@@ -3,18 +3,11 @@
 namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 
 class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTypeRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry, string $entityClass)
-    {
-        parent::__construct($registry, GarmentType::class);
-    }
-
     public function insertGarmentType(string $name): GarmentType
     {
         $garmentTypeEntity = new GarmentType();
@@ -42,7 +35,6 @@ class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTy
         $garmentTypeEntity->setName($name);
         $this->persistAndFlush($garmentTypeEntity);
     }
-
 
     public function persistAndFlush(GarmentType $garmentTypeEntity): void
     {

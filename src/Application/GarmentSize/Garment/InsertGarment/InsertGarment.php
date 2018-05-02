@@ -18,16 +18,28 @@ class InsertGarment
     private $garmentTypeRepository;
     private $insertGarmentTransform;
 
+    /**
+     * InsertGarment constructor.
+     *
+     * @param GarmentRepository      $garmentRepository
+     * @param GarmentTypeRepository  $garmentTypeRepository
+     * @param InsertGarmentTransform $insertGarmentTransform
+     */
     public function __construct(
         GarmentRepository $garmentRepository,
         GarmentTypeRepository $garmentTypeRepository,
-        InsertGarmentTransformInterface $insertGarmentTransform
+        InsertGarmentTransform $insertGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTransform = $insertGarmentTransform;
     }
 
+    /**
+     * @param InsertGarmentCommand $insertGarmentCommand
+     *
+     * @throws GarmentTypeNotExistsException
+     */
     public function handle(InsertGarmentCommand $insertGarmentCommand)
     {
         $garmentTypeEntity = $this

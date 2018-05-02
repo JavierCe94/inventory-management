@@ -16,14 +16,24 @@ class ListGarment
     private $garmentRepository;
     private $listGarmentTransform;
 
+    /**
+     * ListGarment constructor.
+     *
+     * @param GarmentRepositoryInterface $garmentRepository
+     * @param ListGarmentTransform       $listGarmentTransform
+     */
+    // Inyeccion de dependencias
     public function __construct(
         GarmentRepositoryInterface $garmentRepository,
-        ListGarmentTransformInterface $listGarmentTransform
+        ListGarmentTransform $listGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->listGarmentTransform = $listGarmentTransform;
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         $garments = $this->garmentRepository->listGarment();

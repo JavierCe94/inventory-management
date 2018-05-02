@@ -4,21 +4,12 @@ namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\Mapping;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 
 class GarmentRepository extends ServiceEntityRepository implements GarmentRepositoryInterface
 {
-
-    public function __construct(ManagerRegistry $registry, string $entityClass)
-    {
-        parent::__construct($registry, Garment::class);
-    }
-
     public function insertGarment(string $name, GarmentType $garmentTypeId): ?Garment
     {
         $garmentEntity = new Garment();

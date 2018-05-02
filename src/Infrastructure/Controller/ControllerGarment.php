@@ -30,72 +30,67 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class ControllerGarment extends Controller
 {
-
     public function insertGarment(
         string $name,
         int $garmentTypeId,
-        GarmentRepository $garmentRepository,
-        GarmentTypeRepository $garmentTypeRepository
+        InsertGarment $insertGarment
     ) {
-        $insertGarmentTransform = new InsertGarmentTransform();
-        $insertGarment = new InsertGarment($garmentRepository, $garmentTypeRepository, $insertGarmentTransform);
         $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeId));
-        return $this->json(['insert garment']);
+        return $this->json(['Garment insertado con exito']);
     }
 
-    public function listGarment(GarmentRepository $listGarmentRepository)
+    public function listGarment(ListGarment $listGarment)
     {
-        $listGarmentTransform = new ListGarmentTransform();
-        $queryOutput = new ListGarment($listGarmentRepository, $listGarmentTransform);
-        $queryOutput = $queryOutput->handle();
-
+        $queryOutput = $listGarment->handle();
         return $this->json([$queryOutput]);
     }
 
-    public function updateGarment(int $id, string $name, GarmentRepository $updateGarmentRepository)
-    {
-        $updateGarmentTransform = new UpdateGarmentTransform();
-        $updateGarment = new UpdateGarment($updateGarmentRepository, $updateGarmentTransform);
+    public function updateGarment(
+        int $id,
+        string $name,
+        UpdateGarment $updateGarment
+    ) {
         $updateGarment->handle(new UpdateGarmentCommand($id, $name));
-
-        return $this->json(
-            [
-                'Status' => 'Garment actualizado con exito'
-            ]
-        );
+        return $this->json(['Garment actualizado con exito']);
     }
 
-    public function insertGarmentType(string $name, GarmentTypeRepository $insertGarmentTypeRepository)
-    {
-        $insertGarmentTypeTransform = new InsertGarmentTypeTransform();
-        $insertGarmentType = new InsertGarmentType($insertGarmentTypeRepository, $insertGarmentTypeTransform);
+    public function insertGarmentType(
+        string $name,
+        InsertGarmentType $insertGarmentType
+    ) {
         $insertGarmentType->handle(new InsertGarmentTypeCommand($name));
-
-        return $this->json(
-            [
-                'Status' => '200 OK'
-            ]
-        );
+        return $this->json(['GarmentType insertado con exito']);
     }
 
-    public function listGarmentTypes(GarmentTypeRepository $listGarmentTypeRepository)
-    {
-        $listGarmentTypesTransform = new ListGarmentTypesTransform();
+    // Terminar inyeccion dependencias, metodos que quedan hasta abajo
+    public function listGarmentTypes(
+        GarmentTypeRepository $listGarmentTypeRepository,
+        ListGarmentTypesTransform $listGarmentTypesTransform
+    ) {
         $queryOutput = (new ListGarmentTypes($listGarmentTypeRepository, $listGarmentTypesTransform))->handle();
 
         return $this->json([$queryOutput]);
     }
 
-    public function updateGarmentType(int $id, string $name, GarmentTypeRepository $updateGarmentTypeRepository)
-    {
-        $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
+    public function updateGarmentType(
+        int $id,
+        string $name,
+        GarmentTypeRepository $updateGarmentTypeRepository,
+        UpdateGarmentTypeTransform $updateGarmentTypeTransform
+    ) {
         $updateGarmentType = new UpdateGarmentType($updateGarmentTypeRepository, $updateGarmentTypeTransform);
         $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
 
-        return $this->json(
-            [
-                'Status' => 'GarmentType actualizado con exito'
-            ]
-        );
+        return $this->json(['GarmentType actualizado con exito']);
     }
+
+//    public function __invoke()
+//    {
+//
+//    }
 }
+
+
+//$a = new ControllerGarment();
+//
+//$a();

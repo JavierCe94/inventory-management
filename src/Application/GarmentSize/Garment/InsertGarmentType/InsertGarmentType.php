@@ -9,6 +9,7 @@
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 
 class InsertGarmentType
 {
@@ -18,12 +19,12 @@ class InsertGarmentType
     /**
      * InsertGarmentType constructor.
      *
-     * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
-     * @param InsertGarmentTypeTransformInterface $insertGarmentTypeTransform
+     * @param GarmentTypeRepository      $garmentTypeRepository
+     * @param InsertGarmentTypeTransform $insertGarmentTypeTransform
      */
     public function __construct(
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
-        InsertGarmentTypeTransformInterface $insertGarmentTypeTransform
+        GarmentTypeRepository $garmentTypeRepository,
+        InsertGarmentTypeTransform $insertGarmentTypeTransform
     ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTypeTransform = $insertGarmentTypeTransform;

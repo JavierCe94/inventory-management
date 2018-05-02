@@ -2,6 +2,7 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

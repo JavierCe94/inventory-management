@@ -10,15 +10,22 @@ namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarment;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 
 class UpdateGarment
 {
     private $garmentRepository;
     private $updateGarmentTransform;
 
+    /**
+     * UpdateGarment constructor.
+     *
+     * @param GarmentRepository      $garmentRepository
+     * @param UpdateGarmentTransform $updateGarmentTransform
+     */
     public function __construct(
-        GarmentRepositoryInterface $garmentRepository,
-        UpdateGarmentTransformInterface $updateGarmentTransform
+        GarmentRepository $garmentRepository,
+        UpdateGarmentTransform $updateGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->updateGarmentTransform = $updateGarmentTransform;
