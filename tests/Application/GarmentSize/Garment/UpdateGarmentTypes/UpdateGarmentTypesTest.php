@@ -45,9 +45,11 @@ class UpdateGarmentTypesTest extends TestCase
 
         $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
         $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform);
-        $updateGarmentType->handle(new UpdateGarmentTypeCommand(2, $name));
+        $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
+        $updateGarmentType->handle($updateGarmentTypeCommand);
 
-        $this->assertTrue(true);
+        $this->assertEquals($garmentTypeEntity->getId(), $updateGarmentTypeCommand->getId());
+        $this->assertEquals($garmentTypeEntity->getName(), $updateGarmentTypeCommand->getName());
     }
 
     /**

@@ -38,7 +38,5 @@ class UpdateGarment
                 $garmentEntity,
                 $updateGarmentCommand->getName()
             );
-
-        $this->garmentRepository->persistAndFlush($garmentEntity);
     }
 }
