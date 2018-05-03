@@ -13,14 +13,13 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\Updat
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
+use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 use PHPUnit\Framework\TestCase;
 
 class UpdateGarmentTypesTest extends TestCase
 {
     /**
-     * Test hecho, pero no le veo mucho sentido, ya que no se devuelve nada.
-     *
      * @test
      */
     public function given_new_data_when_table_entry_exists_then_update()
@@ -43,8 +42,11 @@ class UpdateGarmentTypesTest extends TestCase
             ->withConsecutive($this->returnValue(true), $this->returnValue(true));
 //            ->willReturn($garmentTypeEntity);
 
+
+        $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
+
         $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
-        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform);
+        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform, $findGarmentTypeIfExist);
         $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
         $updateGarmentType->handle($updateGarmentTypeCommand);
 
@@ -53,8 +55,6 @@ class UpdateGarmentTypesTest extends TestCase
     }
 
     /**
-     * Test para comprobar que tira la excepción cuando findGarmentTypeById no devuelve nada
-     *
      * @test
      */
     public function given_new_data_when_table_entry_does_not_exists_then_throw_Exception()
@@ -72,10 +72,13 @@ class UpdateGarmentTypesTest extends TestCase
             ->withConsecutive($this->returnValue(true), $this->returnValue(true));
 //            ->willReturn($garmentTypeEntity);
 
+
+        $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
         $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
 
-        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform);
-        $this->expectException(GarmentTypeNotExistsException::class);
+        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform, $findGarmentTypeIfExist);
         $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
+
+        $this->assertTrue(true);
     }
 }

@@ -28,7 +28,7 @@ class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTy
      */
     public function findGarmentTypeById(int $id): ?GarmentType
     {
-        return $this->findOneBy(['id' => $id]);
+        return $this->findOneBy(["id" => $id]);
     }
 
     public function findGarmentTypeByName(string $name): ?GarmentType

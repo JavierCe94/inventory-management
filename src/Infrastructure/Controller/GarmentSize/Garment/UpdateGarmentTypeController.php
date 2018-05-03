@@ -16,7 +16,7 @@ class UpdateGarmentTypeController extends Controller
 {
     public function updateGarmentType(int $id, string $name, UpdateGarmentType $updateGarmentType)
     {
-        $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
-        return $this->json(['GarmentType actualizado con exito']);
+        $output = $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
+        return $this->json([$output]);
     }
 }

@@ -20,10 +20,16 @@ class FindGarmentTypeIfExists
         $this->garmentTypeRepository = $garmentTypeRepository;
     }
 
+    /**
+     * @param int $id
+     *
+     * @return GarmentType|null
+     * @throws GarmentTypeNotExistsException
+     */
     public function execute(int $id): ?GarmentType
     {
         $output = $this->garmentTypeRepository->findGarmentTypeById($id);
-        if (null === $output) {
+        if (is_null($output)) {
             throw new GarmentTypeNotExistsException();
         }
         return $output;

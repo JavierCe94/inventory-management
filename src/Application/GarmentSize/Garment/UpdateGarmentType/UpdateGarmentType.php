@@ -10,47 +10,57 @@ namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
 
 class UpdateGarmentType
 {
     private $garmentTypeRepository;
     private $updateGarmentTypeTransform;
+    private $findGarmentTypeIfExists;
 
     /**
      * UpdateGarmentType constructor.
      *
      * @param GarmentTypeRepositoryInterface      $garmentTypeRepository
      * @param UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform
+     * @param FindGarmentTypeIfExists             $findGarmentIfExists
      */
     public function __construct(
         GarmentTypeRepositoryInterface $garmentTypeRepository,
-        UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform
+        UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform,
+        FindGarmentTypeIfExists $findGarmentIfExists
     ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
+        $this->findGarmentTypeIfExists = $findGarmentIfExists;
     }
 
     /**
      * @param UpdateGarmentTypeCommand $updateGarmentTypeCommand
      *
-     * @throws GarmentTypeNotExistsException
+     * @return string
      */
-    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): void
+    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): string
     {
+        $output = 'GarmentType actualizado con exito';
 
+        // Cacheo parametros
         $garmentTypeId = $updateGarmentTypeCommand->getId();
+        $garmentTypeName = $updateGarmentTypeCommand->getName();
 
-        $garmentTypeEntity = $this->garmentTypeRepository->findGarmentTypeById($garmentTypeId);
-
-        if (is_null($garmentTypeEntity)) {
-            throw new GarmentTypeNotExistsException();
+        try {
+            $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
+        } catch (GarmentTypeNotExistsException $gnex) {
+            return $gnex->getMessage();
         }
 
         $this
             ->garmentTypeRepository
             ->updateGarmentType(
                 $garmentTypeEntity,
-                $updateGarmentTypeCommand->getName()
+                $garmentTypeName
             );
+
+        return $output;
     }
 }

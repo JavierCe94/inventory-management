@@ -44,15 +44,18 @@ class UpdateGarment
     {
         $output = 'Garment actualizado con exito';
 
+        // Cacheo parametros
         $garmentId = $updateGarmentCommand->getId();
         $garmentName = $updateGarmentCommand->getName();
 
         try {
             $garmentEntity = $this->findGarmentIfExists->execute($garmentId);
         } catch (GarmentNotExistsException $gnex) {
+            // Si lanza excepcion, se devuelve el mensaje al controlador
             return $gnex->getMessage();
         }
 
+        // Actualizacion de prenda
         $this
             ->garmentRepository
             ->updateGarment(

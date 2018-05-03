@@ -12,7 +12,7 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGar
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException;
+use Inventory\Management\Domain\Model\Service\FindGarmentIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -40,8 +40,10 @@ class UpdateGarmentTest extends TestCase
         $garmentRepository->method('updateGarment')
             ->withConsecutive($this->returnValue(true), $this->returnValue(true));
 
+        $findGarmentIfExist = new FindGarmentIfExists($garmentRepository);
+
         $updateGarmentTransform = new UpdateGarmentTransform();
-        $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform);
+        $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform, $findGarmentIfExist);
         $updateGarmentCommand = new UpdateGarmentCommand($id, $name);
         $updateGarment->handle($updateGarmentCommand);
 
@@ -50,11 +52,9 @@ class UpdateGarmentTest extends TestCase
     }
 
     /**
-     * Test para comprobar que tira la excepción cuando findGarmentById no devuelve nada
-     *
      * @test
      */
-    public function given_new_data_when_table_entry_does_not_exists_then_throw_Exception()
+    public function given_new_data_when_table_entry_does_not_exists_then_success()
     {
         $id = 2;
         $name = 'poncho floreado';
@@ -68,10 +68,13 @@ class UpdateGarmentTest extends TestCase
         $garmentRepository->method('updateGarment')
             ->withConsecutive($this->returnValue(true), $this->returnValue(true));
 
+        $findGarmentIfExist = new FindGarmentIfExists($garmentRepository);
+
         $updateGarmentTransform = new UpdateGarmentTransform();
 
-        $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform);
-        $this->expectException(GarmentNotExistsException::class);
+        $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform, $findGarmentIfExist);
         $updateGarment->handle(new UpdateGarmentCommand($id, $name));
+
+        $this->assertTrue(true);
     }
 }
