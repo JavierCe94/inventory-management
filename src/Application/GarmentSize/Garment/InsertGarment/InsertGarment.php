@@ -8,53 +8,76 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
-use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
-use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Model\Service\GarmentNameExists;
+use Inventory\Management\Domain\Model\Service\ReturnGarmentTypeElseThrowGarmentTypeNotExistsException;
 
 class InsertGarment
 {
     private $garmentRepository;
     private $garmentTypeRepository;
     private $insertGarmentTransform;
+    private $garmentNameExists;
+    private $findGarmentTypeIfExists;
 
     /**
      * InsertGarment constructor.
      *
-     * @param GarmentRepository      $garmentRepository
-     * @param GarmentTypeRepository  $garmentTypeRepository
-     * @param InsertGarmentTransform $insertGarmentTransform
+     * @param GarmentRepositoryInterface      $garmentRepository
+     * @param GarmentTypeRepositoryInterface  $garmentTypeRepository
+     * @param InsertGarmentTransformInterface $insertGarmentTransform
+     * @param GarmentNameExists               $garmentNameExists
+     * @param FindGarmentTypeIfExists         $findGarmentTypeIfExists
      */
     public function __construct(
-        GarmentRepository $garmentRepository,
-        GarmentTypeRepository $garmentTypeRepository,
-        InsertGarmentTransform $insertGarmentTransform
+        GarmentRepositoryInterface $garmentRepository,
+        GarmentTypeRepositoryInterface $garmentTypeRepository,
+        InsertGarmentTransformInterface $insertGarmentTransform,
+        GarmentNameExists $garmentNameExists,
+        FindGarmentTypeIfExists $findGarmentTypeIfExists
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTransform = $insertGarmentTransform;
+        $this->garmentNameExists = $garmentNameExists;
+        $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
     }
 
     /**
      * @param InsertGarmentCommand $insertGarmentCommand
      *
-     * @throws GarmentTypeNotExistsException
+     * @return string
      */
     public function handle(InsertGarmentCommand $insertGarmentCommand)
     {
-        $garmentTypeEntity = $this
-            ->garmentTypeRepository
-            ->findGarmentTypeById($insertGarmentCommand->getGarmentTypeId());
+        $output = 'Garment insertado con exito';
 
-        if (is_null($garmentTypeEntity)) {
-            throw new GarmentTypeNotExistsException();
+        $name = $insertGarmentCommand->getName();
+        $garmentTypeId = $insertGarmentCommand->getGarmentTypeId();
+
+        try {
+            $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
+        } catch (GarmentTypeNotExistsException $gnex) {
+            return $output = $gnex->getMessage();
+        }
+
+        try {
+            $this->garmentNameExists->check($name);
+        } catch (GarmentNameExistsException $gex) {
+            return $output = $gex->getMessage();
         }
 
         $garmentEntity = $this->garmentRepository->insertGarment(
-            $insertGarmentCommand->getName(),
+            $name,
             $garmentTypeEntity
         );
 
         $this->garmentRepository->persistAndFlush($garmentEntity);
+
+        return $output;
     }
 }

@@ -10,6 +10,7 @@ class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTy
 {
     public function insertGarmentType(string $name): GarmentType
     {
+
         $garmentTypeEntity = new GarmentType();
         $garmentTypeEntity->setName($name);
         return $garmentTypeEntity;
@@ -28,6 +29,11 @@ class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTy
     public function findGarmentTypeById(int $id): ?GarmentType
     {
         return $this->findOneBy(['id' => $id]);
+    }
+
+    public function findGarmentTypeByName(string $name): ?GarmentType
+    {
+        return $this->findOneBy(["name" => $name]);
     }
 
     public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void

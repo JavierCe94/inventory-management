@@ -15,6 +15,12 @@ class ListGarmentTypes
     private $garmentTypeRepository;
     private $listGarmentTypesTransform;
 
+    /**
+     * ListGarmentTypes constructor.
+     *
+     * @param GarmentTypeRepositoryInterface     $garmentTypeRepository
+     * @param ListGarmentTypesTransformInterface $listGarmentTypesTransform
+     */
     public function __construct(
         GarmentTypeRepositoryInterface $garmentTypeRepository,
         ListGarmentTypesTransformInterface $listGarmentTypesTransform
@@ -23,6 +29,9 @@ class ListGarmentTypes
         $this->listGarmentTypesTransform = $listGarmentTypesTransform;
     }
 
+    /**
+     * @return array
+     */
     public function handle(): array
     {
         $queryOutput = $this->garmentTypeRepository->listGarmentTypes();

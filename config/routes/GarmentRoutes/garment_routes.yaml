@@ -1,23 +1,23 @@
 insertGarmentType:
     path: /insertGarmentType/{name}
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarmentType
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\InsertGarmentTypeController::insertGarmentType
 
 listGarmentTypes:
     path: /listGarmentTypes
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarmentTypes
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\ListGarmentTypesController::listGarmentTypes
 
 updateGarmentType:
     path: /updateGarmentType/{id}/{name}
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::updateGarmentType
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\UpdateGarmentTypeController::updateGarmentType
 
 insertGarment:
     path: /insertGarment/{name}/{garmentTypeId}
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::insertGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\InsertGarmentController::insertGarment
 
 listGarment:
     path: /listGarment
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::listGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\ListGarmentController::listGarment
 
 updateGarment:
     path: /updateGarment/{id}/{name}
-    controller: Inventory\Management\Infrastructure\Controller\ControllerGarment::updateGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\UpdateGarmentController::updateGarment

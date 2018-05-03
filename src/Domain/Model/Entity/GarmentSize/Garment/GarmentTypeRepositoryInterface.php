@@ -8,6 +8,8 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
+
 interface GarmentTypeRepositoryInterface
 {
     public function insertGarmentType(string $name): GarmentType;
@@ -16,6 +18,10 @@ interface GarmentTypeRepositoryInterface
 
     public function findGarmentTypeById(int $id): ?GarmentType;
 
+    /**
+     * @param GarmentType $garmentTypeEntity
+     * @throws UniqueConstraintViolationException
+     */
     public function persistAndFlush(GarmentType $garmentTypeEntity): void;
 
     public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void;

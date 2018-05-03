@@ -2,17 +2,17 @@
 /**
  * Created by PhpStorm.
  * User: programador
- * Date: 26/04/18
- * Time: 15:05
+ * Date: 3/05/18
+ * Time: 11:19
  */
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-class GarmentNotExistsException extends \Exception
+class GarmentNameExistsException extends \Exception
 {
     public function __construct()
     {
-        $message = 'La prenda que quiere editar no existe';
+        $message = 'Nombre prenda ya existe';
         parent::__construct($message);
     }
 }

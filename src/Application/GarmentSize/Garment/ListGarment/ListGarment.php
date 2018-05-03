@@ -8,24 +8,21 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\ListGarment;
 
-
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 
 class ListGarment
 {
     private $garmentRepository;
     private $listGarmentTransform;
-
     /**
      * ListGarment constructor.
      *
-     * @param GarmentRepositoryInterface $garmentRepository
-     * @param ListGarmentTransform       $listGarmentTransform
+     * @param GarmentRepositoryInterface    $garmentRepository
+     * @param ListGarmentTransformInterface $listGarmentTransform
      */
-    // Inyeccion de dependencias
     public function __construct(
         GarmentRepositoryInterface $garmentRepository,
-        ListGarmentTransform $listGarmentTransform
+        ListGarmentTransformInterface $listGarmentTransform
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->listGarmentTransform = $listGarmentTransform;

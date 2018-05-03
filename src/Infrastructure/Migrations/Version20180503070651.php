@@ -8,13 +8,26 @@ use Doctrine\DBAL\Schema\Schema;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-class Version20180502094802 extends AbstractMigration
+class Version20180503070651 extends AbstractMigration
 {
     public function up(Schema $schema)
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'sqlite', 'Migration can only be executed safely on \'sqlite\'.');
 
+        $this->addSql('DROP INDEX UNIQ_5D9F75A16E6768FF');
+        $this->addSql('DROP INDEX UNIQ_5D9F75A1450FF010');
+        $this->addSql('DROP INDEX UNIQ_5D9F75A19DADBEC7');
+        $this->addSql('DROP INDEX UNIQ_5D9F75A1ADE62BBB');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__employee AS SELECT id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone FROM employee');
+        $this->addSql('DROP TABLE employee');
+        $this->addSql('CREATE TABLE employee (id INTEGER NOT NULL, employee_status_id INTEGER DEFAULT NULL, type_admin BOOLEAN DEFAULT \'0\' NOT NULL, image VARCHAR(100) DEFAULT NULL COLLATE BINARY, nif VARCHAR(9) DEFAULT \'-\' NOT NULL COLLATE BINARY, name VARCHAR(50) DEFAULT \'-\' NOT NULL COLLATE BINARY, in_ss_number VARCHAR(30) DEFAULT \'-\' NOT NULL COLLATE BINARY, telephone VARCHAR(12) DEFAULT \'-\' NOT NULL COLLATE BINARY, PRIMARY KEY(id), CONSTRAINT FK_5D9F75A16E6768FF FOREIGN KEY (employee_status_id) REFERENCES employee_status (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('INSERT INTO employee (id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone) SELECT id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone FROM __temp__employee');
+        $this->addSql('DROP TABLE __temp__employee');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A16E6768FF ON employee (employee_status_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A1450FF010 ON employee (telephone)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A19DADBEC7 ON employee (in_ss_number)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A1ADE62BBB ON employee (nif)');
         $this->addSql('DROP INDEX IDX_5231A189612D3201');
         $this->addSql('DROP INDEX IDX_5231A189AE80F5DF');
         $this->addSql('CREATE TEMPORARY TABLE __temp__employee_status AS SELECT id, department_id, sub_department_id, first_contract_date, seniority_date, expiration_contract_date, possible_renewal, available_holidays, holidays_pending_to_apply_for FROM employee_status');
@@ -31,19 +44,19 @@ class Version20180502094802 extends AbstractMigration
         $this->addSql('INSERT INTO sub_department (id, department_id, name) SELECT id, department_id, name FROM __temp__sub_department');
         $this->addSql('DROP TABLE __temp__sub_department');
         $this->addSql('CREATE INDEX IDX_E1D67247AE80F5DF ON sub_department (department_id)');
-        $this->addSql('DROP INDEX UNIQ_5D9F75A16E6768FF');
-        $this->addSql('DROP INDEX UNIQ_5D9F75A1450FF010');
-        $this->addSql('DROP INDEX UNIQ_5D9F75A19DADBEC7');
-        $this->addSql('DROP INDEX UNIQ_5D9F75A1ADE62BBB');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__employee AS SELECT id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone FROM employee');
-        $this->addSql('DROP TABLE employee');
-        $this->addSql('CREATE TABLE employee (id INTEGER NOT NULL, employee_status_id INTEGER DEFAULT NULL, type_admin BOOLEAN DEFAULT \'0\' NOT NULL, image VARCHAR(100) DEFAULT NULL COLLATE BINARY, nif VARCHAR(9) DEFAULT \'-\' NOT NULL COLLATE BINARY, name VARCHAR(50) DEFAULT \'-\' NOT NULL COLLATE BINARY, in_ss_number VARCHAR(30) DEFAULT \'-\' NOT NULL COLLATE BINARY, telephone VARCHAR(12) DEFAULT \'-\' NOT NULL COLLATE BINARY, PRIMARY KEY(id), CONSTRAINT FK_5D9F75A16E6768FF FOREIGN KEY (employee_status_id) REFERENCES employee_status (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('INSERT INTO employee (id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone) SELECT id, employee_status_id, type_admin, image, nif, name, in_ss_number, telephone FROM __temp__employee');
-        $this->addSql('DROP TABLE __temp__employee');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A16E6768FF ON employee (employee_status_id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A1450FF010 ON employee (telephone)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A19DADBEC7 ON employee (in_ss_number)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_5D9F75A1ADE62BBB ON employee (nif)');
+        $this->addSql('DROP INDEX IDX_B881175CE4AFAD8F');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__garment AS SELECT id, garment_type_id, name FROM garment');
+        $this->addSql('DROP TABLE garment');
+        $this->addSql('CREATE TABLE garment (id INTEGER NOT NULL, garment_type_id INTEGER NOT NULL, name VARCHAR(50) NOT NULL COLLATE BINARY, PRIMARY KEY(id), CONSTRAINT FK_B881175CE4AFAD8F FOREIGN KEY (garment_type_id) REFERENCES garment_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('INSERT INTO garment (id, garment_type_id, name) SELECT id, garment_type_id, name FROM __temp__garment');
+        $this->addSql('DROP TABLE __temp__garment');
+        $this->addSql('CREATE INDEX IDX_B881175CE4AFAD8F ON garment (garment_type_id)');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__garment_type AS SELECT id, name FROM garment_type');
+        $this->addSql('DROP TABLE garment_type');
+        $this->addSql('CREATE TABLE garment_type (id INTEGER NOT NULL, name VARCHAR(50) NOT NULL COLLATE BINARY, PRIMARY KEY(id))');
+        $this->addSql('INSERT INTO garment_type (id, name) SELECT id, name FROM __temp__garment_type');
+        $this->addSql('DROP TABLE __temp__garment_type');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_2D3D3FD95E237E06 ON garment_type (name)');
         $this->addSql('DROP INDEX IDX_56234C9A498DA827');
         $this->addSql('DROP INDEX IDX_56234C9A9CDB257C');
         $this->addSql('CREATE TEMPORARY TABLE __temp__garment_size AS SELECT id, garment_id, size_id, stock FROM garment_size');
@@ -60,13 +73,6 @@ class Version20180502094802 extends AbstractMigration
         $this->addSql('INSERT INTO size (id, size_type_id, size_value) SELECT id, size_type_id, size_value FROM __temp__size');
         $this->addSql('DROP TABLE __temp__size');
         $this->addSql('CREATE INDEX IDX_F7C0246A20215EEB ON size (size_type_id)');
-        $this->addSql('DROP INDEX IDX_B881175CE4AFAD8F');
-        $this->addSql('CREATE TEMPORARY TABLE __temp__garment AS SELECT id, garment_type_id, name FROM garment');
-        $this->addSql('DROP TABLE garment');
-        $this->addSql('CREATE TABLE garment (id INTEGER NOT NULL, garment_type_id INTEGER NOT NULL, name VARCHAR(50) NOT NULL COLLATE BINARY, PRIMARY KEY(id), CONSTRAINT FK_B881175CE4AFAD8F FOREIGN KEY (garment_type_id) REFERENCES garment_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
-        $this->addSql('INSERT INTO garment (id, garment_type_id, name) SELECT id, garment_type_id, name FROM __temp__garment');
-        $this->addSql('DROP TABLE __temp__garment');
-        $this->addSql('CREATE INDEX IDX_B881175CE4AFAD8F ON garment (garment_type_id)');
         $this->addSql('DROP INDEX UNIQ_560581FDA7FF5209');
         $this->addSql('CREATE TEMPORARY TABLE __temp__firm AS SELECT id, request_employee_id, url, date_creation FROM firm');
         $this->addSql('DROP TABLE firm');
@@ -135,6 +141,12 @@ class Version20180502094802 extends AbstractMigration
         $this->addSql('DROP TABLE __temp__garment_size');
         $this->addSql('CREATE INDEX IDX_56234C9A9CDB257C ON garment_size (garment_id)');
         $this->addSql('CREATE INDEX IDX_56234C9A498DA827 ON garment_size (size_id)');
+        $this->addSql('DROP INDEX UNIQ_2D3D3FD95E237E06');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__garment_type AS SELECT id, name FROM garment_type');
+        $this->addSql('DROP TABLE garment_type');
+        $this->addSql('CREATE TABLE garment_type (id INTEGER NOT NULL, name VARCHAR(50) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('INSERT INTO garment_type (id, name) SELECT id, name FROM __temp__garment_type');
+        $this->addSql('DROP TABLE __temp__garment_type');
         $this->addSql('DROP INDEX IDX_5D4EC0DEA7FF5209');
         $this->addSql('DROP INDEX IDX_5D4EC0DE686E893B');
         $this->addSql('CREATE TEMPORARY TABLE __temp__request_employee_garment AS SELECT id, request_employee_id, garment_size_id FROM request_employee_garment');

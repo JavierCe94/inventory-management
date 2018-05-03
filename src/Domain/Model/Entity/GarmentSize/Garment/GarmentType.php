@@ -19,7 +19,7 @@ class GarmentType
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false)
+     * @ORM\Column(type="string", length=50, unique=true, nullable=false)
      */
     private $name;
 

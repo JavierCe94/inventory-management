@@ -29,6 +29,11 @@ class GarmentRepository extends ServiceEntityRepository implements GarmentReposi
         $this->persistAndFlush($garmentEntity);
     }
 
+    public function findGarmentByName(string $name): ?Garment
+    {
+        return $this->findOneBy(["name" => $name]);
+    }
+
     public function findGarmentById(int $id): ?Garment
     {
         return $this->findOneBy(["id" => $id]);
