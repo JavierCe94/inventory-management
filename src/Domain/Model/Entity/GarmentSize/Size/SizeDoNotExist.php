@@ -9,7 +9,13 @@
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Size;
 
 
+use Throwable;
+
 class SizeDoNotExist extends \Exception
 {
-
+    public function __construct()
+    {
+        $message = 'Esta talla no existe ya';
+        parent::__construct($message);
+    }
 }

@@ -23,6 +23,11 @@ class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepos
         return $garmentTypeEntity;
     }
 
+    public function findGarmentTypeByName(string $name): ?GarmentType
+    {
+        return $this->findOneBy(["name" => $name]);
+    }
+
     /**
      * @param GarmentType $garmentTypeEntity
      * @throws \Doctrine\ORM\ORMException

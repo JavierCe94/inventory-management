@@ -10,7 +10,7 @@ namespace Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentTyp
 
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface;
 
-class ListSizeByGarmentTypeTransform implements ListAllSizeTransformInterface
+class ListSizeByGarmentTypeTransform implements ListSizeByGarmentTypeTransformInterface
 {
 
     /**

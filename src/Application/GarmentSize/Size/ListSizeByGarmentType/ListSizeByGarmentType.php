@@ -8,42 +8,49 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType;
 
-use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 
 class ListSizeByGarmentType
 {
     private $dataTransform;
     private $sizeRepository;
-    private $emptySizesException;
+    private $findGarmentTypeIfExists;
+
 
     /**
      * ListSizeByGarmentType constructor.
-     * @param $dataTransform
-     * @param $sizeRepository
-     * @param $emptySizesException
+     * @param SizeRepositoryInterface $sizeRepository
+     * @param FindGarmentTypeIfExists $findGarmentTypeIfExists
+     * @param ListSizeByGarmentTypeTransformInterface $dataTransform
      */
     public function __construct(
         SizeRepositoryInterface $sizeRepository,
-        ListAllSizeTransformInterface $dataTransform,
-        $emptySizesException
+        FindGarmentTypeIfExists $findGarmentTypeIfExists,
+        ListSizeByGarmentTypeTransformInterface $dataTransform
     ) {
         $this->dataTransform = $dataTransform;
         $this->sizeRepository = $sizeRepository;
-        $this->emptySizesException = $emptySizesException;
+        $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
     }
 
+    /**
+     * @param ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand
+     * @return array
+     */
     public function handle(ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand)
     {
+        try {
+            $this->findGarmentTypeIfExists
+            ->execute($listSizeByGarmentTypeCommand->getGarmentTypeId());
+        } catch (GarmentTypeNotExistsException $exception) {
+             return [$exception->getMessage()];
+        }
+
         $garmentTypeList = $this->sizeRepository
             ->findByGarmentType($listSizeByGarmentTypeCommand->getGarmentTypeId());
 
-        if (0 === count($garmentTypeList)) {
-            throw new \Exception();
-        }
-
-        $garmentTypeList = $this->dataTransform->transform($garmentTypeList);
-
-        return $garmentTypeList;
+        return $this->dataTransform->transform($garmentTypeList);
     }
 }

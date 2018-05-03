@@ -34,3 +34,18 @@ services:
 
     Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface:
         alias: app.size_repository
+
+    app.garmenttype_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+        arguments:
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType
+
+    Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface:
+        alias: app.garmenttype_repository
+
+    Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform
+
+    Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform

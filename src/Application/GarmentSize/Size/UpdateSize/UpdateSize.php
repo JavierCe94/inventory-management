@@ -12,58 +12,55 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeDoNo
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
 
 class UpdateSize
 {
     private $sizeRepository;
-    private $garmentTypeRepository;
+    private $findGarmentTypeIfExist;
     private $dataTransform;
-    private $DoNotExistException;
+    private $findSizeEntityIfExist;
 
     /**
      * UpdateSize constructor.
      * @param SizeRepositoryInterface $sizeRepository
-     * @param GarmentTypeRepositoryInterface $garmentTypeRepository
+     * @param FindGarmentTypeIfExists $findGarmentTypeIfExist
      * @param UpdateSizeTransformInterface $dataTransform
-     * @param $DoNotExistException
+     * @param FindSizeEntityIfExists $findSizeEntityIfExist
      */
     public function __construct(
         SizeRepositoryInterface $sizeRepository,
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
+        FindGarmentTypeIfExists $findGarmentTypeIfExist,
         UpdateSizeTransformInterface $dataTransform,
-        $DoNotExistException
+        FindSizeEntityIfExists $findSizeEntityIfExist
     ) {
         $this->sizeRepository = $sizeRepository;
-        $this->garmentTypeRepository = $garmentTypeRepository;
+        $this->findGarmentTypeIfExist = $findGarmentTypeIfExist;
         $this->dataTransform = $dataTransform;
-        $this->DoNotExistException = $DoNotExistException;
+        $this->findSizeEntityIfExist = $findSizeEntityIfExist;
     }
 
     /**
      * @param UpdateSizeCommand $updateSizeCommand
      * @return array
-     * @throws GarmentTypeDoNotExist
      * @throws SizeDoNotExist
+     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
      */
     public function handle(UpdateSizeCommand $updateSizeCommand)
     {
-        $garmentTypeEntity = $this->garmentTypeRepository
-            ->findGarmentTypeById($updateSizeCommand->getGarmentTypeId());
+        $onlyElementInArray = 0;
+        $this->findGarmentTypeIfExist->execute($updateSizeCommand->getGarmentTypeId());
 
-        if (null === $garmentTypeEntity) {
-            throw new GarmentTypeDoNotExist('el tipo de prenda no existe');
-        }
-        $size = $this->sizeRepository->findSizeBySizeValueAndGarmentType(
-            $updateSizeCommand->getSizeValue(),
-            $updateSizeCommand->getGarmentTypeId()
-        );
-        if (0 === count($size)) {
-            throw new SizeDoNotExist('La talla no se encuentra');
-        }
+        $size = $this->findSizeEntityIfExist
+            ->execute(
+                $updateSizeCommand->getGarmentTypeId(),
+                $updateSizeCommand->getSizeValue()
+            );
 
         $sizeUpdated  = $this->sizeRepository->updateSize(
             $updateSizeCommand->getNewSizeValue(),
-            $size[0]
+            $size[$onlyElementInArray]
         );
 
         $this->sizeRepository->persistAndFlush($sizeUpdated);

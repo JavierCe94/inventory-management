@@ -1,19 +1,19 @@
 insert_size:
     path: /new
-    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::insertNewSize
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Size\InsertNewSizeController::__invoke
     methods: [POST]
 
 update_size:
     path: /update
-    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::updateSize
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Size\UpdateSizeController::__invoke
     methods: [POST]
 
 list_sizes:
     path: /
-    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::listAllSize
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Size\ListAllSizeController::__invoke
     methods: [GET]
 
 list_sizes_by_garmentType:
     path: /garmentType
-    controller: Inventory\Management\Infrastructure\Controller\ControllerSize::listSizeByGarmentType
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Size\ListSizeByGarmentTypeController::__invoke
     methods: [POST]

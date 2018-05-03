@@ -8,7 +8,6 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-
 interface GarmentTypeRepositoryInterface
 {
 
