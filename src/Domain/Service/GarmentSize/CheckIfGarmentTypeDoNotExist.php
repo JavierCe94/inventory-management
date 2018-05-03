@@ -11,7 +11,7 @@ namespace Inventory\Management\Domain\Service\GarmentSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeDoNotExist;
 
-class CheckIfGarmentTypeExist
+class CheckIfGarmentTypeDoNotExist
 {
     /**
      * @param array $garmentType

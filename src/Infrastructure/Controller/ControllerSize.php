@@ -74,6 +74,7 @@ class ControllerSize extends Controller
     {
         $sizeValue = $request->request->get('sizeValue');
         $garmentType = $request->request->get('garmentType');
+        $newSizeValue = $request->request->get('newSizeValue');
 
         $exception = 0; //REFACTOR
         $updateSize = new UpdateSize(
@@ -83,7 +84,7 @@ class ControllerSize extends Controller
             $exception
         );
 
-        $dataToShow = $updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType));
+        $dataToShow = $updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType, $newSizeValue));
 
         return $this->json($dataToShow);
     }

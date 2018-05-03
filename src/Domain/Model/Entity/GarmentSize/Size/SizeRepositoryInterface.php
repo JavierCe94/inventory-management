@@ -18,7 +18,7 @@ interface SizeRepositoryInterface
 
     public function updateSize($sizeValue, Size $size): Size;
 
-    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId): ?Size;
+    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId);
 
     public function findByGarmentType($garmentTypeId): array;
 }

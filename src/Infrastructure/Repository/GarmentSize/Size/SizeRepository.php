@@ -41,16 +41,23 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
         return $this->findAll();
     }
 
-    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId): ?Size
+    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId)
     {
-        $query = $this->getEntityManager()->createQueryBuilder()
-            ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
-            ->Where('size.sizeValue = :sizeValue')
-            ->andWhere('size.garmentType = :$garmentTypeId')
-            ->setParameter('sizeValue', $sizeValue)
-            ->setParameter('garmentTypeId', $garmentTypeId)
-            ->getQuery()
-            ->execute();
+//        $query = $this->getEntityManager()->createQueryBuilder()
+//            ->select('size.id', 'size.sizeValue', 'size.garmentType')
+//            ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
+//            ->Where('size.sizeValue = :sizeValue')
+//            ->andWhere('size.garmentType = :garmentTypeId')
+//            ->setParameter('sizeValue', $sizeValue)
+//            ->setParameter('garmentTypeId', $garmentTypeId)
+//            ->getQuery()
+//            ->execute();
+        $query = $this->findBy(
+            [
+                'sizeValue' => $sizeValue,
+                'garmentType' => $garmentTypeId
+            ]
+        );
 
         return $query;
     }
@@ -80,5 +87,5 @@ class SizeRepository extends EntityRepository implements SizeRepositoryInterface
 
         return $query;
     }
-    
+
 }

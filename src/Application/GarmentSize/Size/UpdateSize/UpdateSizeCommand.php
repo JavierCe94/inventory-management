@@ -13,20 +13,32 @@ use Assert\Assertion;
 class UpdateSizeCommand
 {
     private $sizeValue;
+    private $newSizeValue;
     private $GarmentTypeId;
 
     /**
      * UpdateSizeCommand constructor.
      * @param $sizeValue
      * @param $GarmentTypeId
+     * @param $newSizeValue
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct($sizeValue, $GarmentTypeId)
+    public function __construct($sizeValue, $GarmentTypeId, $newSizeValue)
     {
         Assertion::numeric($sizeValue);
+        Assertion::numeric($newSizeValue);
         Assertion::numeric($GarmentTypeId);
         $this->sizeValue = $sizeValue;
+        $this->newSizeValue = $newSizeValue;
         $this->GarmentTypeId = $GarmentTypeId;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getNewSizeValue()
+    {
+        return $this->newSizeValue;
     }
 
     /**

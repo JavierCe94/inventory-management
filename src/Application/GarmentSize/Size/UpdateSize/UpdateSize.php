@@ -8,7 +8,9 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\UpdateSize;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeDoNotExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
 
 class UpdateSize
@@ -39,23 +41,33 @@ class UpdateSize
 
     /**
      * @param UpdateSizeCommand $updateSizeCommand
-     * @throws \Exception
+     * @return array
+     * @throws GarmentTypeDoNotExist
+     * @throws SizeDoNotExist
      */
     public function handle(UpdateSizeCommand $updateSizeCommand)
     {
         $garmentTypeEntity = $this->garmentTypeRepository
             ->findGarmentTypeById($updateSizeCommand->getGarmentTypeId());
 
-        dump($garmentTypeEntity);
-
         if (null === $garmentTypeEntity) {
-            throw new \Exception();
+            throw new GarmentTypeDoNotExist('el tipo de prenda no existe');
         }
-        $garmentTypeEntity2 = $this->sizeRepository->findSizeBySizeValueAndGarmentType(
+        $size = $this->sizeRepository->findSizeBySizeValueAndGarmentType(
             $updateSizeCommand->getSizeValue(),
             $updateSizeCommand->getGarmentTypeId()
         );
+        if (0 === count($size)) {
+            throw new SizeDoNotExist('La talla no se encuentra');
+        }
 
-        dump($garmentTypeEntity2);
+        $sizeUpdated  = $this->sizeRepository->updateSize(
+            $updateSizeCommand->getNewSizeValue(),
+            $size[0]
+        );
+
+        $this->sizeRepository->persistAndFlush($sizeUpdated);
+        return $this->dataTransform->transform($sizeUpdated);
     }
+
 }

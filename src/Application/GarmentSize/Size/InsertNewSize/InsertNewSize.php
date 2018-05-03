@@ -14,7 +14,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInte
 class InsertNewSize
 {
     private $sizeRepository;
-    private $garmentTypeRespository;
+    private $garmentTypeRepository;
     private $insertNewSizeTransform;
     private $sizeAlreadyExistException;
 
@@ -32,7 +32,7 @@ class InsertNewSize
         $sizeAlreadyExistException
     ) {
         $this->sizeRepository = $sizeRepository;
-        $this->garmentTypeRespository = $garmentTypeRepository;
+        $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertNewSizeTransform = $insertNewSizeTransform;
         $this->sizeAlreadyExistException = $sizeAlreadyExistException;
     }
@@ -44,7 +44,7 @@ class InsertNewSize
      */
     public function handle(InsertNewSizeCommand $insertNewSizeCommand)
     {
-        $garmentTypeEntity = $this->garmentTypeRespository
+        $garmentTypeEntity = $this->garmentTypeRepository
             ->findGarmentTypeById($insertNewSizeCommand->getGarmentTypeId());
 
         if (null === $garmentTypeEntity) {
