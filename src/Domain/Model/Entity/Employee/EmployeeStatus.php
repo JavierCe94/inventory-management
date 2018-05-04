@@ -17,19 +17,19 @@ class EmployeeStatus
      */
     private $id;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $firstContractDate;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $seniorityDate;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $expirationContractDate;
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $possibleRenewal;
     /**

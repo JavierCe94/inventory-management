@@ -40,24 +40,26 @@ class UpdateGarmentTypesTest extends TestCase
             ->willReturn($garmentTypeEntity);
         $garmentTypeRepository->method('updateGarmentType')
             ->withConsecutive($this->returnValue(true), $this->returnValue(true));
-//            ->willReturn($garmentTypeEntity);
 
 
         $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
 
         $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
-        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform, $findGarmentTypeIfExist);
+        $updateGarmentType = new UpdateGarmentType(
+            $garmentTypeRepository,
+            $updateGarmentTypeTransform,
+            $findGarmentTypeIfExist
+        );
         $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
-        $updateGarmentType->handle($updateGarmentTypeCommand);
+        $output = $updateGarmentType->handle($updateGarmentTypeCommand);
 
-        $this->assertEquals($garmentTypeEntity->getId(), $updateGarmentTypeCommand->getId());
-        $this->assertEquals($garmentTypeEntity->getName(), $updateGarmentTypeCommand->getName());
+        $this->assertEquals('GarmentType actualizado con exito', $output);
     }
 
     /**
      * @test
      */
-    public function given_new_data_when_table_entry_does_not_exists_then_throw_Exception()
+    public function given_new_data_when_table_entry_does_not_exists_then_success()
     {
         $id = 2;
         $name = 'poncho';
@@ -76,9 +78,13 @@ class UpdateGarmentTypesTest extends TestCase
         $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
         $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
 
-        $updateGarmentType = new UpdateGarmentType($garmentTypeRepository, $updateGarmentTypeTransform, $findGarmentTypeIfExist);
-        $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
+        $updateGarmentType = new UpdateGarmentType(
+            $garmentTypeRepository,
+            $updateGarmentTypeTransform,
+            $findGarmentTypeIfExist
+        );
+        $output = $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
 
-        $this->assertTrue(true);
+        $this->assertEquals('El tipo de prenda no existe', $output);
     }
 }

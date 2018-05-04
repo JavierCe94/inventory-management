@@ -45,16 +45,15 @@ class UpdateGarmentTest extends TestCase
         $updateGarmentTransform = new UpdateGarmentTransform();
         $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform, $findGarmentIfExist);
         $updateGarmentCommand = new UpdateGarmentCommand($id, $name);
-        $updateGarment->handle($updateGarmentCommand);
+        $output = $updateGarment->handle($updateGarmentCommand);
 
-        $this->assertEquals($garmentEntity->getId(), $updateGarmentCommand->getId());
-        $this->assertEquals($garmentEntity->getName(), $updateGarmentCommand->getName());
+        $this->assertEquals( 'Garment actualizado con exito', $output);
     }
 
     /**
      * @test
      */
-    public function given_new_data_when_table_entry_does_not_exists_then_success()
+    public function given_new_data_when_table_entry_does_not_exists_then_show_message()
     {
         $id = 2;
         $name = 'poncho floreado';
@@ -73,8 +72,8 @@ class UpdateGarmentTest extends TestCase
         $updateGarmentTransform = new UpdateGarmentTransform();
 
         $updateGarment = new UpdateGarment($garmentRepository, $updateGarmentTransform, $findGarmentIfExist);
-        $updateGarment->handle(new UpdateGarmentCommand($id, $name));
+        $output = $updateGarment->handle(new UpdateGarmentCommand($id, $name));
 
-        $this->assertTrue(true);
+        $this->assertEquals('La prenda que quiere editar no existe', $output);
     }
 }

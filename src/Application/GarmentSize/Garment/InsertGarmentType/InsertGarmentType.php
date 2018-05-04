@@ -45,7 +45,7 @@ class InsertGarmentType
      */
     public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): string
     {
-        $output = 'GarmentType creado con exito';
+        $output = 'GarmentType insertado con exito';
         $name = $insertGarmentTypeCommand->getName();
 
         try {
@@ -54,9 +54,9 @@ class InsertGarmentType
             return $output = $gtex->getMessage();
         }
 
-        $this->garmentTypeNameExists->check($insertGarmentTypeCommand->getName());
+//        $this->garmentTypeNameExists->check($insertGarmentTypeCommand->getName());
 
-        $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($insertGarmentTypeCommand->getName());
+        $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($name);
 
 
         $this->garmentTypeRepository->persistAndFlush($garmentTypeEntity);
