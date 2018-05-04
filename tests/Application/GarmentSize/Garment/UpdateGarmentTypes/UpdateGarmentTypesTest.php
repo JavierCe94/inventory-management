@@ -12,13 +12,34 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\Updat
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UpdateGarmentTypesTest extends TestCase
 {
+    /**
+     * @var UpdateGarmentType
+     */
+    private $handler;
+
+    /**
+     * @var MockObject
+     */
+    private $garmentTypeRepositoryStub;
+
+    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    {
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryInterface::class);
+        $this->handler = new UpdateGarmentType(
+            $this->garmentTypeRepositoryStub,
+            new UpdateGarmentTypeTransform(),
+            new FindGarmentTypeIfExists($this->garmentTypeRepositoryStub)
+        );
+    }
+
     /**
      * @test
      */
@@ -26,32 +47,18 @@ class UpdateGarmentTypesTest extends TestCase
     {
         $id = 2;
         $name = 'poncho';
-        $garmentTypeEntity = $this
-            ->getMockBuilder(GarmentType::class)
-            ->disableOriginalConstructor()->getMock();
+        $garmentTypeEntity = $this->createMock(GarmentType::class);
         $garmentTypeEntity->method('getId')->willReturn($id);
         $garmentTypeEntity->method('getName')->willReturn($name);
 
-        $garmentTypeRepository = $this
-            ->getMockBuilder(GarmentTypeRepository::class)
-            ->disableOriginalConstructor()->getMock();
-        $garmentTypeRepository->method('findGarmentTypeById')
+        $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
             ->withConsecutive($this->returnValue(true))
             ->willReturn($garmentTypeEntity);
-        $garmentTypeRepository->method('updateGarmentType')
-            ->withConsecutive($this->returnValue(true), $this->returnValue(true));
 
+        $this->garmentTypeRepositoryStub->expects($this->once())->method('updateGarmentType');
 
-        $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
-
-        $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
-        $updateGarmentType = new UpdateGarmentType(
-            $garmentTypeRepository,
-            $updateGarmentTypeTransform,
-            $findGarmentTypeIfExist
-        );
         $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
-        $output = $updateGarmentType->handle($updateGarmentTypeCommand);
+        $output = $this->handler->handle($updateGarmentTypeCommand);
 
         $this->assertEquals('GarmentType actualizado con exito', $output);
     }
@@ -64,26 +71,11 @@ class UpdateGarmentTypesTest extends TestCase
         $id = 2;
         $name = 'poncho';
 
-        $garmentTypeRepository = $this
-            ->getMockBuilder(GarmentTypeRepository::class)
-            ->disableOriginalConstructor()->getMock();
-        $garmentTypeRepository->method('findGarmentTypeById')
+        $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
             ->withConsecutive($this->returnValue(true))
             ->willReturn(null);
-        $garmentTypeRepository->method('updateGarmentType')
-            ->withConsecutive($this->returnValue(true), $this->returnValue(true));
-//            ->willReturn($garmentTypeEntity);
 
-
-        $findGarmentTypeIfExist = new FindGarmentTypeIfExists($garmentTypeRepository);
-        $updateGarmentTypeTransform = new UpdateGarmentTypeTransform();
-
-        $updateGarmentType = new UpdateGarmentType(
-            $garmentTypeRepository,
-            $updateGarmentTypeTransform,
-            $findGarmentTypeIfExist
-        );
-        $output = $updateGarmentType->handle(new UpdateGarmentTypeCommand($id, $name));
+        $output = $this->handler->handle(new UpdateGarmentTypeCommand($id, $name));
 
         $this->assertEquals('El tipo de prenda no existe', $output);
     }
