@@ -10,7 +10,6 @@ namespace Inventory\Management\Domain\Model\Service;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
-use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 
 class GarmentNameExists
 {

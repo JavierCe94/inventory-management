@@ -14,10 +14,34 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGar
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Service\FindGarmentIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UpdateGarmentTest extends TestCase
 {
+    /**
+     * @var UpdateGarment
+     */
+    private $handler;
+
+    /**
+     * @var MockObject
+     */
+    private $garmentRepositoryStub;
+    private $garmentTypeRepositoryStub;
+
+    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    {
+        $this->garmentRepositoryStub = $this->createMock(GarmentRepository::class);
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class);
+        $this->handler = new UpdateGarment(
+            $this->garmentRepositoryStub,
+            new UpdateGarmentTransform(),
+            new FindGarmentIfExists($this->garmentRepositoryStub)
+        );
+    }
+
     /**
      * @test
      */

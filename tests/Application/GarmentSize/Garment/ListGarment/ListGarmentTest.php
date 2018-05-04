@@ -24,24 +24,18 @@ class ListGarmentTest extends TestCase
     {
         $idGarmentType = 2;
         $nameGarmentType = 'poncho';
-        $garmentTypeEntity = $this
-            ->getMockBuilder(GarmentType::class)
-            ->disableOriginalConstructor()->getMock();
+        $garmentTypeEntity = $this->createMock(GarmentType::class);
         $garmentTypeEntity->method('getId')->willReturn($idGarmentType);
         $garmentTypeEntity->method('getName')->willReturn($nameGarmentType);
 
         $idGarment = 1;
         $nameGarment = 'poncho de flores';
-        $garmentEntity = $this
-            ->getMockBuilder(Garment::class)
-            ->disableOriginalConstructor()->getMock();
+        $garmentEntity = $this->createMock(Garment::class);
         $garmentEntity->method('getId')->willReturn($idGarment);
         $garmentEntity->method('getName')->willReturn($nameGarment);
         $garmentEntity->method('getGarmentType')->willReturn($garmentTypeEntity);
 
-        $listGarmentRepository = $this
-            ->getMockBuilder(GarmentRepository::class)
-            ->disableOriginalConstructor()->getMock();
+        $listGarmentRepository = $this->createMock(GarmentRepository::class);
         $listGarmentRepository->method('listGarment')->willReturn([$garmentEntity]);
         $listGarmentTransform = new ListGarmentTransform();
 

@@ -40,7 +40,6 @@ class InsertGarmentType
      * @param InsertGarmentTypeCommand $insertGarmentTypeCommand
      *
      * @return string
-     * @throws GarmentTypeNameExistsException
      * @throws UniqueConstraintViolationException
      */
     public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): string
@@ -53,8 +52,6 @@ class InsertGarmentType
         } catch (GarmentTypeNameExistsException $gtex) {
             return $output = $gtex->getMessage();
         }
-
-//        $this->garmentTypeNameExists->check($insertGarmentTypeCommand->getName());
 
         $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($name);
 

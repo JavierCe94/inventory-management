@@ -12,33 +12,49 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Service\GarmentTypeNameExists;
-use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
 class InsertGarmentTypeTest extends TestCase
 {
     /**
+     * @var InsertGarmentType
+     */
+    private $handler;
+    /**
+     * @var MockObject
+     */
+    private $garmentTypeRepositoryStub;
+
+    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    {
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryInterface::class);
+        $this->handler = new InsertGarmentType(
+            $this->garmentTypeRepositoryStub,
+            new InsertGarmentTypeTransform(),
+            new GarmentTypeNameExists($this->garmentTypeRepositoryStub)
+        );
+    }
+
+    /**
      * @test
      */
     public function given_a_valid_garmentType_when_it_does_not_exist_then_insert()
     {
-        $garmentTypeRepository = $this
-            ->getMockBuilder(GarmentTypeRepository::class)
-            ->disableOriginalConstructor()->getMock();
-        $garmentTypeRepository->method('findGarmentTypeByName')
+        $this->garmentTypeRepositoryStub->method('findGarmentTypeByName')
             ->withConsecutive($this->returnValue(true))
             ->willReturn(null);
 
-        $insertGarmentTypeTransform = new InsertGarmentTypeTransform();
-        $garmentTypeNameExists = new GarmentTypeNameExists($garmentTypeRepository);
+        $this->garmentTypeRepositoryStub->method('insertGarmentType')
+            ->withConsecutive($this->returnValue(true))
+            ->willReturn($this->createMock(GarmentType::class));
 
-        $insertGarmentType = new InsertGarmentType(
-            $garmentTypeRepository,
-            $insertGarmentTypeTransform,
-            $garmentTypeNameExists
-        );
-        $output = $insertGarmentType->handle(new InsertGarmentTypeCommand('zapatillas'));
+        $this->garmentTypeRepositoryStub->expects($this->once())
+            ->method('persistAndFlush');
+
+        $output = $this->handler->handle(new InsertGarmentTypeCommand('zapatillas'));
 
         $this->assertEquals('GarmentType insertado con exito', $output);
     }
@@ -48,26 +64,11 @@ class InsertGarmentTypeTest extends TestCase
      */
     public function given_a_valid_garmentType_when_it_exists_then_catch_excepction()
     {
-        $garmentTypeEntity = $this
-            ->getMockBuilder(GarmentType::class)
-            ->disableOriginalConstructor()->getMock();
-
-        $garmentTypeRepository = $this
-            ->getMockBuilder(GarmentTypeRepository::class)
-            ->disableOriginalConstructor()->getMock();
-        $garmentTypeRepository->method('findGarmentTypeByName')
+        $this->garmentTypeRepositoryStub->method('findGarmentTypeByName')
             ->withConsecutive($this->returnValue(true))
-            ->willReturn($garmentTypeEntity);
+            ->willReturn($this->createMock(GarmentType::class));
 
-        $insertGarmentTypeTransform = new InsertGarmentTypeTransform();
-        $garmentTypeNameExists = new GarmentTypeNameExists($garmentTypeRepository);
-
-        $insertGarmentType = new InsertGarmentType(
-            $garmentTypeRepository,
-            $insertGarmentTypeTransform,
-            $garmentTypeNameExists
-        );
-        $output = $insertGarmentType->handle(new InsertGarmentTypeCommand('poncho'));
+        $output = $this->handler->handle(new InsertGarmentTypeCommand('poncho'));
 
         $this->assertEquals('El tipo de prenda ya existe', $output);
     }
