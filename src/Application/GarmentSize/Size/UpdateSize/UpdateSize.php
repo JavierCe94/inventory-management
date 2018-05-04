@@ -49,7 +49,6 @@ class UpdateSize
      */
     public function handle(UpdateSizeCommand $updateSizeCommand)
     {
-        $onlyElementInArray = 0;
         $this->findGarmentTypeIfExist->execute($updateSizeCommand->getGarmentTypeId());
 
         $size = $this->findSizeEntityIfExist
@@ -60,7 +59,7 @@ class UpdateSize
 
         $sizeUpdated  = $this->sizeRepository->updateSize(
             $updateSizeCommand->getNewSizeValue(),
-            $size[$onlyElementInArray]
+            $size
         );
 
         $this->sizeRepository->persistAndFlush($sizeUpdated);

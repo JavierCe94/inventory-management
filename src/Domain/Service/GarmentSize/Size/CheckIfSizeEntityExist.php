@@ -33,7 +33,7 @@ class CheckIfSizeEntityExist
     public function check(int $id, int $sizeValue)
     {
         $output = $this->sizeRepository->findSizeBySizeValueAndGarmentType($sizeValue, $id);
-        if (0 !== count($output)) {
+        if (null !== $output) {
             throw new SizeAlreadyExist();
         }
     }
