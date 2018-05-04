@@ -2,10 +2,13 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository")
+ * @ORM\Entity(
+ *     repositoryClass="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository"
+ * )
  * @ORM\Table(name="garment_type")
  */
 class GarmentType
@@ -35,5 +38,22 @@ class GarmentType
     public function setName(string $name): void
     {
         $this->name = $name;
+    }
+
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size",
+     * mappedBy="garmentType")
+     */
+    protected $sizes;
+
+    public function __construct()
+    {
+        $this->sizes = new ArrayCollection();
+    }
+
+    public function getSizes()
+    {
+        return $this->sizes;
     }
 }

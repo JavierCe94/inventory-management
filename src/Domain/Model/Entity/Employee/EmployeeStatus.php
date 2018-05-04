@@ -45,6 +45,16 @@ class EmployeeStatus
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
+
+    private $availableHoliDays;
+    /**
+     * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
+     */
+    private $holiDaysPendingToApplyFor;
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default"= 0})
+     */
+
     private $availableHolidays;
 
     /**
@@ -117,24 +127,25 @@ class EmployeeStatus
         $this->possibleRenewal = $possibleRenewal;
     }
 
-    public function getAvailableHolidays()
+
+    public function getAvailableHoliDays()
     {
-        return $this->availableHolidays;
+        return $this->availableHoliDays;
     }
 
-    public function setAvailableHolidays($availableHolidays): void
+    public function setAvailableHoliDays($availableHoliDays): void
     {
-        $this->availableHolidays = $availableHolidays;
+        $this->availableHoliDays = $availableHoliDays;
     }
 
-    public function getHolidaysPendingToApplyFor()
+    public function getHoliDaysPendingToApplyFor()
     {
-        return $this->holidaysPendingToApplyFor;
+        return $this->holiDaysPendingToApplyFor;
     }
 
-    public function setHolidaysPendingToApplyFor($holidaysPendingToApplyFor): void
+    public function setHoliDaysPendingToApplyFor($holiDaysPendingToApplyFor): void
     {
-        $this->holidaysPendingToApplyFor = $holidaysPendingToApplyFor;
+        $this->holiDaysPendingToApplyFor = $holiDaysPendingToApplyFor;
     }
 
     public function getDepartment()
