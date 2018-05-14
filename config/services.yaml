@@ -44,19 +44,19 @@ services:
     Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface:
         alias: app.garmenttype_repository
 
-    Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform:
-        alias: Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface
+    Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform
 
-    Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform:
-        alias: Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransformInterface
+    Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform
 
 
-        Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository:
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository:
             arguments:
             - '@Doctrine\Common\Persistence\ManagerRegistry'
             - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment'
 
-        Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository:
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository:
             arguments:
             - '@Doctrine\Common\Persistence\ManagerRegistry'
             - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType'
