@@ -14,7 +14,6 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\Updat
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
-use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

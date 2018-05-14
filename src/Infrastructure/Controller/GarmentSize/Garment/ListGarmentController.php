@@ -16,6 +16,6 @@ class ListGarmentController extends Controller
     public function listGarment(ListGarment $listGarment)
     {
         $queryOutput = $listGarment->handle();
-        return $this->json([$queryOutput]);
+        return $this->json($queryOutput);
     }
 }
