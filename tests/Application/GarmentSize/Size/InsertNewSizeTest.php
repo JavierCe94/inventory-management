@@ -102,6 +102,6 @@ class InsertNewSizeTest extends TestCase
 
         $output = $this->handler->handle(new InsertNewSizeCommand(2, 2));
 
-        $this->assertEquals(["No existe ese tipo de prenda"], $output);
+        $this->assertEquals(["El tipo de prenda no existe"], $output);
     }
 }

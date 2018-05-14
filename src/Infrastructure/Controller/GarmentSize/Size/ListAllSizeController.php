@@ -24,7 +24,6 @@ class ListAllSizeController
     public function __invoke()
     {
         $dataToShow = $this->listAllSize->handle(new ListAllSizeCommand());
-
         return new JsonResponse($dataToShow);
     }
 }

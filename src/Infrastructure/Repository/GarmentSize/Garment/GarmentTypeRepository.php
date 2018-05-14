@@ -2,6 +2,7 @@
 namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
 use Doctrine\ORM\EntityRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 
@@ -28,6 +29,12 @@ class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepos
         return $this->findOneBy(["name" => $name]);
     }
 
+
+    public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void
+    {
+        $garmentTypeEntity->setName($name);
+        $this->persistAndFlush($garmentTypeEntity);
+    }
     /**
      * @param GarmentType $garmentTypeEntity
      * @throws \Doctrine\ORM\ORMException

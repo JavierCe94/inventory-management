@@ -11,5 +11,10 @@ namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
 class GarmentTypeNameExistsException extends \Exception
 {
-
+    public function __construct()
+    {
+        $message = "KO";
+        $code = 500;
+        parent::__construct($message, $code);
+    }
 }

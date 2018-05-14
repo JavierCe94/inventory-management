@@ -9,13 +9,14 @@
 namespace Inventory\Management\Domain\Service\GarmentSize\Garment;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 
 class GarmentTypeNameExists
 {
     private $garmentTypeRepository;
 
-    public function __construct(GarmentTypeRepository $garmentTypeRepository)
+    public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository)
     {
         $this->garmentTypeRepository = $garmentTypeRepository;
     }

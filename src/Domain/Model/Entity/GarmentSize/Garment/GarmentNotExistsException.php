@@ -1,20 +1,18 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Fran Moraton
- * Date: 26/04/2018
- * Time: 9:53
+ * User: programador
+ * Date: 26/04/18
+ * Time: 15:05
  */
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-use Throwable;
-
-class GarmentTypeNotExistsException extends \Exception
+class GarmentNotExistsException extends \Exception
 {
     public function __construct()
     {
-        $message = "El tipo de prenda no existe";
+        $message = 'La prenda que quiere editar no existe';
         parent::__construct($message);
     }
 }

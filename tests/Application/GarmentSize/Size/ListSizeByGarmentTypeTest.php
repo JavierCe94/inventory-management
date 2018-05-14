@@ -58,7 +58,7 @@ class ListSizeByGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new ListSizeByGarmentTypeCommand(2));
 
-        $this->assertEquals(["No existe ese tipo de prenda"], $output);
+        $this->assertEquals(["El tipo de prenda no existe"], $output);
     }
 
     /**
