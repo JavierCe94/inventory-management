@@ -24,6 +24,11 @@ class Garment
     private $garmentType;
 
     /**
+     * @ORM\OneToMany(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize", mappedBy="garment")
+     */
+    private $garmentSizes;
+
+    /**
      * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $name;

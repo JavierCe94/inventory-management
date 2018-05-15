@@ -31,6 +31,11 @@ class Size
      */
     private $sizeValue;
 
+    /**
+     * @ORM\OneToMany(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize", mappedBy="size")
+     */
+    private $garmentSizes;
+
     public function getId(): int
     {
         return $this->id;

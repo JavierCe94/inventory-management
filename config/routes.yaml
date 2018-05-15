@@ -9,3 +9,7 @@ SizeRoutes:
 GarmentRoutes:
     resource: 'routes/GarmentRoutes/garment_routes.yaml'
     prefix: /garment
+
+Stock:
+    resource: 'routes/GarmentSize/garment_size_routes.yaml'
+    prefix: /stock

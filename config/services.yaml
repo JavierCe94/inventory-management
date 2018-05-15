@@ -35,6 +35,15 @@ services:
     Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface:
         alias: app.size_repository
 
+    app.garmentsize_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+        arguments:
+                - Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize
+
+    Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface:
+        alias: app.garmentsize_repository
+
     app.garmenttype_repository:
         class: Doctrine\ORM\EntityRepository
         factory: ['@doctrine.orm.default_entity_manager',getRepository]
