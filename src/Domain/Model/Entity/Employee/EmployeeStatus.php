@@ -16,42 +16,75 @@ class EmployeeStatus
      * @ORM\Column(type="integer", nullable=false)
      */
     private $id;
+
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @@ORM\Column(type="boolean", nullable=false, options={"default"=false})
+     */
+    private $disabledEmployee;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
      */
     private $firstContractDate;
+
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
      */
     private $seniorityDate;
+
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
      */
     private $expirationContractDate;
+
     /**
-     * @ORM\Column(type="datetime", nullable=false)
+     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
      */
     private $possibleRenewal;
+
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
+
+    private $availableHoliDays;
+    /**
+     * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
+     */
+    private $holiDaysPendingToApplyFor;
+    /**
+     * @ORM\Column(type="boolean", nullable=false, options={"default"= 0})
+     */
+
     private $availableHolidays;
+
     /**
      * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
      */
     private $holidaysPendingToApplyFor;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Department")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Department\Department")
      */
     private $department;
+
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\SubDepartment")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Department\SubDepartment")
      */
     private $subDepartment;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getDisabledEmployee(): bool
+    {
+        return $this->disabledEmployee;
+    }
+
+    public function setDisabledEmployee(bool $disabledEmployee): void
+    {
+        $this->disabledEmployee = $disabledEmployee;
     }
 
     public function getFirstContractDate()
@@ -94,24 +127,25 @@ class EmployeeStatus
         $this->possibleRenewal = $possibleRenewal;
     }
 
-    public function getAvailableHolidays()
+
+    public function getAvailableHoliDays()
     {
-        return $this->availableHolidays;
+        return $this->availableHoliDays;
     }
 
-    public function setAvailableHolidays($availableHolidays): void
+    public function setAvailableHoliDays($availableHoliDays): void
     {
-        $this->availableHolidays = $availableHolidays;
+        $this->availableHoliDays = $availableHoliDays;
     }
 
-    public function getHolidaysPendingToApplyFor()
+    public function getHoliDaysPendingToApplyFor()
     {
-        return $this->holidaysPendingToApplyFor;
+        return $this->holiDaysPendingToApplyFor;
     }
 
-    public function setHolidaysPendingToApplyFor($holidaysPendingToApplyFor): void
+    public function setHoliDaysPendingToApplyFor($holiDaysPendingToApplyFor): void
     {
-        $this->holidaysPendingToApplyFor = $holidaysPendingToApplyFor;
+        $this->holiDaysPendingToApplyFor = $holiDaysPendingToApplyFor;
     }
 
     public function getDepartment()

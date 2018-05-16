@@ -11,10 +11,13 @@ namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\GarmentTypeNameExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
 
 class InsertGarmentType
 {
+    const OK = 'Tipo prenda insertado con exito';
+    const CODE_OK = 200;
+
     private $garmentTypeRepository;
     private $insertGarmentTypeTransform;
     private $garmentTypeNameExists;
@@ -39,18 +42,21 @@ class InsertGarmentType
     /**
      * @param InsertGarmentTypeCommand $insertGarmentTypeCommand
      *
-     * @return string
-     * @throws UniqueConstraintViolationException
+     * @return array
      */
-    public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): string
+    public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): array
     {
-        $output = 'GarmentType insertado con exito';
+        $output = ['data' => self::OK, 'code' => self::CODE_OK];
+
         $name = $insertGarmentTypeCommand->getName();
 
         try {
             $this->garmentTypeNameExists->check($name);
         } catch (GarmentTypeNameExistsException $gtex) {
-            return $output = $gtex->getMessage();
+            return  [
+                'data' => $gtex->getMessage(),
+                'code' => $gtex->getCode()
+            ];
         }
 
         $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($name);

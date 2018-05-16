@@ -13,7 +13,7 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\GarmentTypeNameExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
@@ -31,6 +31,7 @@ class InsertGarmentTypeTest extends TestCase
     public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
         $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryInterface::class);
+
         $this->handler = new InsertGarmentType(
             $this->garmentTypeRepositoryStub,
             new InsertGarmentTypeTransform(),
@@ -56,7 +57,7 @@ class InsertGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentTypeCommand('zapatillas'));
 
-        $this->assertEquals('GarmentType insertado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -70,6 +71,5 @@ class InsertGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentTypeCommand('poncho'));
 
-        $this->assertEquals('El tipo de prenda ya existe', $output);
-    }
+        $this->assertEquals(409, $output['code']);    }
 }

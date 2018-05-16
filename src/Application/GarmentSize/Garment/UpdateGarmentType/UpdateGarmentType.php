@@ -10,10 +10,13 @@ namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 
 class UpdateGarmentType
 {
+    const OK = 'GarmentType actualizado con exito';
+    const CODE_OK = 200;
+
     private $garmentTypeRepository;
     private $updateGarmentTypeTransform;
     private $findGarmentTypeIfExists;
@@ -38,20 +41,22 @@ class UpdateGarmentType
     /**
      * @param UpdateGarmentTypeCommand $updateGarmentTypeCommand
      *
-     * @return string
+     * @return array
      */
-    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): string
+    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): array
     {
-        $output = 'GarmentType actualizado con exito';
+        $output = ['data' => self::OK, 'code' => self::CODE_OK ];
 
-        // Cacheo parametros
         $garmentTypeId = $updateGarmentTypeCommand->getId();
         $garmentTypeName = $updateGarmentTypeCommand->getName();
 
         try {
             $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
         } catch (GarmentTypeNotExistsException $gnex) {
-            return $gnex->getMessage();
+            return [
+                'data' => $gnex->getMessage(),
+                'code' => $gnex->getCode()
+            ];
         }
 
         $this

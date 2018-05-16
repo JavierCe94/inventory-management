@@ -17,7 +17,8 @@ class ListGarmentTypesTransform implements ListGarmentTypesTransformInterface
      */
     public function transform(array $queryInput): array
     {
-        foreach ($queryInput as $i => $garmentType) {
+        $queryOutput = [];
+        foreach ($queryInput as $garmentType) {
             $queryOutput [] =
                 [
                     "id" => $garmentType->getId(),

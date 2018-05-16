@@ -15,8 +15,9 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Model\Service\GarmentNameExists;
+
+use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentNameExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
 
@@ -67,7 +68,7 @@ class InsertGarmentTest extends TestCase
             ->willReturn($this->createMock(GarmentType::class));
         $output = $this->handler->handle(new InsertGarmentCommand('zapatillas', 3));
 
-        $this->assertEquals('Garment insertado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -88,7 +89,7 @@ class InsertGarmentTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentCommand('zapatillas', 3));
 
-        $this->assertEquals('Nombre prenda ya existe', $output);
+        $this->assertEquals(409, $output['code']);
     }
 
     /**
@@ -109,6 +110,6 @@ class InsertGarmentTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentCommand('name', 3));
 
-        $this->assertEquals('El tipo de prenda no existe', $output);
+        $this->assertEquals(404, $output['code']);
     }
 }

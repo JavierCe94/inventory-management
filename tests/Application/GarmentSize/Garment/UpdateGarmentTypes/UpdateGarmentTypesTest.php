@@ -13,7 +13,8 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\Updat
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -59,7 +60,7 @@ class UpdateGarmentTypesTest extends TestCase
         $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
         $output = $this->handler->handle($updateGarmentTypeCommand);
 
-        $this->assertEquals('GarmentType actualizado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -76,6 +77,6 @@ class UpdateGarmentTypesTest extends TestCase
 
         $output = $this->handler->handle(new UpdateGarmentTypeCommand($id, $name));
 
-        $this->assertEquals('El tipo de prenda no existe', $output);
+        $this->assertEquals(404, $output['code']);
     }
 }

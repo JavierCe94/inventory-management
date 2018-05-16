@@ -14,7 +14,7 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGar
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Model\Service\FindGarmentIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -64,7 +64,7 @@ class UpdateGarmentTest extends TestCase
 
         $output = $this->handler->handle(new UpdateGarmentCommand($id, $name));
 
-        $this->assertEquals('Garment actualizado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -81,6 +81,6 @@ class UpdateGarmentTest extends TestCase
 
         $output = $this->handler->handle(new UpdateGarmentCommand($id, $name));
 
-        $this->assertEquals('La prenda que quiere editar no existe', $output);
+        $this->assertEquals(404, $output['code']);
     }
 }

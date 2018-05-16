@@ -24,6 +24,11 @@ class Garment
     private $garmentType;
 
     /**
+     * @ORM\OneToMany(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize", mappedBy="garment")
+     */
+    private $garmentSizes;
+
+    /**
      * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $name;
@@ -33,37 +38,23 @@ class Garment
         return $this->id;
     }
 
-    /**
-     * @return GarmentType
-     */
     public function getGarmentType(): GarmentType
     {
         return $this->garmentType;
     }
 
-    /**
-     * @param mixed $garmentType
-     */
-    public function setGarmentType($garmentType): void
+    public function setGarmentType(GarmentType $garmentType): void
     {
         $this->garmentType = $garmentType;
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param mixed $name
-     */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
-
-
 }

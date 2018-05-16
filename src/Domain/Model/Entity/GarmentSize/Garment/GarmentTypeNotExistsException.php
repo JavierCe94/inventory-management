@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: programador
- * Date: 26/04/18
- * Time: 13:29
+ * User: Fran Moraton
+ * Date: 26/04/2018
+ * Time: 9:53
  */
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
@@ -14,7 +14,8 @@ class GarmentTypeNotExistsException extends \Exception
 {
     public function __construct()
     {
-        $message = 'El tipo de prenda no existe';
-        parent::__construct($message);
+        $message = "El tipo de prenda no existe";
+        $code = 404;
+        parent::__construct($message, $code);
     }
 }

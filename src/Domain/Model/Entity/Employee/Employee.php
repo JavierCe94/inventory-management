@@ -16,46 +16,53 @@ class Employee
      * @ORM\Column(type="integer")
      */
     private $id;
+
     /**
      * @ORM\OneToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus")
      */
     private $employeeStatus;
+
     /**
      * @ORM\Column(type="boolean", nullable=false, options={"default"=false})
      */
     private $typeAdmin;
+
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
+
     /**
      * @ORM\Column(type="string", length=9, nullable=false, unique=true, options={"default"="-"})
      */
     private $nif;
+
     /**
      * @ORM\Column(type="string", length=50, nullable=false, options={"default"="-"})
      */
     private $name;
+
     /**
      * @ORM\Column(type="string", length=30, nullable=false, unique=true, options={"default"="-"})
      */
     private $inSsNumber;
+
     /**
      * @ORM\Column(type="string", length=12, nullable=false, unique=true, options={"default"="-"})
      */
     private $telephone;
 
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
-    public function getEmployeeStatus()
+    public function getEmployeeStatus(): EmployeeStatus
     {
         return $this->employeeStatus;
     }
 
-    public function setEmployeeStatus($employeeStatus): void
+    public function setEmployeeStatus(EmployeeStatus $employeeStatus): void
     {
         $this->employeeStatus = $employeeStatus;
     }
@@ -70,52 +77,52 @@ class Employee
         $this->typeAdmin = $typeAdmin;
     }
 
-    public function getImage()
+    public function getImage(): string
     {
         return $this->image;
     }
 
-    public function setImage($image): void
+    public function setImage(string $image): void
     {
         $this->image = $image;
     }
 
-    public function getNif()
+    public function getNif(): string
     {
         return $this->nif;
     }
 
-    public function setNif($nif): void
+    public function setNif(string $nif): void
     {
         $this->nif = $nif;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
-    public function getInSsNumber()
+    public function getInSsNumber(): string
     {
         return $this->inSsNumber;
     }
 
-    public function setInSsNumber($inSsNumber): void
+    public function setInSsNumber(string $inSsNumber): void
     {
         $this->inSsNumber = $inSsNumber;
     }
 
-    public function getTelephone()
+    public function getTelephone(): string
     {
         return $this->telephone;
     }
 
-    public function setTelephone($telephone): void
+    public function setTelephone(string $telephone): void
     {
         $this->telephone = $telephone;
     }

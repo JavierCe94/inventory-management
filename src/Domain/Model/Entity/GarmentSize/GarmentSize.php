@@ -20,13 +20,13 @@ class GarmentSize
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment", inversedBy="garments")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment", inversedBy="garmentSizes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $garment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size", inversedBy="sizes")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size", inversedBy="garmentSizes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $size;

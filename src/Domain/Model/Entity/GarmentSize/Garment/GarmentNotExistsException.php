@@ -13,6 +13,7 @@ class GarmentNotExistsException extends \Exception
     public function __construct()
     {
         $message = 'La prenda que quiere editar no existe';
-        parent::__construct($message);
+        $code = 404;
+        parent::__construct($message, $code);
     }
 }

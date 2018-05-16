@@ -1,0 +1,4 @@
+list_stock:
+    path: /
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ControllerGarmentSize::__invoke
+    methods: [GET]
