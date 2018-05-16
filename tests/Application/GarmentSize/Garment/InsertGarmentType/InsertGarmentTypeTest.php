@@ -57,7 +57,7 @@ class InsertGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentTypeCommand('zapatillas'));
 
-        $this->assertEquals(["200" => "OK"], $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -71,6 +71,5 @@ class InsertGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentTypeCommand('poncho'));
 
-        $this->assertEquals(["500" => "KO"], $output);
-    }
+        $this->assertEquals(409, $output['code']);    }
 }

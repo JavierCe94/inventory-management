@@ -15,6 +15,7 @@ class GarmentTypeNotExistsException extends \Exception
     public function __construct()
     {
         $message = "El tipo de prenda no existe";
-        parent::__construct($message);
+        $code = 404;
+        parent::__construct($message, $code);
     }
 }

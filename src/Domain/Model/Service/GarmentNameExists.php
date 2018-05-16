@@ -6,7 +6,7 @@
  * Time: 11:18
  */
 
-namespace Inventory\Management\Domain\Service\GarmentSize\Garment;
+namespace Inventory\Management\Domain\Model\Service;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
@@ -19,11 +19,6 @@ class GarmentNameExists
         $this->garmentRepository = $garmentRepository;
     }
 
-    /**
-     * @param string $name
-     *
-     * @throws GarmentNameExistsException
-     */
     public function check(string $name)
     {
         $output = $this->garmentRepository->findGarmentByName($name);

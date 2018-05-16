@@ -68,7 +68,7 @@ class InsertGarmentTest extends TestCase
             ->willReturn($this->createMock(GarmentType::class));
         $output = $this->handler->handle(new InsertGarmentCommand('zapatillas', 3));
 
-        $this->assertEquals('Garment insertado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -89,7 +89,7 @@ class InsertGarmentTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentCommand('zapatillas', 3));
 
-        $this->assertEquals('Nombre prenda ya existe', $output);
+        $this->assertEquals(409, $output['code']);
     }
 
     /**
@@ -110,6 +110,6 @@ class InsertGarmentTest extends TestCase
 
         $output = $this->handler->handle(new InsertGarmentCommand('name', 3));
 
-        $this->assertEquals('El tipo de prenda no existe', $output);
+        $this->assertEquals(404, $output['code']);
     }
 }

@@ -12,7 +12,7 @@ use Inventory\Management\Application\GarmentSize\ListGarmentSize\ListGarmentSize
 use Inventory\Management\Application\GarmentSize\ListGarmentSize\ListGarmentSizeCommand;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class ControllerGarmentSize
+class ListGarmentSizeController
 {
     private $listGarmentSize;
     public function __construct(ListGarmentSize $listGarmentSize)

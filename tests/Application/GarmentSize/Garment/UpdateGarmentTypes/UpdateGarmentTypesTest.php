@@ -60,7 +60,7 @@ class UpdateGarmentTypesTest extends TestCase
         $updateGarmentTypeCommand = new UpdateGarmentTypeCommand($id, $name);
         $output = $this->handler->handle($updateGarmentTypeCommand);
 
-        $this->assertEquals('GarmentType actualizado con exito', $output);
+        $this->assertEquals(200, $output['code']);
     }
 
     /**
@@ -77,6 +77,6 @@ class UpdateGarmentTypesTest extends TestCase
 
         $output = $this->handler->handle(new UpdateGarmentTypeCommand($id, $name));
 
-        $this->assertEquals('El tipo de prenda no existe', $output);
+        $this->assertEquals(404, $output['code']);
     }
 }

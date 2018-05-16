@@ -42,7 +42,7 @@ class GarmentType
 
     /**
      * @ORM\OneToMany(
-     *     targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size",
+     * targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size",
      * mappedBy="garmentType")
      */
     protected $sizes;

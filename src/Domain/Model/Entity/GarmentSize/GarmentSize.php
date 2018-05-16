@@ -12,6 +12,19 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
  */
 class GarmentSize
 {
+    private function __construct()
+    {
+    }
+
+    public static function createFromAutoTable($size, $garment): self
+    {
+        $garmentSize = new GarmentSize();
+        $garmentSize->size= $size;
+        $garmentSize->garment= $garment;
+        $garmentSize->stock= 0;
+
+        return $garmentSize;
+    }
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

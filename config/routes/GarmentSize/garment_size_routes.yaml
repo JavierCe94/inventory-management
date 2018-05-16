@@ -1,4 +1,9 @@
 list_stock:
     path: /
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ControllerGarmentSize::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController::__invoke
+    methods: [GET]
+
+refresh_table:
+    path: /refreshtable
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController:__invoke
     methods: [GET]

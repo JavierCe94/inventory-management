@@ -13,6 +13,7 @@ class GarmentNameExistsException extends \Exception
     public function __construct()
     {
         $message = 'Nombre prenda ya existe';
-        parent::__construct($message);
+        $code = 409;
+        parent::__construct($message, $code);
     }
 }

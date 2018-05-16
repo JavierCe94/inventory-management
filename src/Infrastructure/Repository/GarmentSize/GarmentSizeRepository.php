@@ -9,7 +9,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryIn
 class GarmentSizeRepository extends EntityRepository implements GarmentSizeRepositoryInterface
 {
     /**
-     * @param GarmentSize $garmentsize
+     * @param GarmentSize $garmentSize
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -25,4 +25,11 @@ class GarmentSizeRepository extends EntityRepository implements GarmentSizeRepos
         return $this->findAll();
     }
 
+    public function findByGarmentAndSizeId(int $size, int $garment): ?GarmentSize
+    {
+        return $this->findOneBy([
+            "size" => $size,
+            "garment" => $garment
+            ]);
+    }
 }

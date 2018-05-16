@@ -6,7 +6,7 @@
  * Time: 12:39
  */
 
-namespace Inventory\Management\Domain\Service\GarmentSize\Garment;
+namespace Inventory\Management\Domain\Model\Service;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException;
@@ -22,12 +22,6 @@ class FindGarmentIfExists
         $this->garmentRepository = $garmentRepository;
     }
 
-    /**
-     * @param int $id
-     *
-     * @return Garment|null
-     * @throws GarmentNotExistsException
-     */
     public function execute(int $id): ?Garment
     {
         $output = $this->garmentRepository->findGarmentById($id);

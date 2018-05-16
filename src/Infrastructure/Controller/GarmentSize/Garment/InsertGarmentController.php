@@ -10,14 +10,32 @@ namespace Inventory\Management\Infrastructure\Controller\GarmentSize\Garment;
 
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentCommand;
+use Inventory\Management\Infrastructure\Service\ReactRequestTransform\ReactRequestTransform;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
 class InsertGarmentController extends Controller
 {
-    public function insertGarment(string $name, int $garmentTypeId, InsertGarment $insertGarment)
-    {
-        $result = $insertGarment->handle(new InsertGarmentCommand($name, $garmentTypeId));
+    /**
+     * @param Request               $request
+     * @param InsertGarment         $insertGarment
+     * @param ReactRequestTransform $reactRequestTransform
+     *
+     * @return JsonResponse
+     */
+    public function insertGarment(
+        Request $request,
+        InsertGarment $insertGarment,
+        ReactRequestTransform $reactRequestTransform
+    ) {
+        $item = $reactRequestTransform->transform($request);
 
-        return $this->json([$result]);
+        $output = $insertGarment->handle(new InsertGarmentCommand(
+            $item['name'],
+            $item['garmentTypeId']
+        ));
+
+        return new JsonResponse($output['data'], $output['code']);
     }
 }

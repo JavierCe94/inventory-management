@@ -1,17 +1,6 @@
-
-###> symfony/framework-bundle ###
-/.idea/*
-/.env
-/public/bundles/
 /var/cache
 /var/log
-/vendor/
-###< symfony/framework-bundle ###
-
-###> phpunit/phpunit ###
-/phpunit.xml
-###< phpunit/phpunit ###
-
-###> symfony/web-server-bundle ###
-/.web-server-pid
-###< symfony/web-server-bundle ###
+/vendor
+.env
+.idea
+.idea/*

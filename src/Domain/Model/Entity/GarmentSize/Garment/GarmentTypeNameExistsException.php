@@ -13,8 +13,8 @@ class GarmentTypeNameExistsException extends \Exception
 {
     public function __construct()
     {
-        $message = "KO";
-        $code = 500;
+        $message = "El tipo de prenda ya existe";
+        $code = 409;
         parent::__construct($message, $code);
     }
 }
