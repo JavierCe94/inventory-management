@@ -39,6 +39,6 @@ class InsertNewSizeController
 
         $dataToShow = $this->insertNewSize->handle(new InsertNewSizeCommand($sizeValue, $garmentType));
 
-        return new JsonResponse($dataToShow);
+        return new JsonResponse($dataToShow['data'], $dataToShow['code']);
     }
 }

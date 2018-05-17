@@ -7,11 +7,13 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\GarmentSize\GarmentSizeRepository")
+ * @ORM\Entity(
+ *     repositoryClass="Inventory\Management\Infrastructure\Repository\GarmentSize\GarmentSizeRepository")
  * @ORM\Table(name="garment_size")
  */
 class GarmentSize
 {
+
     private function __construct()
     {
     }
@@ -25,6 +27,7 @@ class GarmentSize
 
         return $garmentSize;
     }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

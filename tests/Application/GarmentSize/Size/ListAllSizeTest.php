@@ -12,6 +12,8 @@ use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSize;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeCommand;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ListAllSizeTest extends TestCase
@@ -21,7 +23,7 @@ class ListAllSizeTest extends TestCase
      */
     private $handler;
     /**
-     * @var MockObject
+     * @var MockOject
      */
     private $sizeRepositoryStub;
 
@@ -41,6 +43,6 @@ class ListAllSizeTest extends TestCase
 
         $output = $this->handler->handle(new ListAllSizeCommand());
 
-        $this->assertEquals(array(), $output);
+        $this->assertEquals(HttpResponses::OK, $output["code"]);
     }
 }

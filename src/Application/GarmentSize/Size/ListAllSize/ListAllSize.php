@@ -9,6 +9,7 @@
 namespace Inventory\Management\Application\GarmentSize\Size\ListAllSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 
 class ListAllSize
 {
@@ -33,6 +34,9 @@ class ListAllSize
         $allSize = $this->sizeRepository->findAllSize();
         $allSize = $this->listAllSizeTransform->transform($allSize);
 
-        return $allSize;
+        return [
+            "data" => $allSize,
+            "code" => HttpResponses::OK
+            ];
     }
 }

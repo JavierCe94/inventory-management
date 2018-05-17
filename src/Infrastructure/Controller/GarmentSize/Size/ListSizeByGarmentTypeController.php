@@ -38,6 +38,6 @@ class ListSizeByGarmentTypeController
 
         $dataToShow = $this->listSizeByGarmentType->handle(new ListSizeByGarmentTypeCommand($garmentType));
 
-        return new JsonResponse($dataToShow);
+        return new JsonResponse($dataToShow['data'], $dataToShow['code']);
     }
 }

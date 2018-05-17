@@ -10,7 +10,9 @@ namespace Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentTyp
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
 
 class ListSizeByGarmentType
 {
@@ -33,24 +35,30 @@ class ListSizeByGarmentType
         $this->dataTransform = $dataTransform;
         $this->sizeRepository = $sizeRepository;
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
+        ListExceptions::instance()->restartExceptions();
+        ListExceptions::instance()->attach($findGarmentTypeIfExists);
     }
 
     /**
      * @param ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand
-     * @return array
+     * @return array|mixed
+     * @throws GarmentTypeNotExistsException
      */
     public function handle(ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand)
     {
-        try {
-            $this->findGarmentTypeIfExists
+        $this->findGarmentTypeIfExists
             ->execute($listSizeByGarmentTypeCommand->getGarmentTypeId());
-        } catch (GarmentTypeNotExistsException $exception) {
-             return [$exception->getMessage()];
+
+        if (ListExceptions::instance()->checkForException()) {
+            return ListExceptions::instance()->firstException();
         }
 
         $garmentTypeList = $this->sizeRepository
             ->findByGarmentType($listSizeByGarmentTypeCommand->getGarmentTypeId());
 
-        return $this->dataTransform->transform($garmentTypeList);
+        return [
+            "data" => $this->dataTransform->transform($garmentTypeList),
+            "code" => HttpResponses::OK
+            ];
     }
 }

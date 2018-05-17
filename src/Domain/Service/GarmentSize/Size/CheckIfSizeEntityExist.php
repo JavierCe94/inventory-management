@@ -10,9 +10,12 @@ namespace Inventory\Management\Domain\Service\GarmentSize\Size;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
+use Inventory\Management\Domain\Service\Util\Observer\Observer;
 
-class CheckIfSizeEntityExist
+class CheckIfSizeEntityExist implements Observer
 {
+    private $stateException;
     private $sizeRepository;
 
     /**
@@ -22,6 +25,7 @@ class CheckIfSizeEntityExist
     public function __construct(SizeRepositoryInterface $sizeRepository)
     {
         $this->sizeRepository = $sizeRepository;
+        $this->stateException = false ;
     }
 
     /**
@@ -34,6 +38,18 @@ class CheckIfSizeEntityExist
     {
         $output = $this->sizeRepository->findSizeBySizeValueAndGarmentType($sizeValue, $id);
         if (null !== $output) {
+            $this->stateException = true;
+            ListExceptions::instance()->notify();
+
+        }
+    }
+
+    /**
+     * @throws SizeAlreadyExist
+     */
+    public function update()
+    {
+        if ($this->stateException) {
             throw new SizeAlreadyExist();
         }
     }

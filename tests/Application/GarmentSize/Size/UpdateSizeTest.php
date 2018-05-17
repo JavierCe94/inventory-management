@@ -18,6 +18,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepo
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
 use PHPUnit\Framework\TestCase;
@@ -83,8 +84,10 @@ class UpdateSizeTest extends TestCase
             ->withConsecutive($this->returnValue(true))
             ->willReturn(null);
 
-        $this->expectException(GarmentTypeNotExistsException::class);
-        $this->handler->handle(new UpdateSizeCommand(2, 2, 30));
+
+        $reponse = $this->handler->handle(new UpdateSizeCommand(2, 2, 30));
+
+        $this->assertEquals(HttpResponses::NOT_FOUND, $reponse["code"]);
 
     }
 
@@ -101,7 +104,8 @@ class UpdateSizeTest extends TestCase
             ->withConsecutive($this->returnValue(true), $this->returnValue(true))
             ->willReturn(null);
 
-        $this->expectException(SizeDoNotExist::class);
-        $this->handler->handle(new UpdateSizeCommand(2, 5, 30));
+        $return = $this->handler->handle(new UpdateSizeCommand(2, 5, 30));
+
+        $this->assertEquals(HttpResponses::NOT_FOUND, $return["code"]);
     }
 }

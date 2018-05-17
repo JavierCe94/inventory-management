@@ -41,6 +41,6 @@ class UpdateSizeController
 
         $dataToShow = $this->updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType, $newSizeValue));
 
-        return new JsonResponse($dataToShow);
+        return new JsonResponse($dataToShow['data'], $dataToShow['code']);
     }
 }

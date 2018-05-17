@@ -16,6 +16,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepo
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeEntityExist;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -87,8 +88,10 @@ class InsertNewSizeTest extends TestCase
             ->withConsecutive($this->returnValue(true), $this->returnValue(true))
             ->willReturn(Size::class);
 
-        $this->expectException(SizeAlreadyExist::class);
-        $this->handler->handle(new InsertNewSizeCommand(2, 2));
+
+        $response = $this->handler->handle(new InsertNewSizeCommand(2, 2));
+
+        $this->assertEquals(HttpResponses::CONFLICT_SEARCH, $response["code"]);
     }
 
     /**
@@ -102,6 +105,6 @@ class InsertNewSizeTest extends TestCase
 
         $output = $this->handler->handle(new InsertNewSizeCommand(2, 2));
 
-        $this->assertEquals(["El tipo de prenda no existe"], $output);
+        $this->assertEquals(HttpResponses::NOT_FOUND, $output["code"]);
     }
 }

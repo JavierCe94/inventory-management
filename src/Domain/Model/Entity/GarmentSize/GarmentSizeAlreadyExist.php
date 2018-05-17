@@ -15,8 +15,8 @@ class GarmentSizeAlreadyExist extends \Exception
 {
     public function __construct()
     {
-        $message = "";
-        $code = 400;
+        $message = "GarmentSize Already Exist";
+        $code = 409;
         parent::__construct($message, $code);
     }
 

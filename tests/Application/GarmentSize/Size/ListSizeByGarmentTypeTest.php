@@ -15,6 +15,7 @@ use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\List
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -58,7 +59,7 @@ class ListSizeByGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new ListSizeByGarmentTypeCommand(2));
 
-        $this->assertEquals(["El tipo de prenda no existe"], $output);
+        $this->assertEquals(HttpResponses::NOT_FOUND, $output["code"]);
     }
 
     /**
@@ -76,6 +77,6 @@ class ListSizeByGarmentTypeTest extends TestCase
 
         $output = $this->handler->handle(new ListSizeByGarmentTypeCommand(3));
 
-        $this->assertEquals(array(), $output);
+        $this->assertEquals(HttpResponses::OK, $output["code"]);
     }
 }

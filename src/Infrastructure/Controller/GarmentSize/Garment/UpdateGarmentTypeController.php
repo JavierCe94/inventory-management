@@ -31,10 +31,12 @@ class UpdateGarmentTypeController extends Controller
     ) {
         $item = $reactRequestTransform->transform($request);
 
-        $output = $updateGarmentType->handle(new UpdateGarmentTypeCommand(
-            $item['id'],
-            $item['name']
-        ));
+        $output = $updateGarmentType->handle(
+            new UpdateGarmentTypeCommand(
+                $item['id'],
+                $item['name']
+            )
+        );
         return new JsonResponse($output['data'], $output['code']);
     }
 }
