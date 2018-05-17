@@ -8,9 +8,9 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
 
 class UpdateGarmentType
 {
@@ -36,6 +36,8 @@ class UpdateGarmentType
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
         $this->findGarmentTypeIfExists = $findGarmentIfExists;
+        ListExceptions::instance()->restartExceptions();
+        ListExceptions::instance()->attach($this->findGarmentTypeIfExists);
     }
 
     /**
@@ -50,13 +52,10 @@ class UpdateGarmentType
         $garmentTypeId = $updateGarmentTypeCommand->getId();
         $garmentTypeName = $updateGarmentTypeCommand->getName();
 
-        try {
-            $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
-        } catch (GarmentTypeNotExistsException $gnex) {
-            return [
-                'data' => $gnex->getMessage(),
-                'code' => $gnex->getCode()
-            ];
+        $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
+
+        if (ListExceptions::instance()->checkForExceptions()) {
+            return ListExceptions::instance()->firstException();
         }
 
         $this

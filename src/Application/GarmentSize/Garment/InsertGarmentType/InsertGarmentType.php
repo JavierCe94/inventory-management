@@ -8,10 +8,9 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
 
 class InsertGarmentType
 {
@@ -37,6 +36,8 @@ class InsertGarmentType
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTypeTransform = $insertGarmentTypeTransform;
         $this->garmentTypeNameExists = $garmentTypeNameExists;
+        ListExceptions::instance()->restartExceptions();
+        ListExceptions::instance()->attach($this->garmentTypeNameExists);
     }
 
     /**
@@ -50,17 +51,13 @@ class InsertGarmentType
 
         $name = $insertGarmentTypeCommand->getName();
 
-        try {
-            $this->garmentTypeNameExists->check($name);
-        } catch (GarmentTypeNameExistsException $gtex) {
-            return  [
-                'data' => $gtex->getMessage(),
-                'code' => $gtex->getCode()
-            ];
+        $this->garmentTypeNameExists->check($name);
+
+        if (ListExceptions::instance()->checkForExceptions()) {
+            return ListExceptions::instance()->firstException();
         }
 
         $garmentTypeEntity = $this->garmentTypeRepository->insertGarmentType($name);
-
 
         $this->garmentTypeRepository->persistAndFlush($garmentTypeEntity);
 

@@ -11,6 +11,7 @@ namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarment;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExists;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
 
 class UpdateGarment
 {
@@ -36,12 +37,15 @@ class UpdateGarment
         $this->garmentRepository = $garmentRepository;
         $this->updateGarmentTransform = $updateGarmentTransform;
         $this->findGarmentIfExists = $findGarmentIfExists;
+        ListExceptions::instance()->restartExceptions();
+        ListExceptions::instance()->attach($this->findGarmentIfExists);
     }
 
     /**
      * @param UpdateGarmentCommand $updateGarmentCommand
      *
      * @return array
+     * @throws GarmentNotExistsException
      */
     public function handle(UpdateGarmentCommand $updateGarmentCommand): array
     {
@@ -50,13 +54,10 @@ class UpdateGarment
         $garmentId = $updateGarmentCommand->getId();
         $garmentName = $updateGarmentCommand->getName();
 
-        try {
-            $garmentEntity = $this->findGarmentIfExists->execute($garmentId);
-        } catch (GarmentNotExistsException $gnex) {
-            return [
-                'data' => $gnex->getMessage(),
-                'code' => $gnex->getCode()
-            ];
+        $garmentEntity = $this->findGarmentIfExists->execute($garmentId);
+
+        if (ListExceptions::instance()->checkForExceptions()) {
+            return ListExceptions::instance()->firstException();
         }
 
         $this

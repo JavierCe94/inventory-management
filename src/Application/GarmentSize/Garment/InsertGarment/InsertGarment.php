@@ -14,7 +14,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotE
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentNameExists;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Inventory\Management\Domain\Service\Util\Observer\ListExceptions;
 
 class InsertGarment
 {
@@ -48,6 +48,9 @@ class InsertGarment
         $this->insertGarmentTransform = $insertGarmentTransform;
         $this->garmentNameExists = $garmentNameExists;
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
+        ListExceptions::instance()->restartExceptions();
+        ListExceptions::instance()->attach($this->garmentNameExists);
+        ListExceptions::instance()->attach($this->findGarmentTypeIfExists);
     }
 
     /**
@@ -62,22 +65,11 @@ class InsertGarment
         $name = $insertGarmentCommand->getName();
         $garmentTypeId = $insertGarmentCommand->getGarmentTypeId();
 
-        try {
-            $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
-        } catch (GarmentTypeNotExistsException $gnex) {
-            return [
-                'data' => $gnex->getMessage(),
-                'code' => $gnex->getCode()
-            ];
-        }
+        $garmentTypeEntity = $this->findGarmentTypeIfExists->execute($garmentTypeId);
+        $this->garmentNameExists->check($name);
 
-        try {
-            $this->garmentNameExists->check($name);
-        } catch (GarmentNameExistsException $gex) {
-            return [
-                'data' => $gex->getMessage(),
-                'code' => $gex->getCode()
-            ];
+        if (ListExceptions::instance()->checkForExceptions()) {
+            return ListExceptions::instance()->firstException();
         }
 
         $garmentEntity = $this->garmentRepository->insertGarment(
