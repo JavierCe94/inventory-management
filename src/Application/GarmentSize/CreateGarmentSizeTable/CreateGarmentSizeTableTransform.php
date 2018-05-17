@@ -9,7 +9,7 @@
 namespace Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable;
 
 
-class CreateGarmentSizeTableTransform
+class CreateGarmentSizeTableTransform implements CreateGarmentSizeTableTransformInterface
 {
 
 }

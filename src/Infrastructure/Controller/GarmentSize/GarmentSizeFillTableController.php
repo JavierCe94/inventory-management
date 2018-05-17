@@ -11,6 +11,7 @@ namespace Inventory\Management\Infrastructure\Controller\GarmentSize;
 
 use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTable;
 use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTableCommand;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GarmentSizeFillTableController
@@ -28,8 +29,8 @@ class GarmentSizeFillTableController
 
     public function __invoke()
     {
-        $this->handler->handle(new CreateGarmentSizeTableCommand());
+        $response = $this->handler->handle(new CreateGarmentSizeTableCommand());
 
-        return new JsonResponse(["data" => "Tabla Creada"],200);
+        return new JsonResponse($response["data"],$response["code"]);
     }
 }

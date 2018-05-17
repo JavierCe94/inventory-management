@@ -32,7 +32,6 @@ class ListGarmentSize
     public function handle(ListGarmentSizeCommand $listGarmentSizeCommand): array
     {
         $list = $this->garmentSizeRepository->findAllGarmentSize();
-        dump($list);
         $list = $this->listGarmentSizeTransform->transform($list);
 
         return $list;

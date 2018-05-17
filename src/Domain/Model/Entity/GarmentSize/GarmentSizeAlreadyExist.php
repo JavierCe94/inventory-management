@@ -9,6 +9,7 @@
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize;
 
 
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Throwable;
 
 class GarmentSizeAlreadyExist extends \Exception
@@ -16,8 +17,7 @@ class GarmentSizeAlreadyExist extends \Exception
     public function __construct()
     {
         $message = "GarmentSize Already Exist";
-        $code = 409;
+        $code = HttpResponses::CONFLICT_SEARCH;
         parent::__construct($message, $code);
     }
-
 }

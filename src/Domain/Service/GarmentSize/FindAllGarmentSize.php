@@ -9,11 +9,12 @@
 namespace Inventory\Management\Domain\Service\GarmentSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface;
+use Inventory\Management\Domain\Service\Util\Observer\Observer;
 
-class FindAllGarmentSize
+class FindAllGarmentSize implements Observer
 {
     private $garmentSizeRepository;
-
+    private $stateException;
     /**
      * FindSizeEntityIfExists constructor.
      * @param $sizeRepository
@@ -21,6 +22,7 @@ class FindAllGarmentSize
     public function __construct(GarmentSizeRepositoryInterface $garmentSizeRepository)
     {
         $this->garmentSizeRepository = $garmentSizeRepository;
+        $this->stateException = false;
     }
 
     /**
@@ -34,5 +36,9 @@ class FindAllGarmentSize
         $output = $this->garmentSizeRepository->findAllGarmentSize();
 
         return $output;
+    }
+    public function update()
+    {
+        // TODO: Implement update() method.
     }
 }
