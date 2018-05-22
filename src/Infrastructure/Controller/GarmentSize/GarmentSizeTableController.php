@@ -13,13 +13,14 @@ use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGa
 use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTableCommand;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 
-class GarmentSizeFillTableController
+class GarmentSizeTableController
 {
     private $handler;
 
     /**
-     * GarmentSizeFillTableController constructor.
+     * GarmentSizeTableController constructor.
      * @param $handler
      */
     public function __construct(CreateGarmentSizeTable $handler)
@@ -27,10 +28,18 @@ class GarmentSizeFillTableController
         $this->handler = $handler;
     }
 
-    public function __invoke()
+    /**
+     * @return JsonResponse
+     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist
+     */
+    public function __invoke(Request $request)
     {
-        $response = $this->handler->handle(new CreateGarmentSizeTableCommand());
+        $idGarment = $request->request->get("sizeValue");
+        $idSize = $request->request->get("idSize");
+        $sizeValue = $request->request->get("idGarment");
 
-        return new JsonResponse($response["data"],$response["code"]);
+        $response = $this->handler->handle(new CreateGarmentSizeTableCommand($idGarment, $idSize, $sizeValue));
+
+        return new JsonResponse($response["data"], $response["code"]);
     }
 }

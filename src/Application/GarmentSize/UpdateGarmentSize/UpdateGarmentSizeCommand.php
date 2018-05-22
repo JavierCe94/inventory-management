@@ -2,23 +2,21 @@
 /**
  * Created by PhpStorm.
  * User: programador
- * Date: 16/05/18
- * Time: 9:52
+ * Date: 22/05/18
+ * Time: 14:58
  */
 
-namespace Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable;
-
-
+namespace Inventory\Management\Application\GarmentSize\UpdateGarmentSize;
 
 
 use Assert\Assertion;
 
-class CreateGarmentSizeTableCommand
+class UpdateGarmentSizeCommand
 {
-
     private $idGarment;
     private $idSize;
     private $sizeValue;
+    private $stock;
 
     /**
      * CreateGarmentSizeTableCommand constructor.
@@ -26,13 +24,15 @@ class CreateGarmentSizeTableCommand
      * @param $idSize
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct($idGarment, $idSize, $sizeValue)
+    public function __construct($idGarment, $idSize, $sizeValue, $stock)
     {
         Assertion::numeric($idGarment);
         Assertion::numeric($idSize);
+        Assertion::numeric($stock);
         $this->idGarment = $idGarment;
         $this->idSize = $idSize;
         $this->sizeValue = $sizeValue;
+        $this->stock = $stock;
     }
 
     /**
@@ -57,5 +57,13 @@ class CreateGarmentSizeTableCommand
     public function getSizeValue()
     {
         return $this->sizeValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStock()
+    {
+        return $this->stock;
     }
 }

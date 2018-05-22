@@ -18,7 +18,7 @@ class GarmentSize
     {
     }
 
-    public static function createFromAutoTable($size, $garment): self
+    public static function createFromApi($size, $garment): self
     {
         $garmentSize = new GarmentSize();
         $garmentSize->size= $size;

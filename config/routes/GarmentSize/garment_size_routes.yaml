@@ -3,7 +3,12 @@ list_stock:
     controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController::__invoke
     methods: [GET]
 
-refresh_table:
-    path: /refreshtable
+create_garmentsize:
+    path: /newgarmentsize
     controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController:__invoke
-    methods: [GET]
+    methods: [POST]
+
+update_garmentsize:
+    path: /updategarmentsize
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\UpdateGarmentSizeController:__invoke
+    methods: [POST]
