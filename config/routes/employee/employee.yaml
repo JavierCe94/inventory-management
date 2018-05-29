@@ -1,0 +1,11 @@
+login_employee:
+    path: /login
+    controller: Inventory\Management\Infrastructure\Controller\Employee\CheckLoginEmployeeController::checkLoginEmployee
+
+search_employee_user:
+    path: /data
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowDataEmployeeController::showDataEmployee
+
+update_basic_employee:
+    path: /update
+    controller: Inventory\Management\Infrastructure\Controller\Employee\UpdateBasicFieldsEmployeeController::updateBasicFieldsEmployee

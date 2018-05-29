@@ -1,0 +1,29 @@
+insertGarmentType:
+    path: /insertGarmentType
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\InsertGarmentTypeController::insertGarmentType
+    methods: [POST]
+
+listGarmentTypes:
+    path: /listGarmentTypes
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\ListGarmentTypesController::listGarmentTypes
+    methods: [GET]
+
+updateGarmentType:
+    path: /updateGarmentType
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\UpdateGarmentTypeController::updateGarmentType
+    methods: [POST]
+
+insertGarment:
+    path: /insertGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\InsertGarmentController::insertGarment
+    methods: [POST]
+
+listGarment:
+    path: /listGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\ListGarmentController::listGarment
+    methods: [GET]
+
+updateGarment:
+    path: /updateGarment
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\UpdateGarmentController::updateGarment
+    methods: [POST]
