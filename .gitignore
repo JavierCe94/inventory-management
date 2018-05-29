@@ -1,6 +1,0 @@
-/var/cache
-/var/log
-/vendor
-.env
-.idea
-.idea/*
