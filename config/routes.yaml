@@ -1,3 +1,27 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+admin_admin:
+    resource: ./routes/admin/admin.yaml
+    prefix: /admin
+
+admin_department:
+    resource: ./routes/admin/department/department.yaml
+    prefix: /admin/department
+
+admin_employee:
+    resource: ./routes/admin/employee/employee.yaml
+    prefix: /admin/employee
+
+employee_employee:
+    resource: ./routes/employee/employee.yaml
+    prefix: /employee
+
+SizeRoutes:
+    resource: 'routes/SizeRoutes/size_routes.yaml'
+    prefix: /size
+
+GarmentRoutes:
+    resource: 'routes/GarmentRoutes/garment_routes.yaml'
+    prefix: /garment
+
+Stock:
+    resource: 'routes/GarmentSize/garment_size_routes.yaml'
+    prefix: /stock

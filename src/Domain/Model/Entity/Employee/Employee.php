@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Employee
 {
+    const URL_IMAGE = 'employee/';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -23,34 +25,45 @@ class Employee
     private $employeeStatus;
 
     /**
-     * @ORM\Column(type="boolean", nullable=false, options={"default"=false})
-     */
-    private $typeAdmin;
-
-    /**
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $image;
 
     /**
-     * @ORM\Column(type="string", length=9, nullable=false, unique=true, options={"default"="-"})
+     * @ORM\Column(type="string", length=9, nullable=false, unique=true)
      */
     private $nif;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false, options={"default"="-"})
+     * @ORM\Column(type="string", length=70, nullable=false)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $name;
 
     /**
-     * @ORM\Column(type="string", length=30, nullable=false, unique=true, options={"default"="-"})
+     * @ORM\Column(type="string", length=30, nullable=false, unique=true)
      */
     private $inSsNumber;
 
     /**
-     * @ORM\Column(type="string", length=12, nullable=false, unique=true, options={"default"="-"})
+     * @ORM\Column(type="string", length=12, nullable=false, unique=true)
      */
     private $telephone;
+
+    public function __construct($employeeStatus, $image, $nif, $password, $name, $inSsNumber, $telephone)
+    {
+        $this->employeeStatus = $employeeStatus;
+        $this->image = $image;
+        $this->nif = $nif;
+        $this->password = $password;
+        $this->name = $name;
+        $this->inSsNumber = $inSsNumber;
+        $this->telephone = $telephone;
+    }
 
     public function getId(): int
     {
@@ -60,21 +73,6 @@ class Employee
     public function getEmployeeStatus(): EmployeeStatus
     {
         return $this->employeeStatus;
-    }
-
-    public function setEmployeeStatus(EmployeeStatus $employeeStatus): void
-    {
-        $this->employeeStatus = $employeeStatus;
-    }
-
-    public function getTypeAdmin(): bool
-    {
-        return $this->typeAdmin;
-    }
-
-    public function setTypeAdmin(bool $typeAdmin): void
-    {
-        $this->typeAdmin = $typeAdmin;
     }
 
     public function getImage(): string
@@ -92,9 +90,14 @@ class Employee
         return $this->nif;
     }
 
-    public function setNif(string $nif): void
+    public function getPassword(): string
     {
-        $this->nif = $nif;
+        return $this->password;
+    }
+
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
     }
 
     public function getName(): string
@@ -110,11 +113,6 @@ class Employee
     public function getInSsNumber(): string
     {
         return $this->inSsNumber;
-    }
-
-    public function setInSsNumber(string $inSsNumber): void
-    {
-        $this->inSsNumber = $inSsNumber;
     }
 
     public function getTelephone(): string

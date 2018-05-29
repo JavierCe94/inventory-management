@@ -3,6 +3,8 @@
 namespace Inventory\Management\Domain\Model\Entity\Employee;
 
 use Doctrine\ORM\Mapping as ORM;
+use Inventory\Management\Domain\Model\Entity\Department\Department;
+use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 
 /**
  * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository")
@@ -18,37 +20,42 @@ class EmployeeStatus
     private $id;
 
     /**
-     * @@ORM\Column(type="boolean", nullable=false, options={"default"=false})
+     * @ORM\Column(type="integer", nullable=false, unique=true)
+     */
+    private $codeEmployee;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
      */
     private $disabledEmployee;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $firstContractDate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $seniorityDate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $expirationContractDate;
 
     /**
-     * @ORM\Column(type="datetime", nullable=false, options={"default"="00/00/00"})
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $possibleRenewal;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $availableHolidays;
 
     /**
-     * @ORM\Column(type="integer", nullable=false, options={"default"= 0})
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $holidaysPendingToApplyFor;
 
@@ -62,9 +69,31 @@ class EmployeeStatus
      */
     private $subDepartment;
 
+    public function __construct(
+        $codeEmployee,
+        $firstContractDate,
+        $seniorityDate,
+        $department,
+        $subDepartment
+    ) {
+        $this->codeEmployee = $codeEmployee;
+        $this->firstContractDate = $firstContractDate;
+        $this->seniorityDate = $seniorityDate;
+        $this->department = $department;
+        $this->subDepartment = $subDepartment;
+        $this->disabledEmployee = false;
+        $this->availableHolidays = 0;
+        $this->holidaysPendingToApplyFor = 0;
+    }
+
     public function getId(): int
     {
         return $this->id;
+    }
+
+    public function getCodeEmployee(): int
+    {
+        return $this->codeEmployee;
     }
 
     public function getDisabledEmployee(): bool
@@ -77,27 +106,17 @@ class EmployeeStatus
         $this->disabledEmployee = $disabledEmployee;
     }
 
-    public function getFirstContractDate()
+    public function getFirstContractDate(): \DateTime
     {
         return $this->firstContractDate;
     }
 
-    public function setFirstContractDate($firstContractDate): void
-    {
-        $this->firstContractDate = $firstContractDate;
-    }
-
-    public function getSeniorityDate()
+    public function getSeniorityDate(): \DateTime
     {
         return $this->seniorityDate;
     }
 
-    public function setSeniorityDate($seniorityDate): void
-    {
-        $this->seniorityDate = $seniorityDate;
-    }
-
-    public function getExpirationContractDate()
+    public function getExpirationContractDate(): ?\DateTime
     {
         return $this->expirationContractDate;
     }
@@ -107,7 +126,7 @@ class EmployeeStatus
         $this->expirationContractDate = $expirationContractDate;
     }
 
-    public function getPossibleRenewal()
+    public function getPossibleRenewal(): ?\DateTime
     {
         return $this->possibleRenewal;
     }
@@ -137,7 +156,7 @@ class EmployeeStatus
         $this->holidaysPendingToApplyFor = $holidaysPendingToApplyFor;
     }
 
-    public function getDepartment()
+    public function getDepartment(): Department
     {
         return $this->department;
     }
@@ -147,7 +166,7 @@ class EmployeeStatus
         $this->department = $department;
     }
 
-    public function getSubDepartment()
+    public function getSubDepartment(): SubDepartment
     {
         return $this->subDepartment;
     }

@@ -25,3 +25,88 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # add onKernelException for return a json response with custom message error
+    Inventory\Management\Infrastructure\Event\ExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+    # add onKernelController for add content to request and files attributes on PUT OR POST
+    Inventory\Management\Infrastructure\Event\ControllerListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+    # token utility class
+    Inventory\Management\Infrastructure\JwtToken\JwtTokenClass:
+        arguments:
+            - '@Symfony\Component\HttpFoundation\RequestStack'
+
+    # repositories
+    Inventory\Management\Infrastructure\Repository\Admin\AdminRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\Admin\Admin
+
+    Inventory\Management\Infrastructure\Repository\Department\DepartmentRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\Department\Department
+
+    Inventory\Management\Infrastructure\Repository\Department\SubDepartmentRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\Department\SubDepartment
+            
+    Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\Employee\Employee
+
+    Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus
+
+    app.size_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+        arguments:
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size
+
+    Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface:
+        alias: app.size_repository
+
+    app.garmentsize_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+        arguments:
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize
+
+    Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface:
+        alias: app.garmentsize_repository
+
+    app.garmenttype_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+        arguments:
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType
+
+    Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface:
+        alias: app.garmenttype_repository
+
+    Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform
+
+    Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransformInterface:
+        alias: Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform
+
+
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository:
+        arguments:
+        - '@Doctrine\Common\Persistence\ManagerRegistry'
+        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment'
+
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository:
+        arguments:
+        - '@Doctrine\Common\Persistence\ManagerRegistry'
+        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType'

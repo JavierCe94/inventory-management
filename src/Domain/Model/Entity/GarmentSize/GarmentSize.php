@@ -12,6 +12,21 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
  */
 class GarmentSize
 {
+
+    private function __construct()
+    {
+    }
+
+    public static function createFromApi($size, $garment): self
+    {
+        $garmentSize = new GarmentSize();
+        $garmentSize->size= $size;
+        $garmentSize->garment= $garment;
+        $garmentSize->stock= 0;
+
+        return $garmentSize;
+    }
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -20,13 +35,13 @@ class GarmentSize
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment", inversedBy="garments")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment", inversedBy="garmentSizes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $garment;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size", inversedBy="sizes")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size", inversedBy="garmentSizes")
      * @ORM\JoinColumn(nullable=false)
      */
     private $size;
