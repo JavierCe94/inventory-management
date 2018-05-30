@@ -3,10 +3,10 @@
 namespace Inventory\Management\Application\Employee\CheckLoginEmployee;
 
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
+use Inventory\Management\Domain\Model\Entity\Employee\SearchEmployeeByNif;
+use Inventory\Management\Domain\Model\JwtToken\CreateToken;
 use Inventory\Management\Domain\Model\JwtToken\Roles;
-use Inventory\Management\Domain\Service\PasswordHash\CheckDecryptPassword;
-use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CreateToken;
+use Inventory\Management\Domain\Model\PasswordHash\CheckDecryptPassword;
 
 class CheckLoginEmployee
 {
@@ -30,12 +30,6 @@ class CheckLoginEmployee
         $this->createToken = $createToken;
     }
 
-    /**
-     * @param CheckLoginEmployeeCommand $checkLoginEmployeeCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
-     * @throws \Inventory\Management\Domain\Model\PasswordHash\IncorrectPasswordException
-     */
     public function handle(CheckLoginEmployeeCommand $checkLoginEmployeeCommand): string
     {
         $employee = $this->searchEmployeeByNif->execute(

@@ -2,7 +2,9 @@
 
 namespace Inventory\Management\Domain\Service\PasswordHash;
 
-class EncryptPassword
+use Inventory\Management\Domain\Model\PasswordHash\EncryptPassword as EncryptPasswordI;
+
+class EncryptPassword implements EncryptPasswordI
 {
     public function execute(string $password): string
     {

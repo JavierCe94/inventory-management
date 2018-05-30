@@ -3,7 +3,7 @@
 namespace Inventory\Management\Application\Employee\ChangeStatusToEnableEmployee;
 
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
-use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
+use Inventory\Management\Domain\Model\Entity\Employee\SearchEmployeeByNif;
 
 class ChangeStatusToEnableEmployee
 {
@@ -21,11 +21,6 @@ class ChangeStatusToEnableEmployee
         $this->searchEmployeeByNif = $searchEmployeeByNif;
     }
 
-    /**
-     * @param ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
-     */
     public function handle(ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand): string
     {
         $this->employeeRepository->changeStatusToEnableEmployee(

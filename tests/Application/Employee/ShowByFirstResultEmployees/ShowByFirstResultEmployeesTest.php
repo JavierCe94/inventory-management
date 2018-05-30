@@ -7,8 +7,6 @@ use Inventory\Management\Application\Employee\ShowByFirstResultEmployees\ShowByF
 use Inventory\Management\Application\Employee\ShowByFirstResultEmployees\ShowByFirstResultEmployeesTransform;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
-use Inventory\Management\Infrastructure\JwtToken\JwtTokenClass;
 use Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -17,9 +15,6 @@ class ShowByFirstResultEmployeesTest extends TestCase
 {
     /* @var MockObject $employeeRepository */
     private $employeeRepository;
-    /* @var MockObject $jwtTokenClass */
-    private $jwtTokenClass;
-    private $checkToken;
     private $showByFirstResultEmployeesTransform;
     private $showByFirstResultEmployeesCommand;
 
@@ -27,8 +22,6 @@ class ShowByFirstResultEmployeesTest extends TestCase
     {
         $this->employeeRepository = $this->createMock(EmployeeRepository::class);
         $this->showByFirstResultEmployeesTransform = new ShowByFirstResultEmployeesTransform();
-        $this->jwtTokenClass = $this->createMock(JwtTokenClass::class);
-        $this->checkToken = new CheckToken($this->jwtTokenClass);
         $this->showByFirstResultEmployeesCommand = new ShowByFirstResultEmployeesCommand(0, 'Javier', 173, 1, 1);
     }
 
@@ -59,18 +52,15 @@ class ShowByFirstResultEmployeesTest extends TestCase
             ->willReturn([$employee]);
         $showByFirstResultEmployees = new ShowByFirstResultEmployees(
             $this->employeeRepository,
-            $this->showByFirstResultEmployeesTransform,
-            $this->checkToken
+            $this->showByFirstResultEmployeesTransform
         );
         $result = $showByFirstResultEmployees->handle($this->showByFirstResultEmployeesCommand);
         $this->assertArraySubset(
             [
-                'data' => [
-                    0 => [
-                        'id' => 1,
-                        'nif' => '77685346D',
-                        'name' => 'Javier'
-                    ]
+                0 => [
+                    'id' => 1,
+                    'nif' => '77685346D',
+                    'name' => 'Javier'
                 ]
             ],
             $result

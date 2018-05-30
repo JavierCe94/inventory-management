@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\Employee\ShowDataEmployee;
 
-use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
+use Inventory\Management\Domain\Model\Entity\Employee\SearchEmployeeByNif;
 
 class ShowDataEmployee
 {
@@ -17,10 +17,6 @@ class ShowDataEmployee
         $this->searchEmployeeByNif = $searchEmployeeByNif;
     }
 
-    /**
-     * @return array
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
-     */
     public function handle(ShowDataEmployeeCommand $showDataEmployeeCommand)
     {
         return $this->showDataEmployeeTransform->transform(

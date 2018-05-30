@@ -4,6 +4,7 @@ namespace Inventory\Management\Tests\Application\Employee\CreateEmployee;
 
 use Inventory\Management\Application\Employee\CreateEmployee\CreateEmployee;
 use Inventory\Management\Application\Employee\CreateEmployee\CreateEmployeeCommand;
+use Inventory\Management\Application\Employee\CreateEmployee\CreateEmployeeTransform;
 use Inventory\Management\Domain\Model\Entity\Department\Department;
 use Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
@@ -15,11 +16,8 @@ use Inventory\Management\Domain\Model\Entity\Employee\FoundNifEmployeeException;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException;
 use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
 use Inventory\Management\Domain\Service\Employee\CheckNotExistsUniqueFields;
-use Inventory\Management\Domain\Service\Employee\CheckNotExistTelephoneEmployee;
-use Inventory\Management\Domain\Service\File\UploadPhoto;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
+use Inventory\Management\Infrastructure\Service\File\UploadFile;
 use Inventory\Management\Domain\Service\PasswordHash\EncryptPassword;
-use Inventory\Management\Infrastructure\JwtToken\JwtTokenClass;
 use Inventory\Management\Infrastructure\Repository\Department\SubDepartmentRepository;
 use Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository;
 use Inventory\Management\Infrastructure\Repository\Employee\EmployeeStatusRepository;
@@ -42,13 +40,10 @@ class CreateEmployeeTest extends TestCase
     private $subDepartment;
     /* @var MockObject $employee */
     private $employee;
-    /* @var MockObject $jwtTokenClass */
-    private $jwtTokenClass;
     /* @var MockObject $uploadPhoto */
     private $uploadPhoto;
-    private $checkToken;
     private $createEmployeeCommand;
-    private $checkNotExistTelephoneEmployee;
+    private $transform;
 
     public function setUp(): void
     {
@@ -56,9 +51,6 @@ class CreateEmployeeTest extends TestCase
         $this->employeeStatusRepository = $this->createMock(EmployeeStatusRepository::class);
         $this->employeeRepository = $this->createMock(EmployeeRepository::class);
         $this->encryptPassword = $this->createMock(EncryptPassword::class);
-        $this->checkNotExistTelephoneEmployee = new CheckNotExistTelephoneEmployee($this->employeeRepository);
-        $this->jwtTokenClass = $this->createMock(JwtTokenClass::class);
-        $this->checkToken = new CheckToken($this->jwtTokenClass);
         $this->createEmployeeCommand = new CreateEmployeeCommand(
             ['type'],
             '76852436D',
@@ -101,10 +93,11 @@ class CreateEmployeeTest extends TestCase
             ->willReturn('649356871');
         $this->employee->method('getEmployeeStatus')
             ->willReturn($employeeStatus);
-        $this->uploadPhoto = $this->createMock(UploadPhoto::class);
+        $this->uploadPhoto = $this->createMock(UploadFile::class);
         $this->uploadPhoto->method('execute')
             ->with(['type'], Employee::URL_IMAGE)
             ->willReturn('image.jpg');
+        $this->transform = new CreateEmployeeTransform();
     }
 
     /**
@@ -118,18 +111,17 @@ class CreateEmployeeTest extends TestCase
             ->willReturn(null);
         $checkNotExistsUniqueFields = new CheckNotExistsUniqueFields(
             $this->employeeRepository,
-            $this->employeeStatusRepository,
-            $this->checkNotExistTelephoneEmployee
+            $this->employeeStatusRepository
         );
         $searchSubDepartmentById = new SearchSubDepartmentById($this->subDepartmentRepository);
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
         $this->expectException(NotFoundSubDepartmentsException::class);
         $createEmployee->handle($this->createEmployeeCommand);
@@ -146,18 +138,17 @@ class CreateEmployeeTest extends TestCase
             ->willReturn($this->employee);
         $checkNotExistsUniqueFields = new CheckNotExistsUniqueFields(
             $this->employeeRepository,
-            $this->employeeStatusRepository,
-            $this->checkNotExistTelephoneEmployee
+            $this->employeeStatusRepository
         );
         $searchSubDepartmentById = new SearchSubDepartmentById($this->subDepartmentRepository);
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
         $this->expectException(FoundNifEmployeeException::class);
         $createEmployee->handle($this->createEmployeeCommand);
@@ -174,18 +165,17 @@ class CreateEmployeeTest extends TestCase
             ->willReturn($this->employee);
         $checkNotExistsUniqueFields = new CheckNotExistsUniqueFields(
             $this->employeeRepository,
-            $this->employeeStatusRepository,
-            $this->checkNotExistTelephoneEmployee
+            $this->employeeStatusRepository
         );
         $searchSubDepartmentById = new SearchSubDepartmentById($this->subDepartmentRepository);
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
         $this->expectException(FoundInSsNumberEmployeeException::class);
          $createEmployee->handle($this->createEmployeeCommand);
@@ -209,11 +199,11 @@ class CreateEmployeeTest extends TestCase
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
         $this->expectException(FoundTelephoneEmployeeException::class);
         $createEmployee->handle($this->createEmployeeCommand);
@@ -231,18 +221,17 @@ class CreateEmployeeTest extends TestCase
             ->willReturn($employeeStatus);
         $checkNotExistsUniqueFields = new CheckNotExistsUniqueFields(
             $this->employeeRepository,
-            $this->employeeStatusRepository,
-            $this->checkNotExistTelephoneEmployee
+            $this->employeeStatusRepository
         );
         $searchSubDepartmentById = new SearchSubDepartmentById($this->subDepartmentRepository);
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
         $this->expectException(FoundCodeEmployeeStatusException::class);
         $createEmployee->handle($this->createEmployeeCommand);
@@ -287,26 +276,19 @@ class CreateEmployeeTest extends TestCase
             ->willReturn('$2afs58erg2g68wj1ol2g89t3f1dgf4g7g5gd2');
         $checkNotExistsUniqueFields = new CheckNotExistsUniqueFields(
             $this->employeeRepository,
-            $this->employeeStatusRepository,
-            $this->checkNotExistTelephoneEmployee
+            $this->employeeStatusRepository
         );
         $searchSubDepartmentById = new SearchSubDepartmentById($this->subDepartmentRepository);
         $createEmployee = new CreateEmployee(
             $this->employeeRepository,
             $this->employeeStatusRepository,
+            $this->transform,
             $searchSubDepartmentById,
             $checkNotExistsUniqueFields,
             $this->encryptPassword,
-            $this->uploadPhoto,
-            $this->checkToken
+            $this->uploadPhoto
         );
-        $result = $createEmployee->handle($this->createEmployeeCommand);
-        $this->assertEquals(
-            [
-                'data' => 'Se ha creado el trabajador con éxito',
-                'code' => 201
-            ],
-            $result
-        );
+        $createEmployee->handle($this->createEmployeeCommand);
+        $this->assertTrue(true, true);
     }
 }

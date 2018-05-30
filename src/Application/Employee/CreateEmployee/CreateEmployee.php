@@ -2,14 +2,14 @@
 
 namespace Inventory\Management\Application\Employee\CreateEmployee;
 
+use Inventory\Management\Domain\Model\Entity\Department\SearchSubDepartmentById;
+use Inventory\Management\Domain\Model\Entity\Employee\CheckNotExistsUniqueFields;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepository;
-use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
-use Inventory\Management\Domain\Service\Employee\CheckNotExistsUniqueFields;
-use Inventory\Management\Infrastructure\Service\File\UploadFile;
-use Inventory\Management\Domain\Service\PasswordHash\EncryptPassword;
+use Inventory\Management\Domain\Model\File\UploadFile;
+use Inventory\Management\Domain\Model\PasswordHash\EncryptPassword;
 
 class CreateEmployee
 {
@@ -39,16 +39,6 @@ class CreateEmployee
         $this->uploadFile = $uploadFile;
     }
 
-    /**
-     * @param CreateEmployeeCommand $createEmployeeCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundCodeEmployeeStatusException
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundInSsNumberEmployeeException
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundNifEmployeeException
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException
-     * @throws \Inventory\Management\Domain\Model\File\ImageCanNotUploadException
-     */
     public function handle(CreateEmployeeCommand $createEmployeeCommand): string
     {
         $this->checkNotExistsUniqueFields->execute(

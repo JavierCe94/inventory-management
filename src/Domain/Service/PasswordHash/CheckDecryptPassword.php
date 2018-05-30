@@ -3,8 +3,9 @@
 namespace Inventory\Management\Domain\Service\PasswordHash;
 
 use Inventory\Management\Domain\Model\PasswordHash\IncorrectPasswordException;
+use Inventory\Management\Domain\Model\PasswordHash\CheckDecryptPassword as CheckDecryptPasswordI;
 
-class CheckDecryptPassword
+class CheckDecryptPassword implements CheckDecryptPasswordI
 {
     /**
      * @param string $password

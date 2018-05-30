@@ -3,8 +3,9 @@
 namespace Inventory\Management\Domain\Service\JwtToken;
 
 use Inventory\Management\Domain\Model\JwtToken\JwtTokenClass;
+use Inventory\Management\Domain\Model\JwtToken\CreateToken as CreateTokenI;
 
-class CreateToken
+class CreateToken implements CreateTokenI
 {
     private $jwtTokenClass;
 

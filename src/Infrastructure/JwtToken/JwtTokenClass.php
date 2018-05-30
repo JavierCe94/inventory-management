@@ -41,7 +41,7 @@ class JwtTokenClass implements JwtTokenClassI
      * @throws InvalidTokenException
      * @throws InvalidUserTokenException
      */
-    public function checkToken(array $roles)
+    public function checkToken(array $roles): object
     {
         $token = $this->requestStack->getCurrentRequest()->headers->get('X-AUTH-TOKEN');
         if (null === $token) {

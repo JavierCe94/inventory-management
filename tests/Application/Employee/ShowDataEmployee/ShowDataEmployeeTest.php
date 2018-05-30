@@ -3,14 +3,12 @@
 namespace Inventory\Management\Tests\Application\Employee\ShowDataEmployee;
 
 use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployee;
+use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployeeCommand;
 use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployeeTransform;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
 use Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException;
-use Inventory\Management\Domain\Model\JwtToken\Roles;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
-use Inventory\Management\Infrastructure\JwtToken\JwtTokenClass;
 use Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -19,22 +17,19 @@ class ShowDataEmployeeTest extends TestCase
 {
     /* @var MockObject $employeeRepository */
     private $employeeRepository;
-    /* @var MockObject $jwtTokenClass */
-    private $jwtTokenClass;
-    private $checkToken;
     private $showEmployeeByNifTransform;
+    private $showDataEmployeeCommand;
 
     public function setUp()
     {
         $this->employeeRepository = $this->createMock(EmployeeRepository::class);
         $this->showEmployeeByNifTransform = new ShowDataEmployeeTransform();
-        $dataToken = ['nif' => '77685346D'];
-        $dataTokenDecode = json_decode(json_encode($dataToken));
-        $this->jwtTokenClass = $this->createMock(JwtTokenClass::class);
-        $this->jwtTokenClass->method('checkToken')
-            ->with(Roles::ROLE_EMPLOYEE)
-            ->willReturn($dataTokenDecode);
-        $this->checkToken = new CheckToken($this->jwtTokenClass);
+        $dataToken = json_decode(
+            json_encode([
+                'nif' => 1
+            ])
+        );
+        $this->showDataEmployeeCommand = new ShowDataEmployeeCommand($dataToken);
     }
 
     /**
@@ -47,11 +42,10 @@ class ShowDataEmployeeTest extends TestCase
         $searchEmployeeByNif = new SearchEmployeeByNif($this->employeeRepository);
         $showEmployeeByNif = new ShowDataEmployee(
             $this->showEmployeeByNifTransform,
-            $searchEmployeeByNif,
-            $this->checkToken
+            $searchEmployeeByNif
         );
         $this->expectException(NotFoundEmployeesException::class);
-        $showEmployeeByNif->handle();
+        $showEmployeeByNif->handle($this->showDataEmployeeCommand);
     }
 
     /**
@@ -82,15 +76,12 @@ class ShowDataEmployeeTest extends TestCase
         $searchEmployeeByNif = new SearchEmployeeByNif($this->employeeRepository);
         $showEmployeeByNif = new ShowDataEmployee(
             $this->showEmployeeByNifTransform,
-            $searchEmployeeByNif,
-            $this->checkToken
+            $searchEmployeeByNif
         );
-        $result = $showEmployeeByNif->handle();
+        $result = $showEmployeeByNif->handle($this->showDataEmployeeCommand);
         $this->assertArraySubset(
             [
-                'data' => [
-                    'name' => 'Javier'
-                ]
+                'name' => 'Javier'
             ],
             $result
         );

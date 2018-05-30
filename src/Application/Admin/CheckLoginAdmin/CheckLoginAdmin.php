@@ -3,10 +3,10 @@
 namespace Inventory\Management\Application\Admin\CheckLoginAdmin;
 
 use Inventory\Management\Domain\Model\Entity\Admin\AdminRepository;
+use Inventory\Management\Domain\Model\Entity\Admin\SearchAdminByUsername;
+use Inventory\Management\Domain\Model\JwtToken\CreateToken;
 use Inventory\Management\Domain\Model\JwtToken\Roles;
-use Inventory\Management\Domain\Service\Admin\SearchAdminByUsername;
-use Inventory\Management\Domain\Service\PasswordHash\CheckDecryptPassword;
-use Inventory\Management\Domain\Service\JwtToken\CreateToken;
+use Inventory\Management\Domain\Model\PasswordHash\CheckDecryptPassword;
 
 class CheckLoginAdmin
 {
@@ -30,12 +30,6 @@ class CheckLoginAdmin
         $this->createToken = $createToken;
     }
 
-    /**
-     * @param CheckLoginAdminCommand $checkLoginAdminCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Admin\NotFoundAdminsException
-     * @throws \Inventory\Management\Domain\Model\PasswordHash\IncorrectPasswordException
-     */
     public function handle(CheckLoginAdminCommand $checkLoginAdminCommand): string
     {
         $admin = $this->searchAdminByUsername->execute(

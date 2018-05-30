@@ -2,9 +2,9 @@
 
 namespace Inventory\Management\Application\Department\CreateDepartment;
 
+use Inventory\Management\Domain\Model\Entity\Department\CheckNotExistNameDepartment;
 use Inventory\Management\Domain\Model\Entity\Department\Department;
 use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository;
-use Inventory\Management\Domain\Service\Department\CheckNotExistNameDepartment;
 
 class CreateDepartment
 {
@@ -22,11 +22,6 @@ class CreateDepartment
         $this->checkNotExistNameDepartment = $checkNotExistNameDepartment;
     }
 
-    /**
-     * @param CreateDepartmentCommand $createDepartmentCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\FoundNameDepartmentException
-     */
     public function handle(CreateDepartmentCommand $createDepartmentCommand): string
     {
         $this->checkNotExistNameDepartment->execute(

@@ -3,8 +3,9 @@
 namespace Inventory\Management\Domain\Service\JwtToken;
 
 use Inventory\Management\Domain\Model\JwtToken\JwtTokenClass;
+use Inventory\Management\Domain\Model\JwtToken\CheckToken as CheckTokenI;
 
-class CheckToken
+class CheckToken implements CheckTokenI
 {
     private $jwtTokenClass;
 
@@ -13,7 +14,7 @@ class CheckToken
         $this->jwtTokenClass = $jwtTokenClass;
     }
     
-    public function execute(array $roles)
+    public function execute(array $roles): object
     {
         return $this->jwtTokenClass->checkToken($roles);
     }

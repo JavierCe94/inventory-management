@@ -2,10 +2,10 @@
 
 namespace Inventory\Management\Application\Department\CreateSubDepartment;
 
+use Inventory\Management\Domain\Model\Entity\Department\CheckNotExistNameSubDepartment;
+use Inventory\Management\Domain\Model\Entity\Department\SearchDepartmentById;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepository;
-use Inventory\Management\Domain\Service\Department\CheckNotExistNameSubDepartment;
-use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
 
 class CreateSubDepartment
 {
@@ -26,12 +26,6 @@ class CreateSubDepartment
         $this->checkNotExistNameSubDepartment = $checkNotExistNameSubDepartment;
     }
 
-    /**
-     * @param CreateSubDepartmentCommand $createSubDepartmentCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\FoundNameSubDepartmentException
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException
-     */
     public function handle(CreateSubDepartmentCommand $createSubDepartmentCommand): string
     {
         $this->checkNotExistNameSubDepartment->execute(

@@ -2,12 +2,12 @@
 
 namespace Inventory\Management\Application\Employee\UpdateFieldsEmployeeStatus;
 
+use Inventory\Management\Domain\Model\Entity\Department\SearchDepartmentById;
+use Inventory\Management\Domain\Model\Entity\Department\SearchSubDepartmentById;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
-use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
-use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
-use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Infrastructure\Service\File\UploadFile;
+use Inventory\Management\Domain\Model\Entity\Employee\SearchEmployeeByNif;
+use Inventory\Management\Domain\Model\File\UploadFile;
 
 class UpdateFieldsEmployeeStatus
 {
@@ -34,14 +34,6 @@ class UpdateFieldsEmployeeStatus
         $this->uploadFile = $uploadFile;
     }
 
-    /**
-     * @param UpdateFieldsEmployeeStatusCommand $updateFieldsEmployeeStatusCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException
-     * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
-     * @throws \Inventory\Management\Domain\Model\File\ImageCanNotUploadException
-     */
     public function handle(UpdateFieldsEmployeeStatusCommand $updateFieldsEmployeeStatusCommand): string
     {
         $this->employeeRepository->updateFieldsEmployeeStatus(

@@ -3,7 +3,7 @@
 namespace Inventory\Management\Application\Department\UpdateNameDepartment;
 
 use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository;
-use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
+use Inventory\Management\Domain\Model\Entity\Department\SearchDepartmentById;
 
 class UpdateNameDepartment
 {
@@ -21,11 +21,6 @@ class UpdateNameDepartment
         $this->searchDepartmentById = $searchDepartmentById;
     }
 
-    /**
-     * @param UpdateNameDepartmentCommand $updateNameDepartmentCommand
-     * @return string
-     * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException
-     */
     public function handle(UpdateNameDepartmentCommand $updateNameDepartmentCommand): string
     {
         $this->departmentRepository->updateNameDepartment(

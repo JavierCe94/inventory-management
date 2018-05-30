@@ -9,8 +9,6 @@ use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
 use Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
-use Inventory\Management\Infrastructure\JwtToken\JwtTokenClass;
 use Inventory\Management\Infrastructure\Repository\Employee\EmployeeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -19,9 +17,6 @@ class ShowEmployeeByNifTest extends TestCase
 {
     /* @var MockObject $employeeRepository */
     private $employeeRepository;
-    /* @var MockObject $jwtTokenClass */
-    private $jwtTokenClass;
-    private $checkToken;
     private $showEmployeeByNifTransform;
     private $showEmployeeByNifCommand;
 
@@ -29,8 +24,6 @@ class ShowEmployeeByNifTest extends TestCase
     {
         $this->employeeRepository = $this->createMock(EmployeeRepository::class);
         $this->showEmployeeByNifTransform = new ShowEmployeeByNifTransform();
-        $this->jwtTokenClass = $this->createMock(JwtTokenClass::class);
-        $this->checkToken = new CheckToken($this->jwtTokenClass);
         $this->showEmployeeByNifCommand = new ShowEmployeeByNifCommand('77685346D');
     }
 
@@ -44,8 +37,7 @@ class ShowEmployeeByNifTest extends TestCase
         $searchEmployeeByNif = new SearchEmployeeByNif($this->employeeRepository);
         $showEmployeeByNif = new ShowEmployeeByNif(
             $this->showEmployeeByNifTransform,
-            $searchEmployeeByNif,
-            $this->checkToken
+            $searchEmployeeByNif
         );
         $this->expectException(NotFoundEmployeesException::class);
         $showEmployeeByNif->handle($this->showEmployeeByNifCommand);
@@ -79,16 +71,13 @@ class ShowEmployeeByNifTest extends TestCase
         $searchEmployeeByNif = new SearchEmployeeByNif($this->employeeRepository);
         $showEmployeeByNif = new ShowEmployeeByNif(
             $this->showEmployeeByNifTransform,
-            $searchEmployeeByNif,
-            $this->checkToken
+            $searchEmployeeByNif
         );
         $result = $showEmployeeByNif->handle($this->showEmployeeByNifCommand);
         $this->assertArraySubset(
             [
-                'data' => [
-                    'nif' => '77685346D',
-                    'name' => 'Javier'
-                ]
+                'nif' => '77685346D',
+                'name' => 'Javier'
             ],
             $result
         );
