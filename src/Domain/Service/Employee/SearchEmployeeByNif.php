@@ -3,14 +3,15 @@
 namespace Inventory\Management\Domain\Service\Employee;
 
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException;
+use Inventory\Management\Domain\Model\Entity\Employee\SearchEmployeeByNif as SearchEmployeeByNifI;
 
-class SearchEmployeeByNif
+class SearchEmployeeByNif implements SearchEmployeeByNifI
 {
     private $employeeRepository;
 
-    public function __construct(EmployeeRepositoryInterface $employeeRepository)
+    public function __construct(EmployeeRepository $employeeRepository)
     {
         $this->employeeRepository = $employeeRepository;
     }

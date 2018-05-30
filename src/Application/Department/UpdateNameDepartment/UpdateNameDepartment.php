@@ -2,45 +2,39 @@
 
 namespace Inventory\Management\Application\Department\UpdateNameDepartment;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
-use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository;
 use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 
-class UpdateNameDepartment extends RoleAdmin
+class UpdateNameDepartment
 {
     private $departmentRepository;
+    private $updateNameDepartmentTransform;
     private $searchDepartmentById;
 
     public function __construct(
-        DepartmentRepositoryInterface $departmentRepository,
-        SearchDepartmentById $searchDepartmentById,
-        CheckToken $checkToken
+        DepartmentRepository $departmentRepository,
+        UpdateNameDepartmentTransformI $updateNameDepartmentTransform,
+        SearchDepartmentById $searchDepartmentById
     ) {
-        parent::__construct($checkToken);
         $this->departmentRepository = $departmentRepository;
+        $this->updateNameDepartmentTransform = $updateNameDepartmentTransform;
         $this->searchDepartmentById = $searchDepartmentById;
     }
 
     /**
      * @param UpdateNameDepartmentCommand $updateNameDepartmentCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException
      */
-    public function handle(UpdateNameDepartmentCommand $updateNameDepartmentCommand): array
+    public function handle(UpdateNameDepartmentCommand $updateNameDepartmentCommand): string
     {
-        $department = $this->searchDepartmentById->execute(
-            $updateNameDepartmentCommand->department()
-        );
         $this->departmentRepository->updateNameDepartment(
-            $department,
+            $this->searchDepartmentById->execute(
+                $updateNameDepartmentCommand->department()
+            ),
             $updateNameDepartmentCommand->name()
         );
 
-        return [
-            'data' => 'Se ha actualizado el nombre del departamento con éxito',
-            'code' => HttpResponses::OK
-        ];
+        return $this->updateNameDepartmentTransform->transform();
     }
 }

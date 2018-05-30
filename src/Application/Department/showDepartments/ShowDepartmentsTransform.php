@@ -4,7 +4,7 @@ namespace Inventory\Management\Application\Department\showDepartments;
 
 use Inventory\Management\Domain\Model\Entity\Department\Department;
 
-class ShowDepartmentsTransform implements ShowDepartmentsTransformInterface
+class ShowDepartmentsTransform implements ShowDepartmentsTransformI
 {
     /**
      * @param array|Department[] $departments

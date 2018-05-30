@@ -3,18 +3,22 @@
 namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployee;
+use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployeeCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleEmployee;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ShowDataEmployeeController
+class ShowDataEmployeeController extends RoleEmployee
 {
     public function showDataEmployee(ShowDataEmployee $showDataEmployee): Response
     {
-        $response = $showDataEmployee->handle();
-        
+        $showDataEmployeeCommand = new ShowDataEmployeeCommand(
+            $this->dataToken()
+        );
+
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $showDataEmployee->handle($showDataEmployeeCommand),
+            Response::HTTP_OK
         );
     }
 }

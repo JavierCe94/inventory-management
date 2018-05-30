@@ -4,9 +4,9 @@ namespace Inventory\Management\Infrastructure\Repository\Department;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\Department\Department;
-use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository as DepartmentRepositoryI;
 
-class DepartmentRepository extends ServiceEntityRepository implements DepartmentRepositoryInterface
+class DepartmentRepository extends ServiceEntityRepository implements DepartmentRepositoryI
 {
     /**
      * @param Department $department
@@ -37,26 +37,26 @@ class DepartmentRepository extends ServiceEntityRepository implements Department
         return $department;
     }
 
+    /**
+     * @param int $idDepartment
+     * @return object|Department
+     */
     public function findDepartmentById(int $idDepartment): ?Department
     {
-        /* @var Department $department */
-        $department = $this->find($idDepartment);
-
-        return $department;
+        return $this->find($idDepartment);
     }
 
     public function showAllDepartments(): array
     {
-        $departments = $this->findAll();
-
-        return $departments;
+        return $this->findAll();
     }
 
+    /**
+     * @param $name
+     * @return object|Department
+     */
     public function checkNotExistNameDepartment($name): ?Department
     {
-        /* @var Department $department */
-        $department = $this->findOneBy(['name' => $name]);
-
-        return $department;
+        return $this->findOneBy(['name' => $name]);
     }
 }

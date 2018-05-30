@@ -2,48 +2,46 @@
 
 namespace Inventory\Management\Application\Employee\CreateEmployee;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepository;
 use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
 use Inventory\Management\Domain\Service\Employee\CheckNotExistsUniqueFields;
-use Inventory\Management\Domain\Service\File\UploadPhoto;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
+use Inventory\Management\Infrastructure\Service\File\UploadFile;
 use Inventory\Management\Domain\Service\PasswordHash\EncryptPassword;
 
-class CreateEmployee extends RoleAdmin
+class CreateEmployee
 {
     private $employeeRepository;
     private $employeeStatusRepository;
+    private $createEmployeeTransform;
     private $searchSubDepartmentById;
     private $checkNotExistsUniqueFields;
     private $encryptPassword;
-    private $uploadPhoto;
+    private $uploadFile;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
-        EmployeeStatusRepositoryInterface $employeeStatusRepository,
+        EmployeeRepository $employeeRepository,
+        EmployeeStatusRepository $employeeStatusRepository,
+        CreateEmployeeTransformI $createEmployeeTransform,
         SearchSubDepartmentById $searchSubDepartmentById,
         CheckNotExistsUniqueFields $checkNotExistsUniqueFields,
         EncryptPassword $encryptPassword,
-        UploadPhoto $uploadPhoto,
-        CheckToken $checkToken
+        UploadFile $uploadFile
     ) {
-        parent::__construct($checkToken);
         $this->employeeRepository = $employeeRepository;
         $this->employeeStatusRepository = $employeeStatusRepository;
+        $this->createEmployeeTransform = $createEmployeeTransform;
         $this->searchSubDepartmentById = $searchSubDepartmentById;
         $this->checkNotExistsUniqueFields = $checkNotExistsUniqueFields;
         $this->encryptPassword = $encryptPassword;
-        $this->uploadPhoto = $uploadPhoto;
+        $this->uploadFile = $uploadFile;
     }
 
     /**
      * @param CreateEmployeeCommand $createEmployeeCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundCodeEmployeeStatusException
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundInSsNumberEmployeeException
@@ -51,7 +49,7 @@ class CreateEmployee extends RoleAdmin
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException
      * @throws \Inventory\Management\Domain\Model\File\ImageCanNotUploadException
      */
-    public function handle(CreateEmployeeCommand $createEmployeeCommand): array
+    public function handle(CreateEmployeeCommand $createEmployeeCommand): string
     {
         $this->checkNotExistsUniqueFields->execute(
             $createEmployeeCommand->nif(),
@@ -62,35 +60,31 @@ class CreateEmployee extends RoleAdmin
         $subDepartment = $this->searchSubDepartmentById->execute(
             $createEmployeeCommand->subDepartment()
         );
-        $employeeStatus = new EmployeeStatus(
-            $createEmployeeCommand->codeEmployee(),
-            new \DateTime($createEmployeeCommand->firstContractDate()),
-            new \DateTime($createEmployeeCommand->seniorityDate()),
-            $subDepartment->getDepartment(),
-            $subDepartment
-        );
-        $createdEmployeeStatus = $this->employeeStatusRepository->createEmployeeStatus($employeeStatus);
-        $password = $this->encryptPassword->execute(
-            $createEmployeeCommand->password()
-        );
-        $imageName = $this->uploadPhoto->execute(
-            $createEmployeeCommand->image(),
-            Employee::URL_IMAGE
+        $createdEmployeeStatus = $this->employeeStatusRepository->createEmployeeStatus(
+            new EmployeeStatus(
+                $createEmployeeCommand->codeEmployee(),
+                new \DateTime($createEmployeeCommand->firstContractDate()),
+                new \DateTime($createEmployeeCommand->seniorityDate()),
+                $subDepartment->getDepartment(),
+                $subDepartment
+            )
         );
         $employee = new Employee(
             $createdEmployeeStatus,
-            $imageName,
+            $this->uploadFile->execute(
+                $createEmployeeCommand->image(),
+                Employee::URL_IMAGE
+            ),
             $createEmployeeCommand->nif(),
-            $password,
+            $this->encryptPassword->execute(
+                $createEmployeeCommand->password()
+            ),
             $createEmployeeCommand->name(),
             $createEmployeeCommand->inSsNumber(),
             $createEmployeeCommand->telephone()
         );
         $this->employeeRepository->createEmployee($employee);
 
-        return [
-            'data' => 'Se ha creado el trabajador con éxito',
-            'code' => HttpResponses::OK_CREATED
-        ];
+        return $this->createEmployeeTransform->transform();
     }
 }

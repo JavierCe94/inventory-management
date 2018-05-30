@@ -2,30 +2,28 @@
 
 namespace Inventory\Management\Application\Employee\UpdateBasicFieldsEmployee;
 
-use Inventory\Management\Application\Util\Role\RoleEmployee;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Service\Employee\CheckNotExistTelephoneEmployee;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 use Inventory\Management\Domain\Service\PasswordHash\EncryptPassword;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
 
-class UpdateBasicFieldsEmployee extends RoleEmployee
+class UpdateBasicFieldsEmployee
 {
     private $employeeRepository;
+    private $updateBasicFieldsEmployeeTransform;
     private $searchEmployeeByNif;
     private $checkNotExistTelephoneEmployee;
     private $encryptPassword;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
+        EmployeeRepository $employeeRepository,
+        UpdateBasicFieldsEmployeeTransformI $updateBasicFieldsEmployeeTransform,
         SearchEmployeeByNif $searchEmployeeByNif,
         CheckNotExistTelephoneEmployee $checkNotExistTelephoneEmployee,
-        EncryptPassword $encryptPassword,
-        CheckToken $checkToken
+        EncryptPassword $encryptPassword
     ) {
-        parent::__construct($checkToken);
         $this->employeeRepository = $employeeRepository;
+        $this->updateBasicFieldsEmployeeTransform = $updateBasicFieldsEmployeeTransform;
         $this->searchEmployeeByNif = $searchEmployeeByNif;
         $this->checkNotExistTelephoneEmployee = $checkNotExistTelephoneEmployee;
         $this->encryptPassword = $encryptPassword;
@@ -33,32 +31,27 @@ class UpdateBasicFieldsEmployee extends RoleEmployee
 
     /**
      * @param UpdateBasicFieldsEmployeeCommand $updateBasicFieldsEmployeeCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
      */
-    public function handle(UpdateBasicFieldsEmployeeCommand $updateBasicFieldsEmployeeCommand): array
+    public function handle(UpdateBasicFieldsEmployeeCommand $updateBasicFieldsEmployeeCommand): string
     {
         $this->checkNotExistTelephoneEmployee->execute(
             $updateBasicFieldsEmployeeCommand->telephone(),
-            $this->dataToken()->nif
-        );
-        $employee = $this->searchEmployeeByNif->execute(
-            $this->dataToken()->nif
-        );
-        $passwordHash = $this->encryptPassword->execute(
-            $updateBasicFieldsEmployeeCommand->password()
+            $updateBasicFieldsEmployeeCommand->dataToken()->nif
         );
         $this->employeeRepository->updateBasicFieldsEmployee(
-            $employee,
-            $passwordHash,
+            $this->searchEmployeeByNif->execute(
+                $updateBasicFieldsEmployeeCommand->dataToken()->nif
+            ),
+            $this->encryptPassword->execute(
+                $updateBasicFieldsEmployeeCommand->password()
+            ),
             $updateBasicFieldsEmployeeCommand->name(),
             $updateBasicFieldsEmployeeCommand->telephone()
         );
 
-        return [
-            'data' => 'Se ha actualizado el trabajador con éxito',
-            'code' => HttpResponses::OK
-        ];
+        return $this->updateBasicFieldsEmployeeTransform->transform();
     }
 }

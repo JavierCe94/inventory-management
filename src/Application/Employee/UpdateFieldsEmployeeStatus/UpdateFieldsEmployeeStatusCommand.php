@@ -13,6 +13,9 @@ class UpdateFieldsEmployeeStatusCommand
     private $department;
     private $subDepartment;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct(
         $nif,
         $image,

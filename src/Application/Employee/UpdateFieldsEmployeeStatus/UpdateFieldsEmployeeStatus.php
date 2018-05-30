@@ -2,77 +2,68 @@
 
 namespace Inventory\Management\Application\Employee\UpdateFieldsEmployeeStatus;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
 use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\File\UploadPhoto;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
+use Inventory\Management\Infrastructure\Service\File\UploadFile;
 
-class UpdateFieldsEmployeeStatus extends RoleAdmin
+class UpdateFieldsEmployeeStatus
 {
     private $employeeRepository;
+    private $updateFieldsEmployeeStatusTransform;
     private $searchEmployeeByNif;
     private $searchDepartmentById;
     private $searchSubDepartmentById;
-    private $uploadPhoto;
+    private $uploadFile;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
+        EmployeeRepository $employeeRepository,
+        UpdateFieldsEmployeeStatusTransformI $updateFieldsEmployeeStatusTransform,
         SearchEmployeeByNif $searchEmployeeByNif,
         SearchDepartmentById $searchDepartmentById,
         SearchSubDepartmentById $searchSubDepartmentById,
-        UploadPhoto $uploadPhoto,
-        CheckToken $checkToken
+        UploadFile $uploadFile
     ) {
-        parent::__construct($checkToken);
         $this->employeeRepository = $employeeRepository;
+        $this->updateFieldsEmployeeStatusTransform = $updateFieldsEmployeeStatusTransform;
         $this->searchEmployeeByNif = $searchEmployeeByNif;
         $this->searchDepartmentById = $searchDepartmentById;
         $this->searchSubDepartmentById = $searchSubDepartmentById;
-        $this->uploadPhoto = $uploadPhoto;
+        $this->uploadFile = $uploadFile;
     }
 
     /**
      * @param UpdateFieldsEmployeeStatusCommand $updateFieldsEmployeeStatusCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException
      * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
      * @throws \Inventory\Management\Domain\Model\File\ImageCanNotUploadException
      */
-    public function handle(UpdateFieldsEmployeeStatusCommand $updateFieldsEmployeeStatusCommand): array
+    public function handle(UpdateFieldsEmployeeStatusCommand $updateFieldsEmployeeStatusCommand): string
     {
-        $department = $this->searchDepartmentById->execute(
-            $updateFieldsEmployeeStatusCommand->department()
-        );
-        $subDepartment = $this->searchSubDepartmentById->execute(
-            $updateFieldsEmployeeStatusCommand->subDepartment()
-        );
-        $employee = $this->searchEmployeeByNif->execute(
-            $updateFieldsEmployeeStatusCommand->nif()
-        );
-        $imageName = $this->uploadPhoto->execute(
-            $updateFieldsEmployeeStatusCommand->image(),
-            Employee::URL_IMAGE
-        );
         $this->employeeRepository->updateFieldsEmployeeStatus(
-            $employee,
-            $imageName,
+            $this->searchEmployeeByNif->execute(
+                $updateFieldsEmployeeStatusCommand->nif()
+            ),
+            $this->uploadFile->execute(
+                $updateFieldsEmployeeStatusCommand->image(),
+                Employee::URL_IMAGE
+            ),
             new \DateTime($updateFieldsEmployeeStatusCommand->expirationContractDate()),
             new \DateTime($updateFieldsEmployeeStatusCommand->possibleRenewal()),
             $updateFieldsEmployeeStatusCommand->availableHolidays(),
             $updateFieldsEmployeeStatusCommand->holidaysPendingToApplyFor(),
-            $department,
-            $subDepartment
+            $this->searchDepartmentById->execute(
+                $updateFieldsEmployeeStatusCommand->department()
+            ),
+            $this->searchSubDepartmentById->execute(
+                $updateFieldsEmployeeStatusCommand->subDepartment()
+            )
         );
 
-        return [
-            'data' => 'Se ha actualizado el estado del trabajador con éxito',
-            'code' => HttpResponses::OK
-        ];
+        return $this->updateFieldsEmployeeStatusTransform->transform();
     }
 }

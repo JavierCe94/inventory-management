@@ -4,15 +4,16 @@ namespace Inventory\Management\Infrastructure\Repository\Admin;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\Admin\Admin;
-use Inventory\Management\Domain\Model\Entity\Admin\AdminRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Admin\AdminRepository as AdminRepositoryI;
 
-class AdminRepository extends ServiceEntityRepository implements AdminRepositoryInterface
+class AdminRepository extends ServiceEntityRepository implements AdminRepositoryI
 {
+    /**
+     * @param string $username
+     * @return object|Admin
+     */
     public function findAdminByUsername(string $username): ?Admin
     {
-        /* @var Admin $admin */
-        $admin = $this->findOneBy(['username' => $username, 'disabledAdmin' => false]);
-
-        return $admin;
+        return $this->findOneBy(['username' => $username, 'disabledAdmin' => false]);
     }
 }

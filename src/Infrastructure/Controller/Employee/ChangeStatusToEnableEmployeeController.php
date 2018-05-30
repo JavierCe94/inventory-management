@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\ChangeStatusToEnableEmployee\ChangeStatusToEnableEmployee;
 use Inventory\Management\Application\Employee\ChangeStatusToEnableEmployee\ChangeStatusToEnableEmployeeCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ChangeStatusToEnableEmployeeController
+class ChangeStatusToEnableEmployeeController extends RoleAdmin
 {
     public function changeStatusToEnableEmployee(
         Request $request,
@@ -17,11 +18,10 @@ class ChangeStatusToEnableEmployeeController
         $changeStatusToEnableEmployeeCommand = new ChangeStatusToEnableEmployeeCommand(
             $request->attributes->get('nif')
         );
-        $response = $changeStatusToEnableEmployee->handle($changeStatusToEnableEmployeeCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $changeStatusToEnableEmployee->handle($changeStatusToEnableEmployeeCommand),
+            Response::HTTP_OK
         );
     }
 }

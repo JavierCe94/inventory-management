@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\CreateEmployee\CreateEmployee;
 use Inventory\Management\Application\Employee\CreateEmployee\CreateEmployeeCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CreateEmployeeController
+class CreateEmployeeController extends RoleAdmin
 {
     public function createEmployee(Request $request, CreateEmployee $createEmployee): Response
     {
@@ -24,11 +25,10 @@ class CreateEmployeeController
             $request->query->get('senioritydate'),
             $request->query->get('subdepartment')
         );
-        $response = $createEmployee->handle($createEmployeeCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $createEmployee->handle($createEmployeeCommand),
+            Response::HTTP_CREATED
         );
     }
 }

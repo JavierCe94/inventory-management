@@ -2,45 +2,39 @@
 
 namespace Inventory\Management\Application\Department\UpdateNameSubDepartment;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
-use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepository;
 use Inventory\Management\Domain\Service\Department\SearchSubDepartmentById;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 
-class UpdateNameSubDepartment extends RoleAdmin
+class UpdateNameSubDepartment
 {
     private $subDepartmentRepository;
+    private $updateNameSubDepartmentTransform;
     private $searchSubDepartmentById;
 
     public function __construct(
-        SubDepartmentRepositoryInterface $subDepartmentRepository,
-        SearchSubDepartmentById $searchSubDepartmentById,
-        CheckToken $checkToken
+        SubDepartmentRepository $subDepartmentRepository,
+        UpdateNameSubDepartmentTransformI $updateNameSubDepartmentTransform,
+        SearchSubDepartmentById $searchSubDepartmentById
     ) {
-        parent::__construct($checkToken);
         $this->subDepartmentRepository = $subDepartmentRepository;
+        $this->updateNameSubDepartmentTransform = $updateNameSubDepartmentTransform;
         $this->searchSubDepartmentById = $searchSubDepartmentById;
     }
 
     /**
      * @param UpdateNameSubDepartmentCommand $updateNameSubDepartmentCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException
      */
-    public function handle(UpdateNameSubDepartmentCommand $updateNameSubDepartmentCommand)
+    public function handle(UpdateNameSubDepartmentCommand $updateNameSubDepartmentCommand): string
     {
-        $subDepartment = $this->searchSubDepartmentById->execute(
-            $updateNameSubDepartmentCommand->subDepartment()
-        );
         $this->subDepartmentRepository->updateNameSubDepartment(
-            $subDepartment,
+            $this->searchSubDepartmentById->execute(
+                $updateNameSubDepartmentCommand->subDepartment()
+            ),
             $updateNameSubDepartmentCommand->name()
         );
 
-        return [
-            'data' => 'Se ha actualizado el nombre del subdepartamento con éxito',
-            'code' => HttpResponses::OK
-        ];
+        return $this->updateNameSubDepartmentTransform->transform();
     }
 }

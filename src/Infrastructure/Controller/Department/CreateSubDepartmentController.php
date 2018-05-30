@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Department;
 
 use Inventory\Management\Application\Department\CreateSubDepartment\CreateSubDepartment;
 use Inventory\Management\Application\Department\CreateSubDepartment\CreateSubDepartmentCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CreateSubDepartmentController
+class CreateSubDepartmentController extends RoleAdmin
 {
     public function createSubDepartment(Request $request, CreateSubDepartment $createSubDepartment): Response
     {
@@ -16,11 +17,10 @@ class CreateSubDepartmentController
             $request->attributes->get('department'),
             $request->query->get('name')
         );
-        $response = $createSubDepartment->handle($createSubDepartmentCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $createSubDepartment->handle($createSubDepartmentCommand),
+            Response::HTTP_CREATED
         );
     }
 }

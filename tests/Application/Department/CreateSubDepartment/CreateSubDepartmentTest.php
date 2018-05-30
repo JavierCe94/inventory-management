@@ -4,17 +4,15 @@ namespace Inventory\Management\Tests\Application\Department\CreateSubDepartment;
 
 use Inventory\Management\Application\Department\CreateSubDepartment\CreateSubDepartment;
 use Inventory\Management\Application\Department\CreateSubDepartment\CreateSubDepartmentCommand;
+use Inventory\Management\Application\Department\CreateSubDepartment\CreateSubDepartmentTransform;
 use Inventory\Management\Domain\Model\Entity\Department\Department;
 use Inventory\Management\Domain\Model\Entity\Department\FoundNameSubDepartmentException;
 use Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 use Inventory\Management\Domain\Service\Department\CheckNotExistNameSubDepartment;
 use Inventory\Management\Domain\Service\Department\SearchDepartmentById;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
-use Inventory\Management\Infrastructure\JwtToken\JwtTokenClass;
 use Inventory\Management\Infrastructure\Repository\Department\DepartmentRepository;
 use Inventory\Management\Infrastructure\Repository\Department\SubDepartmentRepository;
-use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -24,20 +22,17 @@ class CreateSubDepartmentTest extends TestCase
     private $departmentRepository;
     /* @var MockObject $subDepartmentRepository */
     private $subDepartmentRepository;
-    /* @var MockObject $jwtTokenClass */
-    private $jwtTokenClass;
-    private $checkToken;
     private $searchDepartmentById;
     private $createDepartmentCommand;
+    private $transform;
 
     public function setUp(): void
     {
         $this->departmentRepository = $this->createMock(DepartmentRepository::class);
         $this->subDepartmentRepository = $this->createMock(SubDepartmentRepository::class);
         $this->searchDepartmentById = new SearchDepartmentById($this->departmentRepository);
-        $this->jwtTokenClass = $this->createMock(JwtTokenClass::class);
-        $this->checkToken = new CheckToken($this->jwtTokenClass);
         $this->createDepartmentCommand = new CreateSubDepartmentCommand(1, 'warehouse');
+        $this->transform = new CreateSubDepartmentTransform();
     }
 
     /**
@@ -58,9 +53,9 @@ class CreateSubDepartmentTest extends TestCase
         $checkNotExistNameSubDepartment = new CheckNotExistNameSubDepartment($this->subDepartmentRepository);
         $createSubDepartment = new CreateSubDepartment(
             $this->subDepartmentRepository,
+            $this->transform,
             $this->searchDepartmentById,
-            $checkNotExistNameSubDepartment,
-            $this->checkToken
+            $checkNotExistNameSubDepartment
         );
         $this->expectException(FoundNameSubDepartmentException::class);
         $createSubDepartment->handle($this->createDepartmentCommand);
@@ -78,9 +73,9 @@ class CreateSubDepartmentTest extends TestCase
         $checkNotExistNameSubDepartment = new CheckNotExistNameSubDepartment($this->subDepartmentRepository);
         $createSubDepartment = new CreateSubDepartment(
             $this->subDepartmentRepository,
+            $this->transform,
             $this->searchDepartmentById,
-            $checkNotExistNameSubDepartment,
-            $this->checkToken
+            $checkNotExistNameSubDepartment
         );
         $this->expectException(NotFoundDepartmentsException::class);
         $createSubDepartment->handle($this->createDepartmentCommand);
@@ -103,17 +98,11 @@ class CreateSubDepartmentTest extends TestCase
         $checkNotExistNameSubDepartment = new CheckNotExistNameSubDepartment($this->subDepartmentRepository);
         $createSubDepartment = new CreateSubDepartment(
             $this->subDepartmentRepository,
+            $this->transform,
             $this->searchDepartmentById,
-            $checkNotExistNameSubDepartment,
-            $this->checkToken
+            $checkNotExistNameSubDepartment
         );
-        $result = $createSubDepartment->handle($this->createDepartmentCommand);
-        $this->assertEquals(
-            [
-                'data' => 'Se ha creado el subdepartamento con éxito',
-                'code' => 201
-            ],
-            $result
-        );
+        $createSubDepartment->handle($this->createDepartmentCommand);
+        $this->assertTrue(true, true);
     }
 }

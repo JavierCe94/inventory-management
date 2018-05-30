@@ -2,39 +2,31 @@
 
 namespace Inventory\Management\Application\Employee\ShowByFirstResultEmployees;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 
-class ShowByFirstResultEmployees extends RoleAdmin
+class ShowByFirstResultEmployees
 {
     private $employeeRepository;
     private $showEmployeesTransform;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
-        ShowByFirstResultEmployeesTransformInterface $showEmployeesTransform,
-        CheckToken $checkToken
+        EmployeeRepository $employeeRepository,
+        ShowByFirstResultEmployeesTransformI $showEmployeesTransform
     ) {
-        parent::__construct($checkToken);
         $this->employeeRepository = $employeeRepository;
         $this->showEmployeesTransform = $showEmployeesTransform;
     }
 
     public function handle(ShowByFirstResultEmployeesCommand $showEmployeesCommand): array
     {
-        $listEmployees = $this->employeeRepository->showByFirstResultFilterEmployees(
-            $showEmployeesCommand->firstResultPosition(),
-            $showEmployeesCommand->name(),
-            $showEmployeesCommand->code(),
-            $showEmployeesCommand->department(),
-            $showEmployeesCommand->subDepartment()
+        return $this->showEmployeesTransform->transform(
+            $this->employeeRepository->showByFirstResultFilterEmployees(
+                $showEmployeesCommand->firstResultPosition(),
+                $showEmployeesCommand->name(),
+                $showEmployeesCommand->code(),
+                $showEmployeesCommand->department(),
+                $showEmployeesCommand->subDepartment()
+            )
         );
-
-        return [
-            'data' => $this->showEmployeesTransform->transform($listEmployees),
-            'code' => HttpResponses::OK
-        ];
     }
 }

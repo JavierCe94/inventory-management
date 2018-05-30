@@ -4,7 +4,7 @@ namespace Inventory\Management\Application\Employee\ShowEmployeeByNif;
 
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 
-class ShowEmployeeByNifTransform implements ShowEmployeeByNifTransformInterface
+class ShowEmployeeByNifTransform implements ShowEmployeeByNifTransformI
 {
     private const ATOM = "d-m-Y";
 

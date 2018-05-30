@@ -2,8 +2,7 @@
 
 namespace Inventory\Management\Application\Admin\CheckLoginAdmin;
 
-use Inventory\Management\Domain\Model\Entity\Admin\AdminRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Admin\AdminRepository;
 use Inventory\Management\Domain\Model\JwtToken\Roles;
 use Inventory\Management\Domain\Service\Admin\SearchAdminByUsername;
 use Inventory\Management\Domain\Service\PasswordHash\CheckDecryptPassword;
@@ -12,17 +11,20 @@ use Inventory\Management\Domain\Service\JwtToken\CreateToken;
 class CheckLoginAdmin
 {
     private $adminRepository;
+    private $checkLoginAdminTransform;
     private $searchAdminByUsername;
     private $checkDecryptPassword;
     private $createToken;
 
     public function __construct(
-        AdminRepositoryInterface $adminRepository,
+        AdminRepository $adminRepository,
+        CheckLoginAdminTransformI $checkLoginAdminTransform,
         SearchAdminByUsername $searchAdminByUsername,
         CheckDecryptPassword $checkDecryptPassword,
         CreateToken $createToken
     ) {
         $this->adminRepository = $adminRepository;
+        $this->checkLoginAdminTransform = $checkLoginAdminTransform;
         $this->searchAdminByUsername = $searchAdminByUsername;
         $this->checkDecryptPassword = $checkDecryptPassword;
         $this->createToken = $createToken;
@@ -30,11 +32,11 @@ class CheckLoginAdmin
 
     /**
      * @param CheckLoginAdminCommand $checkLoginAdminCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Admin\NotFoundAdminsException
      * @throws \Inventory\Management\Domain\Model\PasswordHash\IncorrectPasswordException
      */
-    public function handle(CheckLoginAdminCommand $checkLoginAdminCommand): array
+    public function handle(CheckLoginAdminCommand $checkLoginAdminCommand): string
     {
         $admin = $this->searchAdminByUsername->execute(
             $checkLoginAdminCommand->username()
@@ -43,17 +45,15 @@ class CheckLoginAdmin
             $checkLoginAdminCommand->password(),
             $admin->getPassword()
         );
-        $token = $this->createToken->execute(
-            Roles::ROLE_ADMIN,
-            [
-                'id' => $admin->getId(),
-                'username' => $admin->getUsername()
-            ]
-        );
 
-        return [
-            'data' => $token,
-            'code' => HttpResponses::OK
-        ];
+        return $this->checkLoginAdminTransform->transform(
+            $this->createToken->execute(
+                Roles::ROLE_ADMIN,
+                [
+                    'id' => $admin->getId(),
+                    'username' => $admin->getUsername()
+                ]
+            )
+        );
     }
 }

@@ -3,11 +3,10 @@
 namespace Inventory\Management\Infrastructure\Repository\Employee;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query;
 use Inventory\Management\Domain\Model\Entity\Department\Department;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository as EmployeeRepositoryI;
 use Inventory\Management\Infrastructure\Specification\AndX;
 use Inventory\Management\Infrastructure\Specification\AsArray;
 use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByCode;
@@ -15,7 +14,7 @@ use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByD
 use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByName;
 use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeBySubDepartment;
 
-class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepositoryInterface
+class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepositoryI
 {
     private const MAX_RESULTS_QUERY = 20;
 
@@ -41,9 +40,7 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
      */
     public function changeStatusToDisableEmployee(Employee $employee): Employee
     {
-        $employee->getEmployeeStatus()
-            ->setDisabledEmployee(true);
-
+        $employee->getEmployeeStatus()->setDisabledEmployee(true);
         $this->getEntityManager()->flush();
 
         return $employee;
@@ -57,9 +54,7 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
      */
     public function changeStatusToEnableEmployee(Employee $employee): Employee
     {
-        $employee->getEmployeeStatus()
-            ->setDisabledEmployee(false);
-
+        $employee->getEmployeeStatus()->setDisabledEmployee(false);
         $this->getEntityManager()->flush();
 
         return $employee;
@@ -131,8 +126,7 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
      */
     public function findEmployeeByNif(string $nif): ?Employee
     {
-        /* @var Employee $employee */
-        $employee = $this->createQueryBuilder('em')
+        return $this->createQueryBuilder('em')
             ->innerJoin('em.employeeStatus', 'ems')
             ->andWhere('em.nif = :nif')
             ->andWhere('ems.disabledEmployee = :disabledEmployee')
@@ -140,8 +134,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
             ->setParameter('disabledEmployee', false)
             ->getQuery()
             ->getOneOrNullResult();
-
-        return $employee;
     }
 
     public function showByFirstResultFilterEmployees(
@@ -168,12 +160,13 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
         return $query->getQuery()->execute();
     }
 
+    /**
+     * @param string $inSsNumber
+     * @return object|Employee
+     */
     public function checkNotExistsInSsNumberEmployee(string $inSsNumber): ?Employee
     {
-        /* @var Employee $employee */
-        $employee = $this->findOneBy(['inSsNumber' => $inSsNumber]);
-
-        return $employee;
+        return $this->findOneBy(['inSsNumber' => $inSsNumber]);
     }
 
     /**
@@ -184,15 +177,12 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
      */
     public function checkNotExistsTelephoneEmployee(string $telephone, string $nif): ?Employee
     {
-        $query = $this->createQueryBuilder('em')
+        return $this->createQueryBuilder('em')
             ->andWhere('em.telephone = :telephone')
             ->andWhere('em.nif != :nif')
             ->setParameter('telephone', $telephone)
             ->setParameter('nif', $nif)
-            ->getQuery();
-        /* @var Employee $employee */
-        $employee = $query->getOneOrNullResult();
-
-        return $employee;
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

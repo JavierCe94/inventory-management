@@ -7,6 +7,9 @@ class CheckLoginAdminCommand
     private $username;
     private $password;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct($username, $password)
     {
         $this->username = $username;

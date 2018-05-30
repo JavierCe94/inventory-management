@@ -13,6 +13,9 @@ class ShowByFirstResultEmployeesCommand
     private $department;
     private $subDepartment;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct($firstResultPosition, $name, $code, $department, $subDepartment)
     {
         Assertion::min($firstResultPosition, self::MIN_POSITION);

@@ -4,13 +4,14 @@ namespace Inventory\Management\Domain\Service\Department;
 
 use Inventory\Management\Domain\Model\Entity\Department\NotFoundSubDepartmentsException;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
-use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepository;
+use Inventory\Management\Domain\Model\Entity\Department\SearchSubDepartmentById as SearchSubDepartmentByIdI;
 
-class SearchSubDepartmentById
+class SearchSubDepartmentById implements SearchSubDepartmentByIdI
 {
     private $subDepartmentRepository;
 
-    public function __construct(SubDepartmentRepositoryInterface $subDepartmentRepository)
+    public function __construct(SubDepartmentRepository $subDepartmentRepository)
     {
         $this->subDepartmentRepository = $subDepartmentRepository;
     }

@@ -3,18 +3,17 @@
 namespace Inventory\Management\Infrastructure\Controller\Department;
 
 use Inventory\Management\Application\Department\showDepartments\ShowDepartments;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class ShowDepartmentsController
+class ShowDepartmentsController extends RoleAdmin
 {
     public function showDepartments(ShowDepartments $showDepartments): Response
     {
-        $response = $showDepartments->handle();
-
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $showDepartments->handle(),
+            Response::HTTP_OK
         );
     }
 }

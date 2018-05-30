@@ -4,22 +4,22 @@ namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\ShowEmployeeByNif\ShowEmployeeByNif;
 use Inventory\Management\Application\Employee\ShowEmployeeByNif\ShowEmployeeByNifCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ShowEmployeeByNifController
+class ShowEmployeeByNifController extends RoleAdmin
 {
     public function showEmployeeByNif(Request $request, ShowEmployeeByNif $showEmployeeByNif): Response
     {
         $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
             $request->attributes->get('nif')
         );
-        $response = $showEmployeeByNif->handle($showEmployeeByNifCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $showEmployeeByNif->handle($showEmployeeByNifCommand),
+            Response::HTTP_OK
         );
     }
 }

@@ -8,11 +8,13 @@ class CreateDepartmentCommand
 {
     private $name;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct($name)
     {
         Assertion::notBlank($name, 'Tienes que especificar el nombre del departamento');
         Assertion::string($name, 'El nombre del departamento tiene que ser de tipo texto');
-
         $this->name = $name;
     }
 

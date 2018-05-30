@@ -2,22 +2,17 @@
 
 namespace Inventory\Management\Application\Employee\ShowEmployeeByNif;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 
-class ShowEmployeeByNif extends RoleAdmin
+class ShowEmployeeByNif
 {
     private $showEmployeeByNifTransform;
     private $searchEmployeeByNif;
 
     public function __construct(
-        ShowEmployeeByNifTransformInterface $showEmployeeByNifTransform,
-        SearchEmployeeByNif $searchEmployeeByNif,
-        CheckToken $checkToken
+        ShowEmployeeByNifTransformI $showEmployeeByNifTransform,
+        SearchEmployeeByNif $searchEmployeeByNif
     ) {
-        parent::__construct($checkToken);
         $this->showEmployeeByNifTransform = $showEmployeeByNifTransform;
         $this->searchEmployeeByNif = $searchEmployeeByNif;
     }
@@ -29,13 +24,10 @@ class ShowEmployeeByNif extends RoleAdmin
      */
     public function handle(ShowEmployeeByNifCommand $showEmployeeByNifCommand)
     {
-        $employee = $this->searchEmployeeByNif->execute(
-            $showEmployeeByNifCommand->nif()
+        return $this->showEmployeeByNifTransform->transform(
+            $this->searchEmployeeByNif->execute(
+                $showEmployeeByNifCommand->nif()
+            )
         );
-
-        return [
-            'data' => $this->showEmployeeByNifTransform->transform($employee),
-            'code' => HttpResponses::OK
-        ];
     }
 }

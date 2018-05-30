@@ -2,21 +2,22 @@
 
 namespace Inventory\Management\Domain\Service\Employee;
 
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundCodeEmployeeStatusException;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundInSsNumberEmployeeException;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundNifEmployeeException;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException;
+use Inventory\Management\Domain\Model\Entity\Employee\CheckNotExistsUniqueFields as CheckNotExistsUniqueFieldsI;
 
-class CheckNotExistsUniqueFields
+class CheckNotExistsUniqueFields implements CheckNotExistsUniqueFieldsI
 {
     private $employeeRepository;
     private $employeeStatusRepository;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
-        EmployeeStatusRepositoryInterface $employeeStatusRepository
+        EmployeeRepository $employeeRepository,
+        EmployeeStatusRepository $employeeStatusRepository
     ) {
         $this->employeeRepository = $employeeRepository;
         $this->employeeStatusRepository = $employeeStatusRepository;

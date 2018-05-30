@@ -2,21 +2,19 @@
 
 namespace Inventory\Management\Domain\Service\JwtToken;
 
-use Inventory\Management\Domain\Model\JwtToken\JwtTokenClassInterface;
+use Inventory\Management\Domain\Model\JwtToken\JwtTokenClass;
 
 class CheckToken
 {
     private $jwtTokenClass;
 
-    public function __construct(JwtTokenClassInterface $jwtTokenClass)
+    public function __construct(JwtTokenClass $jwtTokenClass)
     {
         $this->jwtTokenClass = $jwtTokenClass;
     }
     
-    public function execute(string $role)
+    public function execute(array $roles)
     {
-        $data = $this->jwtTokenClass->checkToken($role);
-
-        return $data;
+        return $this->jwtTokenClass->checkToken($roles);
     }
 }

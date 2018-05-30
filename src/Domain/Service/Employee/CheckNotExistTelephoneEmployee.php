@@ -2,14 +2,15 @@
 
 namespace Inventory\Management\Domain\Service\Employee;
 
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\FoundTelephoneEmployeeException;
+use Inventory\Management\Domain\Model\Entity\Employee\CheckNotExistTelephoneEmployee as CheckNotExistTelephoneEmployeeI;
 
-class CheckNotExistTelephoneEmployee
+class CheckNotExistTelephoneEmployee implements CheckNotExistTelephoneEmployeeI
 {
     private $employeeRepository;
 
-    public function __construct(EmployeeRepositoryInterface $employeeRepository)
+    public function __construct(EmployeeRepository $employeeRepository)
     {
         $this->employeeRepository = $employeeRepository;
     }

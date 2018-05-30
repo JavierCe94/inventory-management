@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\ShowByFirstResultEmployees\ShowByFirstResultEmployees;
 use Inventory\Management\Application\Employee\ShowByFirstResultEmployees\ShowByFirstResultEmployeesCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ShowByFirstResultEmployeesController
+class ShowByFirstResultEmployeesController extends RoleAdmin
 {
     public function showByFirstResultEmployees(
         Request $request,
@@ -21,11 +22,10 @@ class ShowByFirstResultEmployeesController
             $request->query->get('department'),
             $request->query->get('subdepartment')
         );
-        $response = $showByFirstResultEmployees->handle($showByFirstResultEmployeesCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $showByFirstResultEmployees->handle($showByFirstResultEmployeesCommand),
+            Response::HTTP_OK
         );
     }
 }

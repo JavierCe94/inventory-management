@@ -4,7 +4,7 @@ namespace Inventory\Management\Application\Employee\ShowDataEmployee;
 
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 
-class ShowDataEmployeeTransform implements ShowDataEmployeeTransformInterface
+class ShowDataEmployeeTransform implements ShowDataEmployeeTransformI
 {
     public function transform(Employee $employee)
     {

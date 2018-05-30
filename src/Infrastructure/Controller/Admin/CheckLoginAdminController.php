@@ -16,11 +16,10 @@ class CheckLoginAdminController
             $request->query->get('username'),
             $request->query->get('password')
         );
-        $response = $checkLoginAdmin->handle($checkLoginAdminCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $checkLoginAdmin->handle($checkLoginAdminCommand),
+            Response::HTTP_OK
         );
     }
 }

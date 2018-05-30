@@ -4,7 +4,7 @@ namespace Inventory\Management\Application\Employee\ShowByFirstResultEmployees;
 
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 
-class ShowByFirstResultEmployeesTransform implements ShowByFirstResultEmployeesTransformInterface
+class ShowByFirstResultEmployeesTransform implements ShowByFirstResultEmployeesTransformI
 {
     private const ATOM = "d-m-Y";
 

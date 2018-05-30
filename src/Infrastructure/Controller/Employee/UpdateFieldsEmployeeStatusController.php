@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Employee;
 
 use Inventory\Management\Application\Employee\UpdateFieldsEmployeeStatus\UpdateFieldsEmployeeStatus;
 use Inventory\Management\Application\Employee\UpdateFieldsEmployeeStatus\UpdateFieldsEmployeeStatusCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateFieldsEmployeeStatusController
+class UpdateFieldsEmployeeStatusController extends RoleAdmin
 {
     public function UpdateFieldsEmployeeStatus(
         Request $request,
@@ -24,11 +25,10 @@ class UpdateFieldsEmployeeStatusController
             $request->query->get('department'),
             $request->query->get('subdepartment')
         );
-        $response = $updateFieldsEmployeeStatus->handle($updateFieldsEmployeeStatusCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $updateFieldsEmployeeStatus->handle($updateFieldsEmployeeStatusCommand),
+            Response::HTTP_OK
         );
     }
 }

@@ -4,6 +4,7 @@ namespace Inventory\Management\Tests\Application\Admin\CheckLoginAdmin;
 
 use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdmin;
 use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdminCommand;
+use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdminTransform;
 use Inventory\Management\Domain\Model\Entity\Admin\Admin;
 use Inventory\Management\Domain\Model\Entity\Admin\NotFoundAdminsException;
 use Inventory\Management\Domain\Model\JwtToken\Roles;
@@ -27,6 +28,7 @@ class CheckLoginAdminTest extends TestCase
     private $createToken;
     private $checkDecryptPassword;
     private $checkLoginAdminCommand;
+    private $transform;
 
     public function setUp(): void
     {
@@ -54,6 +56,7 @@ class CheckLoginAdminTest extends TestCase
             ->willReturn('Javier');
         $this->admin->method('getPassword')
             ->willReturn(password_hash('1234', PASSWORD_DEFAULT));
+        $this->transform = new CheckLoginAdminTransform();
     }
 
     /**
@@ -67,6 +70,7 @@ class CheckLoginAdminTest extends TestCase
         $searchAdminByUsername = new SearchAdminByUsername($this->adminRepository);
         $checkLoginEmployee = new CheckLoginAdmin(
             $this->adminRepository,
+            $this->transform,
             $searchAdminByUsername,
             $this->checkDecryptPassword,
             $this->createToken
@@ -86,6 +90,7 @@ class CheckLoginAdminTest extends TestCase
         $searchAdminByUsername = new SearchAdminByUsername($this->adminRepository);
         $checkLoginEmployee = new CheckLoginAdmin(
             $this->adminRepository,
+            $this->transform,
             $searchAdminByUsername,
             $this->checkDecryptPassword,
             $this->createToken
@@ -109,16 +114,14 @@ class CheckLoginAdminTest extends TestCase
         $searchAdminByUsername = new SearchAdminByUsername($this->adminRepository);
         $checkLoginEmployee = new CheckLoginAdmin(
             $this->adminRepository,
+            $this->transform,
             $searchAdminByUsername,
             $this->checkDecryptPassword,
             $this->createToken
         );
         $result = $checkLoginEmployee->handle($this->checkLoginAdminCommand);
         $this->assertEquals(
-            [
-                'data' => 'h5O3P1cj9df.G9dg',
-                'code' => 200
-            ],
+            'h5O3P1cj9df.G9dg',
             $result
         );
     }

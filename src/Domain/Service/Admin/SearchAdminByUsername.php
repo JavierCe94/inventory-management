@@ -3,14 +3,15 @@
 namespace Inventory\Management\Domain\Service\Admin;
 
 use Inventory\Management\Domain\Model\Entity\Admin\Admin;
-use Inventory\Management\Domain\Model\Entity\Admin\AdminRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Admin\AdminRepository;
 use Inventory\Management\Domain\Model\Entity\Admin\NotFoundAdminsException;
+use Inventory\Management\Domain\Model\Entity\Admin\SearchAdminByUsername as SearchAdminByUsernameI;
 
-class SearchAdminByUsername
+class SearchAdminByUsername implements SearchAdminByUsernameI
 {
     private $adminRepository;
 
-    public function __construct(AdminRepositoryInterface $adminRepository)
+    public function __construct(AdminRepository $adminRepository)
     {
         $this->adminRepository = $adminRepository;
     }

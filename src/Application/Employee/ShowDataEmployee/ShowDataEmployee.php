@@ -2,22 +2,17 @@
 
 namespace Inventory\Management\Application\Employee\ShowDataEmployee;
 
-use Inventory\Management\Application\Util\Role\RoleEmployee;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 
-class ShowDataEmployee extends RoleEmployee
+class ShowDataEmployee
 {
     private $showDataEmployeeTransform;
     private $searchEmployeeByNif;
 
     public function __construct(
-        ShowDataEmployeeTransformInterface $showDataEmployeeTransform,
-        SearchEmployeeByNif $searchEmployeeByNif,
-        CheckToken $checkToken
+        ShowDataEmployeeTransformI $showDataEmployeeTransform,
+        SearchEmployeeByNif $searchEmployeeByNif
     ) {
-        parent::__construct($checkToken);
         $this->showDataEmployeeTransform = $showDataEmployeeTransform;
         $this->searchEmployeeByNif = $searchEmployeeByNif;
     }
@@ -26,15 +21,12 @@ class ShowDataEmployee extends RoleEmployee
      * @return array
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
      */
-    public function handle()
+    public function handle(ShowDataEmployeeCommand $showDataEmployeeCommand)
     {
-        $employee = $this->searchEmployeeByNif->execute(
-            $this->dataToken()->nif
+        return $this->showDataEmployeeTransform->transform(
+            $this->searchEmployeeByNif->execute(
+                $showDataEmployeeCommand->dataToken()->nif
+            )
         );
-
-        return [
-            'data' => $this->showDataEmployeeTransform->transform($employee),
-            'code' => HttpResponses::OK
-        ];
     }
 }

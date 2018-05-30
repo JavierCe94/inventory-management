@@ -16,11 +16,10 @@ class CheckLoginEmployeeController
             $request->query->get('nif'),
             $request->query->get('password')
         );
-        $response = $checkLoginEmployee->handle($checkLoginEmployeeCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $checkLoginEmployee->handle($checkLoginEmployeeCommand),
+            Response::HTTP_OK
         );
     }
 }

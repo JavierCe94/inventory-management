@@ -7,10 +7,10 @@ use Inventory\Management\Domain\Model\JwtToken\InvalidRoleTokenException;
 use Inventory\Management\Domain\Model\JwtToken\InvalidTokenException;
 use Inventory\Management\Domain\Model\JwtToken\InvalidUserTokenException;
 use Inventory\Management\Domain\Model\JwtToken\JwtToken;
-use Inventory\Management\Domain\Model\JwtToken\JwtTokenClassInterface;
+use Inventory\Management\Domain\Model\JwtToken\JwtTokenClass as JwtTokenClassI;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class JwtTokenClass implements JwtTokenClassInterface
+class JwtTokenClass implements JwtTokenClassI
 {
     private $requestStack;
 
@@ -35,13 +35,13 @@ class JwtTokenClass implements JwtTokenClassInterface
     }
 
     /**
-     * @param string $role
+     * @param array $roles
      * @return mixed
      * @throws InvalidRoleTokenException
      * @throws InvalidTokenException
      * @throws InvalidUserTokenException
      */
-    public function checkToken(string $role)
+    public function checkToken(array $roles)
     {
         $token = $this->requestStack->getCurrentRequest()->headers->get('X-AUTH-TOKEN');
         if (null === $token) {
@@ -52,7 +52,7 @@ class JwtTokenClass implements JwtTokenClassInterface
             JwtToken::KEY,
             JwtToken::TYPE_ENCRYPT
         );
-        if ($role !== $decode->role) {
+        if (false === in_array($decode->role, $roles)) {
             throw new InvalidRoleTokenException();
         }
         if ($this->audience() !== $decode->aud) {

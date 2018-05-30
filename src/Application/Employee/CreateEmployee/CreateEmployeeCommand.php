@@ -21,6 +21,9 @@ class CreateEmployeeCommand
     private $seniorityDate;
     private $subDepartment;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct(
         $image,
         $nif,
@@ -39,12 +42,17 @@ class CreateEmployeeCommand
         Assertion::length($nif, self::LENGTH_NIF, 'El NIF tiene que contener 9 carácteres');
         Assertion::notBlank($name, 'Tienes que especificar un nombre');
         Assertion::notBlank($inSsNumber, 'Tienes que especificar un número de la seguridad social');
-        Assertion::length($inSsNumber, self::LENGTH_IN_SS_NUMBER, 
-            'El número de la seguridad social tiene que contener 12 carácteres');
+        Assertion::length(
+            $inSsNumber,
+            self::LENGTH_IN_SS_NUMBER,
+            'El número de la seguridad social tiene que contener 12 carácteres'
+        );
         Assertion::notBlank($telephone, 'Tienes que especificar un teléfono');
-        Assertion::minLength($telephone, self::MIN_LENGTH_TELEPHONE,
-            'El teléfono tiene que contener como mínimo 9 caracteres');
-
+        Assertion::minLength(
+            $telephone,
+            self::MIN_LENGTH_TELEPHONE,
+            'El teléfono tiene que contener como mínimo 9 caracteres'
+        );
         $this->image = $image;
         $this->nif = $nif;
         $this->password = $password;
@@ -57,7 +65,7 @@ class CreateEmployeeCommand
         $this->subDepartment = $subDepartment;
     }
 
-    public function image()
+    public function image(): array
     {
         return $this->image;
     }

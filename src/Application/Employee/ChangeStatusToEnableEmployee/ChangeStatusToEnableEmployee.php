@@ -2,42 +2,38 @@
 
 namespace Inventory\Management\Application\Employee\ChangeStatusToEnableEmployee;
 
-use Inventory\Management\Application\Util\Role\RoleAdmin;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepositoryInterface;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository;
 use Inventory\Management\Domain\Service\Employee\SearchEmployeeByNif;
-use Inventory\Management\Domain\Service\JwtToken\CheckToken;
 
-class ChangeStatusToEnableEmployee extends RoleAdmin
+class ChangeStatusToEnableEmployee
 {
     private $employeeRepository;
+    private $changeStatusToEnableEmployeeTransform;
     private $searchEmployeeByNif;
 
     public function __construct(
-        EmployeeRepositoryInterface $employeeRepository,
-        SearchEmployeeByNif $searchEmployeeByNif,
-        CheckToken $checkToken
+        EmployeeRepository $employeeRepository,
+        ChangeStatusToEnableEmployeeTransformI $changeStatusToEnableEmployeeTransform,
+        SearchEmployeeByNif $searchEmployeeByNif
     ) {
-        parent::__construct($checkToken);
         $this->employeeRepository = $employeeRepository;
+        $this->changeStatusToEnableEmployeeTransform = $changeStatusToEnableEmployeeTransform;
         $this->searchEmployeeByNif = $searchEmployeeByNif;
     }
 
     /**
      * @param ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand
-     * @return array
+     * @return string
      * @throws \Inventory\Management\Domain\Model\Entity\Employee\NotFoundEmployeesException
      */
-    public function handle(ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand): array
+    public function handle(ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand): string
     {
-        $employee = $this->searchEmployeeByNif->execute(
-            $enableEmployeeCommand->nif()
+        $this->employeeRepository->changeStatusToEnableEmployee(
+            $this->searchEmployeeByNif->execute(
+                $enableEmployeeCommand->nif()
+            )
         );
-        $this->employeeRepository->changeStatusToEnableEmployee($employee);
 
-        return [
-            'data' => 'Se ha habilitado el trabajador con éxito',
-            'code' => HttpResponses::OK
-        ];
+        return $this->changeStatusToEnableEmployeeTransform->transform();
     }
 }

@@ -4,11 +4,12 @@ namespace Inventory\Management\Infrastructure\Controller\Department;
 
 use Inventory\Management\Application\Department\UpdateNameDepartment\UpdateNameDepartment;
 use Inventory\Management\Application\Department\UpdateNameDepartment\UpdateNameDepartmentCommand;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateNameDepartmentController
+class UpdateNameDepartmentController extends RoleAdmin
 {
     public function updateNameDepartment(Request $request, UpdateNameDepartment $updateNameDepartment): Response
     {
@@ -16,11 +17,10 @@ class UpdateNameDepartmentController
             $request->attributes->get('department'),
             $request->query->get('name')
         );
-        $response = $updateNameDepartment->handle($updateNameDepartmentCommand);
 
         return new JsonResponse(
-            $response['data'],
-            $response['code']
+            $updateNameDepartment->handle($updateNameDepartmentCommand),
+            Response::HTTP_OK
         );
     }
 }

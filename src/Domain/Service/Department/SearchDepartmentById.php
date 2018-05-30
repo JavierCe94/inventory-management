@@ -3,14 +3,15 @@
 namespace Inventory\Management\Domain\Service\Department;
 
 use Inventory\Management\Domain\Model\Entity\Department\Department;
-use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository;
 use Inventory\Management\Domain\Model\Entity\Department\NotFoundDepartmentsException;
+use Inventory\Management\Domain\Model\Entity\Department\SearchDepartmentById as SearchDepartmentByIdI;
 
-class SearchDepartmentById
+class SearchDepartmentById implements SearchDepartmentByIdI
 {
     private $departmentRepository;
 
-    public function __construct(DepartmentRepositoryInterface $departmentRepository)
+    public function __construct(DepartmentRepository $departmentRepository)
     {
         $this->departmentRepository = $departmentRepository;
     }

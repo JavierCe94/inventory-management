@@ -2,7 +2,10 @@
 
 namespace Inventory\Management\Application\Employee\CheckLoginEmployee;
 
-class CheckLoginEmployeeTransform implements CheckLoginEmployeeTransformInterface
+class CheckLoginEmployeeTransform implements CheckLoginEmployeeTransformI
 {
-
+    public function transform($token)
+    {
+        return $token;
+    }
 }

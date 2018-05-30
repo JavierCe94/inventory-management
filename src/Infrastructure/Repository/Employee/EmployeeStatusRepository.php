@@ -4,9 +4,9 @@ namespace Inventory\Management\Infrastructure\Repository\Employee;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus;
-use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepository as EmployeeStatusRepositoryI;
 
-class EmployeeStatusRepository extends ServiceEntityRepository implements EmployeeStatusRepositoryInterface
+class EmployeeStatusRepository extends ServiceEntityRepository implements EmployeeStatusRepositoryI
 {
     /**
      * @param EmployeeStatus $employeeStatus
@@ -22,11 +22,12 @@ class EmployeeStatusRepository extends ServiceEntityRepository implements Employ
         return $employeeStatus;
     }
 
+    /**
+     * @param string $codeEmployee
+     * @return object|EmployeeStatus
+     */
     public function checkNotExistsCodeEmployeeStatus(string $codeEmployee): ?EmployeeStatus
     {
-        /* @var EmployeeStatus $employeeStatus */
-        $employeeStatus = $this->findOneBy(['codeEmployee' => $codeEmployee]);
-
-        return $employeeStatus;
+        return $this->findOneBy(['codeEmployee' => $codeEmployee]);
     }
 }

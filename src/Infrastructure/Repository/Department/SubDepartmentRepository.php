@@ -4,9 +4,9 @@ namespace Inventory\Management\Infrastructure\Repository\Department;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
-use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepository as SubDepartmentRepositoryI;
 
-class SubDepartmentRepository extends ServiceEntityRepository implements SubDepartmentRepositoryInterface
+class SubDepartmentRepository extends ServiceEntityRepository implements SubDepartmentRepositoryI
 {
     /**
      * @param SubDepartment $subDepartment
@@ -37,19 +37,21 @@ class SubDepartmentRepository extends ServiceEntityRepository implements SubDepa
         return $subDepartment;
     }
 
+    /**
+     * @param int $idSubDepartment
+     * @return object|SubDepartment
+     */
     public function findSubDepartmentById(int $idSubDepartment): ?SubDepartment
     {
-        /* @var SubDepartment $subDepartment */
-        $subDepartment = $this->find($idSubDepartment);
-
-        return $subDepartment;
+        return $this->find($idSubDepartment);
     }
 
+    /**
+     * @param $name
+     * @return object|SubDepartment
+     */
     public function checkNotExistNameSubDepartment($name): ?SubDepartment
     {
-        /* @var SubDepartment $subDepartment */
-        $subDepartment = $this->findOneBy(['name' => $name]);
-
-        return $subDepartment;
+        return $this->findOneBy(['name' => $name]);
     }
 }

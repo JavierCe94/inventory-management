@@ -9,13 +9,15 @@ class UpdateNameSubDepartmentCommand
     private $subDepartment;
     private $name;
 
+    /**
+     * @throws \Assert\AssertionFailedException
+     */
     public function __construct($subDepartment, $name)
     {
         Assertion::notBlank($subDepartment);
         Assertion::numeric($subDepartment);
         Assertion::notBlank($name);
         Assertion::string($name);
-
         $this->subDepartment = $subDepartment;
         $this->name = $name;
     }
