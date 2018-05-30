@@ -2,15 +2,22 @@
 
 namespace Inventory\Management\Infrastructure\Controller\Admin;
 
-use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdmin;
 use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdminCommand;
+use Inventory\Management\Infrastructure\Util\CommandBus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckLoginAdminController
 {
-    public function checkLoginAdmin(Request $request, CheckLoginAdmin $checkLoginAdmin): Response
+    private $commandBus;
+
+    public function __construct(CommandBus $commandBus)
+    {
+        $this->commandBus = $commandBus;
+    }
+
+    public function checkLoginAdmin(Request $request): Response
     {
         $checkLoginAdminCommand = new CheckLoginAdminCommand(
             $request->query->get('username'),
@@ -18,7 +25,7 @@ class CheckLoginAdminController
         );
 
         return new JsonResponse(
-            $checkLoginAdmin->handle($checkLoginAdminCommand),
+            $this->commandBus->handle($checkLoginAdminCommand),
             Response::HTTP_OK
         );
     }

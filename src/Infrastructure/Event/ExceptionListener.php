@@ -11,8 +11,7 @@ class ExceptionListener
     {
         $exception = $event->getException();
         $jsonResponse = new JsonResponse(
-            $exception->getMessage(),
-            $exception->getCode()
+            $exception->getMessage()
         );
         $event->allowCustomResponseCode();
         $event->setResponse($jsonResponse);

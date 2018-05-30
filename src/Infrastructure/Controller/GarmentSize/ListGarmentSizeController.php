@@ -1,16 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: programador
- * Date: 15/05/18
- * Time: 11:39
- */
 
 namespace Inventory\Management\Infrastructure\Controller\GarmentSize;
 
 use Inventory\Management\Application\GarmentSize\ListGarmentSize\ListGarmentSize;
 use Inventory\Management\Application\GarmentSize\ListGarmentSize\ListGarmentSizeCommand;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class ListGarmentSizeController
 {
@@ -20,14 +15,13 @@ class ListGarmentSizeController
         $this->listGarmentSize = $listGarmentSize;
     }
 
-    /**
-     * @param array/GarmentSize[] $queryResult
-     * @return JsonResponse
-     */
-    public function __invoke()
+    public function listGarmentSize()
     {
-        $result = $this->listGarmentSize->handle(new ListGarmentSizeCommand());
-
-        return new JsonResponse($result);
+        return new JsonResponse(
+            $this->listGarmentSize->handle(
+                new ListGarmentSizeCommand()
+            ),
+            Response::HTTP_OK
+        );
     }
 }
