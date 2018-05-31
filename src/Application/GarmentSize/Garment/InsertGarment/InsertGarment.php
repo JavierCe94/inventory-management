@@ -2,16 +2,13 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentNameExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentNameExistsI;
 
 class InsertGarment
 {
-    const OK = 'Garment insertado con exito';
-    const CODE_OK = 200;
-
     private $garmentRepository;
     private $garmentTypeRepository;
     private $insertGarmentTransform;
@@ -19,11 +16,11 @@ class InsertGarment
     private $findGarmentTypeIfExists;
     
     public function __construct(
-        GarmentRepositoryInterface $garmentRepository,
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
-        InsertGarmentTransformInterface $insertGarmentTransform,
-        GarmentNameExists $garmentNameExists,
-        FindGarmentTypeIfExists $findGarmentTypeIfExists
+        GarmentRepositoryI $garmentRepository,
+        GarmentTypeRepositoryI $garmentTypeRepository,
+        InsertGarmentTransformI $insertGarmentTransform,
+        GarmentNameExistsI $garmentNameExists,
+        FindGarmentTypeIfExistsI $findGarmentTypeIfExists
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->garmentTypeRepository = $garmentTypeRepository;
@@ -33,8 +30,6 @@ class InsertGarment
     }
 
     /**
-     * @param InsertGarmentCommand $insertGarmentCommand
-     * @return array
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
      */
@@ -52,9 +47,6 @@ class InsertGarment
         );
         $this->garmentRepository->persistAndFlush($garmentEntity);
 
-        return [
-            'data' => self::OK,
-            'code' => self::CODE_OK
-        ];
+        return $this->insertGarmentTransform->transform();
     }
 }

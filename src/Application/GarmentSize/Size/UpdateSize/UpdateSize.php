@@ -3,10 +3,10 @@
 namespace Inventory\Management\Application\GarmentSize\Size\UpdateSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
+use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExistsI;
 
 class UpdateSize
 {
@@ -16,10 +16,10 @@ class UpdateSize
     private $findSizeEntityIfExist;
     
     public function __construct(
-        SizeRepositoryInterface $sizeRepository,
-        FindGarmentTypeIfExists $findGarmentTypeIfExist,
-        UpdateSizeTransformInterface $dataTransform,
-        FindSizeEntityIfExists $findSizeEntityIfExist
+        SizeRepositoryI $sizeRepository,
+        FindGarmentTypeIfExistsI $findGarmentTypeIfExist,
+        UpdateSizeTransformI $dataTransform,
+        FindSizeEntityIfExistsI $findSizeEntityIfExist
     ) {
         $this->sizeRepository = $sizeRepository;
         $this->findGarmentTypeIfExist = $findGarmentTypeIfExist;
@@ -28,8 +28,6 @@ class UpdateSize
     }
 
     /**
-     * @param UpdateSizeCommand $updateSizeCommand
-     * @return array
      * @throws SizeDoNotExist
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
      */
@@ -48,9 +46,6 @@ class UpdateSize
         );
         $this->sizeRepository->persistAndFlush($sizeUpdated);
 
-        return [
-            "data" => $this->dataTransform->transform($sizeUpdated),
-            "code" => HttpResponses::OK
-        ];
+        return $this->dataTransform->transform($sizeUpdated);
     }
 }

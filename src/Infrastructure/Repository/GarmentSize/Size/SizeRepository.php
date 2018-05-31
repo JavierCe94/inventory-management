@@ -4,9 +4,9 @@ namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Size;
 
 use Doctrine\ORM\EntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
 
-class SizeRepository extends EntityRepository implements SizeRepositoryInterface
+class SizeRepository extends EntityRepository implements SizeRepositoryI
 {
     /**
      * @throws \Doctrine\ORM\ORMException

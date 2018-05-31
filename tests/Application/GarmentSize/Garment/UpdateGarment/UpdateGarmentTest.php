@@ -12,8 +12,8 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGar
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -34,8 +34,8 @@ class UpdateGarmentTest extends TestCase
 
     public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
-        $this->garmentRepositoryStub = $this->createMock(GarmentRepositoryInterface::class);
-        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryInterface::class);
+        $this->garmentRepositoryStub = $this->createMock(GarmentRepositoryI::class);
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryI::class);
         $this->handler = new UpdateGarment(
             $this->garmentRepositoryStub,
             new UpdateGarmentTransform(),

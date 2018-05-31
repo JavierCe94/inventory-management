@@ -1,41 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: programador
- * Date: 3/05/18
- * Time: 8:36
- */
 
 namespace Inventory\Management\Infrastructure\Controller\GarmentSize\Garment;
 
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarment;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarment\InsertGarmentCommand;
-use Inventory\Management\Infrastructure\Service\ReactRequestTransform\ReactRequestTransform;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class InsertGarmentController extends Controller
+class InsertGarmentController extends RoleAdmin
 {
-    /**
-     * @param Request               $request
-     * @param InsertGarment         $insertGarment
-     * @param ReactRequestTransform $reactRequestTransform
-     *
-     * @return JsonResponse
-     */
     public function insertGarment(
         Request $request,
-        InsertGarment $insertGarment,
-        ReactRequestTransform $reactRequestTransform
+        InsertGarment $insertGarment
     ) {
-        $item = $reactRequestTransform->transform($request);
-
         $output = $insertGarment->handle(new InsertGarmentCommand(
-            $item['name'],
-            $item['garmentTypeId']
+            $request->request->get('name'),
+            $request->request->get('garmentTypeId')
         ));
 
-        return new JsonResponse($output['data'], $output['code']);
+        return new JsonResponse($output, HttpResponses::OK);
     }
 }

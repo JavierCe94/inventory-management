@@ -3,10 +3,10 @@
 namespace Inventory\Management\Application\GarmentSize\Size\InsertNewSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeEntityExist;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
+use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeEntityExistI;
 
 class InsertNewSize
 {
@@ -16,10 +16,10 @@ class InsertNewSize
     private $insertNewSizeTransform;
     
     public function __construct(
-        SizeRepositoryInterface $sizeRepository,
-        FindGarmentTypeIfExists $findGarmentTypeIfExists,
-        CheckIfSizeEntityExist $checkIfSizeEntityExist,
-        InsertNewSizeTransformInterface $insertNewSizeTransform
+        SizeRepositoryI $sizeRepository,
+        FindGarmentTypeIfExistsI $findGarmentTypeIfExists,
+        CheckIfSizeEntityExistI $checkIfSizeEntityExist,
+        InsertNewSizeTransformI $insertNewSizeTransform
     ) {
         $this->sizeRepository = $sizeRepository;
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
@@ -28,8 +28,6 @@ class InsertNewSize
     }
 
     /**
-     * @param InsertNewSizeCommand $insertNewSizeCommand
-     * @return array
      * @throws GarmentTypeNotExistsException
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist
      */
@@ -48,9 +46,6 @@ class InsertNewSize
         );
         $this->sizeRepository->persistAndFlush($newSize);
 
-        return [
-            'data' => $this->insertNewSizeTransform->transform([$newSize]),
-            "code" => HttpResponses::OK
-        ];
+        return $this->insertNewSizeTransform->transform($newSize);
     }
 }

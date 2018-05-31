@@ -2,22 +2,11 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\InsertNewSize;
 
-class InsertNewSizeTransform implements InsertNewSizeTransformInterface
+class InsertNewSizeTransform implements InsertNewSizeTransformI
 {
-    /**
-     * @param array/Size[] $sizes
-     * @return array
-     */
-    public function transform(array $sizes): array
+
+    public function transform(): string
     {
-        $transformed = [];
-        foreach ($sizes as $size) {
-            $transformed [] = [
-                'size' => $size->getSizeValue(),
-                'tipoRopa' => $size->getGarmentType()->getName()
-            ];
-        }
-        
-        return $transformed;
+        return "Nueva talla insertada";
     }
 }

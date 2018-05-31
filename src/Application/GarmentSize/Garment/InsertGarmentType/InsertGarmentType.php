@@ -2,31 +2,29 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExistsI;
 
 class InsertGarmentType
 {
-    const OK = 'Tipo prenda insertado con exito';
-    const CODE_OK = 200;
-
     private $garmentTypeRepository;
     private $insertGarmentTypeTransform;
     private $garmentTypeNameExists;
+    private $dataTransform;
     
     public function __construct(
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
-        InsertGarmentTypeTransformInterface $insertGarmentTypeTransform,
-        GarmentTypeNameExists $garmentTypeNameExists
+        GarmentTypeRepositoryI $garmentTypeRepository,
+        InsertGarmentTypeTransformI $insertGarmentTypeTransform,
+        GarmentTypeNameExistsI $garmentTypeNameExists,
+        InsertGarmentTypeTransformI $dataTransform
     ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->insertGarmentTypeTransform = $insertGarmentTypeTransform;
         $this->garmentTypeNameExists = $garmentTypeNameExists;
+        $this->dataTransform = $dataTransform;
     }
 
     /**
-     * @param InsertGarmentTypeCommand $insertGarmentTypeCommand
-     * @return array
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException
      */
     public function handle(InsertGarmentTypeCommand $insertGarmentTypeCommand): array
@@ -39,9 +37,6 @@ class InsertGarmentType
         );
         $this->garmentTypeRepository->persistAndFlush($garmentTypeEntity);
 
-        return [
-            'data' => self::OK,
-            'code' => self::CODE_OK
-        ];
+        return $this->dataTransform->transform();
     }
 }

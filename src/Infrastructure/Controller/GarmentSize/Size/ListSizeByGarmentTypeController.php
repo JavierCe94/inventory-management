@@ -1,34 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Fran Moraton
- * Date: 03/05/2018
- * Time: 9:27
- */
 
 namespace Inventory\Management\Infrastructure\Controller\GarmentSize\Size;
 
 use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentType;
 use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeCommand;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Infrastructure\Util\Role\RoleEmployee;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class ListSizeByGarmentTypeController
+class ListSizeByGarmentTypeController extends RoleEmployee
 {
     private $listSizeByGarmentType;
 
-    /**
-     * ListSizeByGarmentTypeController constructor.
-     * @param $listSizeByGarmentType
-     */
     public function __construct(ListSizeByGarmentType $listSizeByGarmentType)
     {
+        parent::__construct();
         $this->listSizeByGarmentType = $listSizeByGarmentType;
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
      * @throws \Assert\AssertionFailedException
      * @throws \Exception
      */
@@ -38,6 +29,6 @@ class ListSizeByGarmentTypeController
 
         $dataToShow = $this->listSizeByGarmentType->handle(new ListSizeByGarmentTypeCommand($garmentType));
 
-        return new JsonResponse($dataToShow['data'], $dataToShow['code']);
+        return new JsonResponse($dataToShow, HttpResponses::OK);
     }
 }

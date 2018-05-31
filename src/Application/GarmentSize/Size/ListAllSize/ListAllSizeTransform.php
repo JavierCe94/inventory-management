@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\ListAllSize;
 
-class ListAllSizeTransform implements ListAllSizeTransformInterface
+class ListAllSizeTransform implements ListAllSizeTransformI
 {
     /**
      * @param array/Size[] $sizes

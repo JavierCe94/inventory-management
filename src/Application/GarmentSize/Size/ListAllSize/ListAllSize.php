@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\ListAllSize;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 
 class ListAllSize
@@ -11,8 +11,8 @@ class ListAllSize
     private $listAllSizeTransform;
     
     public function __construct(
-        SizeRepositoryInterface $sizeRepository,
-        ListAllSizeTransformInterface $listAllSizeTransform
+        SizeRepositoryI $sizeRepository,
+        ListAllSizeTransformI $listAllSizeTransform
     ) {
         $this->sizeRepository = $sizeRepository;
         $this->listAllSizeTransform = $listAllSizeTransform;
@@ -23,9 +23,6 @@ class ListAllSize
         $allSize = $this->sizeRepository->findAllSize();
         $allSize = $this->listAllSizeTransform->transform($allSize);
 
-        return [
-            "data" => $allSize,
-            "code" => HttpResponses::OK
-        ];
+        return $allSize;
     }
 }

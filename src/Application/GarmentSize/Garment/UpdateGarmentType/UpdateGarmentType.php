@@ -2,22 +2,19 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
 
 class UpdateGarmentType
 {
-    const OK = 'GarmentType actualizado con exito';
-    const CODE_OK = 200;
-
     private $garmentTypeRepository;
     private $updateGarmentTypeTransform;
     private $findGarmentTypeIfExists;
     
     public function __construct(
-        GarmentTypeRepositoryInterface $garmentTypeRepository,
-        UpdateGarmentTypeTransformInterface $updateGarmentTypeTransform,
-        FindGarmentTypeIfExists $findGarmentIfExists
+        GarmentTypeRepositoryI $garmentTypeRepository,
+        UpdateGarmentTypeTransformI $updateGarmentTypeTransform,
+        FindGarmentTypeIfExistsI $findGarmentIfExists
     ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
@@ -25,8 +22,6 @@ class UpdateGarmentType
     }
 
     /**
-     * @param UpdateGarmentTypeCommand $updateGarmentTypeCommand
-     * @return array
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
      */
     public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): array
@@ -39,9 +34,6 @@ class UpdateGarmentType
             $updateGarmentTypeCommand->getName()
         );
 
-        return [
-            'data' => self::OK,
-            'code' => self::CODE_OK
-        ];
+        return $this->updateGarmentTypeTransform->transform();
     }
 }

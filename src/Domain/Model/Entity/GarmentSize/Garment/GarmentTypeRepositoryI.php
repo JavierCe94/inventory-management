@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-interface GarmentTypeRepositoryInterface
+interface GarmentTypeRepositoryI
 {
     public function insertGarmentType(string $name): GarmentType;
     public function listGarmentTypes(): array;

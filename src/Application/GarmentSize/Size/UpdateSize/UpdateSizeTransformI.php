@@ -4,7 +4,7 @@ namespace Inventory\Management\Application\GarmentSize\Size\UpdateSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 
-interface UpdateSizeTransformInterface
+interface UpdateSizeTransformI
 {
-    public function transform(Size $sizes): array;
+    public function transform(): string;
 }

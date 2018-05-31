@@ -3,22 +3,21 @@
 namespace Inventory\Management\Domain\Service\GarmentSize\Garment;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryI;
 
-class GarmentNameExists
+class GarmentNameExists implements GarmentNameExistI
 {
     private $garmentRepository;
 
-    public function __construct(GarmentRepositoryInterface $garmentRepository)
+    public function __construct(GarmentRepositoryI $garmentRepository)
     {
         $this->garmentRepository = $garmentRepository;
     }
 
     /**
-     * @param string $name
      * @throws GarmentNameExistsException
      */
-    public function check(string $name)
+    public function check(string $name): void
     {
         $output = $this->garmentRepository->findGarmentByName($name);
         if (null !== $output) {

@@ -4,15 +4,18 @@ namespace Inventory\Management\Infrastructure\Controller\GarmentSize;
 
 use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTable;
 use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTableCommand;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class GarmentSizeTableController
+class GarmentSizeTableController extends RoleAdmin
 {
     private $handler;
 
     public function __construct(CreateGarmentSizeTable $handler)
     {
+        parent::__construct();
         $this->handler = $handler;
     }
 
@@ -24,6 +27,6 @@ class GarmentSizeTableController
 
         $response = $this->handler->handle(new CreateGarmentSizeTableCommand($idGarment, $idSize, $sizeValue));
 
-        return new JsonResponse($response["data"], $response["code"]);
+        return new JsonResponse($response, HttpResponses::OK);
     }
 }

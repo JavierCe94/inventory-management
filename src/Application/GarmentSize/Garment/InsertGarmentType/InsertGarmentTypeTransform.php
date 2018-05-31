@@ -2,12 +2,10 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType;
 
-class InsertGarmentTypeTransform implements InsertGarmentTypeTransformInterface
+class InsertGarmentTypeTransform implements InsertGarmentTypeTransformI
 {
-    public function transform(): array
+    public function transform(): string
     {
-        return [
-            'Status' =>'200 OK'
-        ];
+        return 'Tipo prenda insertado con exito';
     }
 }

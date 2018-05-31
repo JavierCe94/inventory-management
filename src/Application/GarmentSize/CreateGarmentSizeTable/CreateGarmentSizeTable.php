@@ -3,12 +3,13 @@
 namespace Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryI;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\GarmentSize\CheckGarmentSizeExist;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\CheckGarmentTypeAreEquals;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\CheckGarmentSizeExistI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\CheckGarmentTypeAreEqualsI;
+use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExistsI;
+use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExistsI;
+
 
 class CreateGarmentSizeTable
 {
@@ -19,22 +20,13 @@ class CreateGarmentSizeTable
     private $checkGarmentTypeAreEquals;
     private $dataTransform;
 
-    /**
-     * CreateGarmentSizeTable constructor.
-     * @param GarmentSizeRepositoryInterface $garmentSizeRepository
-     * @param FindGarmentIfExists $findGarmentIfExist
-     * @param FindSizeEntityIfExists $findSizeEntityIfExist
-     * @param CheckGarmentSizeExist $checkGarmentSizeExist
-     * @param CheckGarmentTypeAreEquals $checkGarmentTypeAreEquals
-     * @param CreateGarmentSizeTableTransformInterface $dataTransform
-     */
     public function __construct(
-        GarmentSizeRepositoryInterface $garmentSizeRepository,
-        FindGarmentIfExists $findGarmentIfExist,
-        FindSizeEntityIfExists $findSizeEntityIfExist,
-        CheckGarmentSizeExist $checkGarmentSizeExist,
-        CheckGarmentTypeAreEquals $checkGarmentTypeAreEquals,
-        CreateGarmentSizeTableTransformInterface $dataTransform
+        GarmentSizeRepositoryI $garmentSizeRepository,
+        FindGarmentIfExistsI $findGarmentIfExist,
+        FindSizeEntityIfExistsI $findSizeEntityIfExist,
+        CheckGarmentSizeExistI $checkGarmentSizeExist,
+        CheckGarmentTypeAreEqualsI $checkGarmentTypeAreEquals,
+        CreateGarmentSizeTableTransformI $dataTransform
     ) {
         $this->garmentSizeRepository = $garmentSizeRepository;
         $this->findGarmentIfExist = $findGarmentIfExist;
@@ -45,8 +37,6 @@ class CreateGarmentSizeTable
     }
 
     /**
-     * @param CreateGarmentSizeTableCommand $createGarmentSizeTableCommand
-     * @return array
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeAlreadyExist
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypesAreNotEquals
@@ -75,9 +65,6 @@ class CreateGarmentSizeTable
         );
         $this->garmentSizeRepository->persistAndFlush($newGarmentSize);
 
-        return [
-            "data" => "created",
-            "code" => HttpResponses::OK
-        ];
+        return $this->dataTransform->transform();
     }
 }

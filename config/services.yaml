@@ -91,7 +91,7 @@ services:
         arguments:
             - Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType
 
-    Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface:
+    Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI:
         alias: app.garmenttype_repository
 
     Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface:

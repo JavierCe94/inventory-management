@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize;
 
-interface GarmentSizeRepositoryInterface
+interface GarmentSizeRepositoryI
 {
     public function persistAndFlush(GarmentSize $garmentSize);
     public function findAllGarmentSize();

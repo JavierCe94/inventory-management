@@ -1,34 +1,24 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Fran Moraton
- * Date: 03/05/2018
- * Time: 15:56
- */
 
 namespace Inventory\Management\Infrastructure\Controller\GarmentSize\Size;
 
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSize;
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeCommand;
+use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class UpdateSizeController
+class UpdateSizeController extends RoleAdmin
 {
     private $updateSize;
-
-    /**
-     * UpdateSizeController constructor.
-     * @param $updateSize
-     */
     public function __construct(UpdateSize $updateSize)
     {
+        parent::__construct();
         $this->updateSize = $updateSize;
     }
 
     /**
-     * @param Request $request
-     * @return JsonResponse
      * @throws \Assert\AssertionFailedException
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
      * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist
@@ -41,6 +31,6 @@ class UpdateSizeController
 
         $dataToShow = $this->updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType, $newSizeValue));
 
-        return new JsonResponse($dataToShow['data'], $dataToShow['code']);
+        return new JsonResponse($dataToShow, HttpResponses::OK);
     }
 }

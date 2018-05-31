@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable;
 
-interface CreateGarmentSizeTableTransformInterface
+interface CreateGarmentSizeTableTransformI
 {
-
+    public function transform(): string;
 }

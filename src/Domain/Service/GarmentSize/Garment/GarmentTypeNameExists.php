@@ -3,20 +3,18 @@
 namespace Inventory\Management\Domain\Service\GarmentSize\Garment;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
 
-class GarmentTypeNameExists
+class GarmentTypeNameExists implements GarmentTypeNameExistsI
 {
     private $garmentTypeRepository;
 
-    public function __construct(GarmentTypeRepositoryInterface $garmentTypeRepository)
+    public function __construct(GarmentTypeRepositoryI $garmentTypeRepository)
     {
         $this->garmentTypeRepository = $garmentTypeRepository;
     }
 
     /**
-     * @param string $name
-     * @return \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType|null
      * @throws GarmentTypeNameExistsException
      */
     public function check(string $name)

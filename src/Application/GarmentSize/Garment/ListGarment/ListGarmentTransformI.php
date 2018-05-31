@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\ListGarment;
 
-interface ListGarmentTransformInterface
+interface ListGarmentTransformI
 {
     public function transform(array $queryInput): array;
 }

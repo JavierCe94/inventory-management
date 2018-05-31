@@ -2,21 +2,16 @@
 
 namespace Inventory\Management\Application\GarmentSize\ListGarmentSize;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryI;
 
 class ListGarmentSize
 {
     private $garmentSizeRepository;
     private $listGarmentSizeTransform;
 
-    /**
-     * ListGarmentSize constructor.
-     * @param GarmentSizeRepositoryInterface $garmentSizeRepository
-     * @param ListGarmentSizeTransformInterface $listGarmentSizeTransform
-     */
     public function __construct(
-        GarmentSizeRepositoryInterface $garmentSizeRepository,
-        ListGarmentSizeTransformInterface $listGarmentSizeTransform
+        GarmentSizeRepositoryI $garmentSizeRepository,
+        ListGarmentSizeTransformI $listGarmentSizeTransform
     ) {
         $this->garmentSizeRepository = $garmentSizeRepository;
         $this->listGarmentSizeTransform = $listGarmentSizeTransform;

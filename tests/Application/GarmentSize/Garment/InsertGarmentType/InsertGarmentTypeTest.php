@@ -12,7 +12,7 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Bundle\FrameworkBundle\Tests\TestCase;
@@ -30,7 +30,7 @@ class InsertGarmentTypeTest extends TestCase
 
     public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
-        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryInterface::class);
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryI::class);
 
         $this->handler = new InsertGarmentType(
             $this->garmentTypeRepositoryStub,

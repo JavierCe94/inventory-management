@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType;
 
-interface InsertGarmentTypeTransformInterface
+interface InsertGarmentTypeTransformI
 {
-    public function transform(): array;
+    public function transform(): string;
 }

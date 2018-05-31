@@ -2,21 +2,10 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\UpdateSize;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
-
-class UpdateSizeTransform implements UpdateSizeTransformInterface
+class UpdateSizeTransform implements UpdateSizeTransformI
 {
-    /**
-     * @param Size $sizes
-     * @return array
-     */
-    public function transform(Size $sizes): array
+    public function transform(): string
     {
-        $transformed [] = [
-            'sizeValue' => $sizes->getSizeValue(),
-            'garmentType' => $sizes->getGarmentType()->getId()
-        ];
-
-        return $transformed;
+        return "talla modificada con exito";
     }
 }

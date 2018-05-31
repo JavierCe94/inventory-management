@@ -4,21 +4,18 @@ namespace Inventory\Management\Domain\Service\GarmentSize\Size;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
 
-class FindSizeEntityIfExists
+class FindSizeEntityIfExists implements FindSizeEntityIfExistsI
 {
     private $sizeRepository;
 
-    public function __construct(SizeRepositoryInterface $sizeRepository)
+    public function __construct(SizeRepositoryI $sizeRepository)
     {
         $this->sizeRepository = $sizeRepository;
     }
 
     /**
-     * @param int $id
-     * @param int $sizeValue
-     * @return Size|null
      * @throws SizeDoNotExist
      */
     public function execute(int $id, int $sizeValue): ?Size

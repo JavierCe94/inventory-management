@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
 
-interface UpdateGarmentTypeTransformInterface
+interface UpdateGarmentTypeTransformI
 {
-    
+    public function transform(): string;
 }
