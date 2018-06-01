@@ -67,46 +67,22 @@ services:
             - '@Doctrine\Common\Persistence\ManagerRegistry'
             - Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatus
 
-    app.size_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager',getRepository]
+    Inventory\Management\Infrastructure\Repository\GarmentSize\GarmentSizeRepository:
         arguments:
-            - Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size
-
-    Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryInterface:
-        alias: app.size_repository
-
-    app.garmentsize_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager',getRepository]
-        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
             - Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize
-
-    Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryInterface:
-        alias: app.garmentsize_repository
-
-    app.garmenttype_repository:
-        class: Doctrine\ORM\EntityRepository
-        factory: ['@doctrine.orm.default_entity_manager',getRepository]
-        arguments:
-            - Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType
-
-    Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI:
-        alias: app.garmenttype_repository
-
-    Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransformInterface:
-        alias: Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform
-
-    Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransformInterface:
-        alias: Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform
-
 
     Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository:
         arguments:
-        - '@Doctrine\Common\Persistence\ManagerRegistry'
-        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment'
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment'
 
     Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository:
         arguments:
-        - '@Doctrine\Common\Persistence\ManagerRegistry'
-        - 'Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType'
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType
+
+    Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size

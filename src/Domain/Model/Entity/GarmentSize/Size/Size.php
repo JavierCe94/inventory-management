@@ -36,6 +36,12 @@ class Size
      */
     private $garmentSizes;
 
+    public function __construct(GarmentType $garmentType, string $sizeValue)
+    {
+        $this->garmentType = $garmentType;
+        $this->sizeValue = $sizeValue;
+    }
+
     public function getId(): int
     {
         return $this->id;

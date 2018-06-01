@@ -12,24 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateGarmentSizeController extends RoleAdmin
 {
-    private $handler;
-
-    public function __construct(UpdateGarmentSize $handler)
+    public function __invoke(Request $request, UpdateGarmentSize $handler)
     {
-        $this->handler = $handler;
-    }
-
-    public function updateGarmentSize(Request $request)
-    {
-        $stock = $request->request->get("stock");
-        $idGarment = $request->request->get("sizeValue");
-        $idSize = $request->request->get("idSize");
-        $sizeValue = $request->request->get("idGarment");
-
-        $response = $this->handler->handle(new UpdateGarmentSizeCommand($idGarment, $idSize, $sizeValue, $stock));
-
         return new JsonResponse(
-            $response,
+            $handler->handle(
+                new UpdateGarmentSizeCommand(
+                    $request->request->get("idGarment"),
+                    $request->request->get("idSize"),
+                    $request->request->get("sizeValue"),
+                    $request->request->get("stock")
+                )
+            ),
             HttpResponses::OK
         );
     }

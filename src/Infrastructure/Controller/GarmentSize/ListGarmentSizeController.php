@@ -11,17 +11,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ListGarmentSizeController extends RoleEmployee
 {
-    private $listGarmentSize;
-    public function __construct(ListGarmentSize $listGarmentSize)
-    {
-        parent::__construct();
-        $this->listGarmentSize = $listGarmentSize;
-    }
-
-    public function listGarmentSize()
+    public function __invoke(ListGarmentSize $listGarmentSize)
     {
         return new JsonResponse(
-            $this->listGarmentSize->handle(
+            $listGarmentSize->handle(
                 new ListGarmentSizeCommand()
             ),
             HttpResponses::OK

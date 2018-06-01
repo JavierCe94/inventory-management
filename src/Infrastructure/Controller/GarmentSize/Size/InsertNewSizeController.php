@@ -11,25 +11,16 @@ use Symfony\Component\HttpFoundation\Request;
 
 class InsertNewSizeController extends RoleAdmin
 {
-    private $insertNewSize;
-
-    public function __construct(InsertNewSize $insertNewSize)
+    public function __invoke(Request $request, InsertNewSize $insertNewSize)
     {
-        parent::__construct();
-        $this->insertNewSize = $insertNewSize;
-    }
-
-    /**
-     * @throws \Assert\AssertionFailedException
-     * @throws \Exception
-     */
-    public function __invoke(Request $request)
-    {
-        $dataToShow = $this->insertNewSize->handle(new InsertNewSizeCommand(
-            $request->request->get('sizeValue'),
-            $request->request->get('garmentType')
-        ));
-
-        return new JsonResponse($dataToShow, HttpResponses::OK);
+        return new JsonResponse(
+            $insertNewSize->handle(
+                new InsertNewSizeCommand(
+                    $request->request->get('sizeValue'),
+                    $request->request->get('garmentType')
+                )
+            ),
+            HttpResponses::OK
+        );
     }
 }

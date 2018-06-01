@@ -11,26 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UpdateSizeController extends RoleAdmin
 {
-    private $updateSize;
-    public function __construct(UpdateSize $updateSize)
+    public function __invoke(Request $request, UpdateSize $updateSize)
     {
-        parent::__construct();
-        $this->updateSize = $updateSize;
-    }
-
-    /**
-     * @throws \Assert\AssertionFailedException
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist
-     */
-    public function __invoke(Request $request)
-    {
-        $sizeValue = $request->request->get('sizeValue');
-        $garmentType = $request->request->get('garmentType');
-        $newSizeValue = $request->request->get('newSizeValue');
-
-        $dataToShow = $this->updateSize->handle(new UpdateSizeCommand($sizeValue, $garmentType, $newSizeValue));
-
-        return new JsonResponse($dataToShow, HttpResponses::OK);
+        return new JsonResponse(
+            $updateSize->handle(
+                new UpdateSizeCommand(
+                    $request->request->get('sizeValue'),
+                    $request->request->get('garmentType'),
+                    $request->request->get('newSizeValue')
+                )
+            ),
+            HttpResponses::OK
+        );
     }
 }

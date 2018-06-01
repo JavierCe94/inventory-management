@@ -6,7 +6,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository")
+ * @ORM\Entity(repositoryClass="
+ *      Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository
+ * ")
  * @ORM\Table(name="garment_type")
  */
 class GarmentType
@@ -23,6 +25,18 @@ class GarmentType
      */
     private $name;
 
+    /**
+     * @ORM\OneToMany(
+     * targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size",
+     * mappedBy="garmentType")
+     */
+    private $sizes;
+
+    public function __construct(string $name)
+    {
+        $this->name = $name;
+    }
+
     public function getId(): int
     {
         return $this->id;
@@ -36,18 +50,6 @@ class GarmentType
     public function setName(string $name): void
     {
         $this->name = $name;
-    }
-
-    /**
-     * @ORM\OneToMany(
-     * targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size",
-     * mappedBy="garmentType")
-     */
-    protected $sizes;
-
-    public function __construct()
-    {
-        $this->sizes = new ArrayCollection();
     }
 
     public function getSizes()

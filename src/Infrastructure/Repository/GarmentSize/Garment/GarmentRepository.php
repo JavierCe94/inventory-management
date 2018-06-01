@@ -4,18 +4,20 @@ namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryI;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepository as GarmentRepositoryI;
 
 class GarmentRepository extends ServiceEntityRepository implements GarmentRepositoryI
 {
-    public function insertGarment(string $name, GarmentType $garmentTypeId): ?Garment
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function insertGarment(Garment $garment): Garment
     {
-        $garmentEntity = new Garment();
-        $garmentEntity->setName($name);
-        $garmentEntity->setGarmentType($garmentTypeId);
+        $this->getEntityManager()->persist($garment);
+        $this->getEntityManager()->flush();
 
-        return $garmentEntity;
+        return $garment;
     }
 
     public function listGarment(): array
@@ -27,10 +29,12 @@ class GarmentRepository extends ServiceEntityRepository implements GarmentReposi
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateGarment(Garment $garmentEntity, string $name):void
+    public function updateGarment(Garment $garment, string $name): Garment
     {
-        $garmentEntity->setName($name);
-        $this->persistAndFlush($garmentEntity);
+        $garment->setName($name);
+        $this->getEntityManager()->flush();
+        
+        return $garment;
     }
 
     public function findGarmentByName(string $name): ?Garment
@@ -47,15 +51,5 @@ class GarmentRepository extends ServiceEntityRepository implements GarmentReposi
         $query = $this->findOneBy(["id" => $id]);
 
         return $query;
-    }
-
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function persistAndFlush(Garment $garmentEntity): void
-    {
-        $this->getEntityManager()->persist($garmentEntity);
-        $this->getEntityManager()->flush();
     }
 }

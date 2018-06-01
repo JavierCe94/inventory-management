@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\GarmentSize\ListGarmentSize;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository;
 
 class ListGarmentSize
 {
@@ -10,7 +10,7 @@ class ListGarmentSize
     private $listGarmentSizeTransform;
 
     public function __construct(
-        GarmentSizeRepositoryI $garmentSizeRepository,
+        GarmentSizeRepository $garmentSizeRepository,
         ListGarmentSizeTransformI $listGarmentSizeTransform
     ) {
         $this->garmentSizeRepository = $garmentSizeRepository;
@@ -19,9 +19,8 @@ class ListGarmentSize
 
     public function handle(ListGarmentSizeCommand $listGarmentSizeCommand): array
     {
-        $list = $this->garmentSizeRepository->findAllGarmentSize();
-        $list = $this->listGarmentSizeTransform->transform($list);
-
-        return $list;
+        return $this->listGarmentSizeTransform->transform(
+            $this->garmentSizeRepository->findAllGarmentSize()
+        );
     }
 }

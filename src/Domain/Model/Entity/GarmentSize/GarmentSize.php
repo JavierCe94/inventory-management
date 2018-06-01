@@ -12,21 +12,6 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
  */
 class GarmentSize
 {
-
-    private function __construct()
-    {
-    }
-
-    public static function createFromApi($size, $garment): self
-    {
-        $garmentSize = new GarmentSize();
-        $garmentSize->size= $size;
-        $garmentSize->garment= $garment;
-        $garmentSize->stock= 0;
-
-        return $garmentSize;
-    }
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -50,6 +35,18 @@ class GarmentSize
      * @ORM\Column(type="integer", nullable=false, options={"default"=0})
      */
     private $stock;
+
+    private function __construct(Size $size, Garment $garment)
+    {
+        $this->size = $size;
+        $this->garment = $garment;
+        $this->stock = 0;
+    }
+
+    public static function createFromApi(Size $size, Garment $garment): GarmentSize
+    {
+        return new self($size, $garment);
+    }
 
     public function getId(): int
     {

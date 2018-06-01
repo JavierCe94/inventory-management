@@ -2,11 +2,10 @@
 
 namespace Inventory\Management\Application\GarmentSize\Size\InsertNewSize;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
-use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeEntityExistI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\CheckIfSizeEntityExist;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 
 class InsertNewSize
 {
@@ -16,9 +15,9 @@ class InsertNewSize
     private $insertNewSizeTransform;
     
     public function __construct(
-        SizeRepositoryI $sizeRepository,
-        FindGarmentTypeIfExistsI $findGarmentTypeIfExists,
-        CheckIfSizeEntityExistI $checkIfSizeEntityExist,
+        SizeRepository $sizeRepository,
+        FindGarmentTypeIfExists $findGarmentTypeIfExists,
+        CheckIfSizeEntityExist $checkIfSizeEntityExist,
         InsertNewSizeTransformI $insertNewSizeTransform
     ) {
         $this->sizeRepository = $sizeRepository;
@@ -26,26 +25,22 @@ class InsertNewSize
         $this->insertNewSizeTransform = $insertNewSizeTransform;
         $this->checkIfSizeEntityExist = $checkIfSizeEntityExist;
     }
-
-    /**
-     * @throws GarmentTypeNotExistsException
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist
-     */
+    
     public function handle(InsertNewSizeCommand $insertNewSizeCommand)
     {
-        $garmentTypeEntity = $this->findGarmentTypeIfExists->execute(
-            $insertNewSizeCommand->getGarmentTypeId()
-        );
-        $this->checkIfSizeEntityExist->check(
+        $this->checkIfSizeEntityExist->execute(
             $insertNewSizeCommand->getGarmentTypeId(),
             $insertNewSizeCommand->getSizeValue()
         );
-        $newSize  = $this->sizeRepository->addSize(
-            $insertNewSizeCommand->getSizeValue(),
-            $garmentTypeEntity
+        $this->sizeRepository->addSize(
+            new Size(
+                $this->findGarmentTypeIfExists->execute(
+                    $insertNewSizeCommand->getGarmentTypeId()
+                ),
+                $insertNewSizeCommand->getSizeValue()
+            )
         );
-        $this->sizeRepository->persistAndFlush($newSize);
 
-        return $this->insertNewSizeTransform->transform($newSize);
+        return $this->insertNewSizeTransform->transform();
     }
 }

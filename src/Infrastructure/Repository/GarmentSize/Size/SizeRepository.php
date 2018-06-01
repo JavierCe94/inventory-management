@@ -2,39 +2,37 @@
 
 namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Size;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository as SizeRepositoryI;
 
-class SizeRepository extends EntityRepository implements SizeRepositoryI
+class SizeRepository extends ServiceEntityRepository implements SizeRepositoryI
 {
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function persistAndFlush(Size $size)
+    public function addSize(Size $size): Size
     {
         $this->getEntityManager()->persist($size);
         $this->getEntityManager()->flush();
-    }
-
-    public function addSize($sizeValue, $garmentType): Size
-    {
-        $size = new Size();
-        $size->setSizeValue($sizeValue);
-        $size->setGarmentType($garmentType);
 
         return $size;
     }
 
-    public function updateSize($sizeValue, Size $size): Size
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateSize(Size $size, $sizeValue): Size
     {
         $size->setSizeValue($sizeValue);
+        $this->getEntityManager()->flush();
 
         return $size;
     }
 
-    public function findAllSize()
+    public function findAllSize(): array
     {
         return $this->findAll();
     }

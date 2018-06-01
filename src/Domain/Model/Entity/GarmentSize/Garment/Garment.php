@@ -33,6 +33,12 @@ class Garment
      */
     private $name;
 
+    public function __construct(GarmentType $garmentType, string $name)
+    {
+        $this->garmentType = $garmentType;
+        $this->name = $name;
+    }
+
     public function getId(): int
     {
         return $this->id;

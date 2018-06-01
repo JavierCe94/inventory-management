@@ -2,18 +2,22 @@
 
 namespace Inventory\Management\Infrastructure\Repository\GarmentSize\Garment;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository as GarmentTypeRepositoryI;
 
-class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepositoryI
+class GarmentTypeRepository extends ServiceEntityRepository implements GarmentTypeRepositoryI
 {
-    public function insertGarmentType(string $name): GarmentType
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function insertGarmentType(GarmentType $garmentType): GarmentType
     {
-        $garmentTypeEntity = new GarmentType();
-        $garmentTypeEntity->setName($name);
+        $this->getEntityManager()->persist($garmentType);
+        $this->getEntityManager()->flush();
 
-        return $garmentTypeEntity;
+        return $garmentType;
     }
 
     public function listGarmentTypes(): array
@@ -41,19 +45,11 @@ class GarmentTypeRepository extends EntityRepository implements GarmentTypeRepos
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void
+    public function updateGarmentType(GarmentType $garmentType, string $name): GarmentType
     {
-        $garmentTypeEntity->setName($name);
-        $this->persistAndFlush($garmentTypeEntity);
-    }
-
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function persistAndFlush(GarmentType $garmentTypeEntity): void
-    {
-        $this->getEntityManager()->persist($garmentTypeEntity);
+        $garmentType->setName($name);
         $this->getEntityManager()->flush();
+
+        return $garmentType;
     }
 }

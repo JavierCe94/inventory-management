@@ -11,22 +11,17 @@ use Symfony\Component\HttpFoundation\Request;
 
 class GarmentSizeTableController extends RoleAdmin
 {
-    private $handler;
-
-    public function __construct(CreateGarmentSizeTable $handler)
+    public function __invoke(Request $request, CreateGarmentSizeTable $handler)
     {
-        parent::__construct();
-        $this->handler = $handler;
-    }
-
-    public function __invoke(Request $request)
-    {
-        $idGarment = $request->request->get("sizeValue");
-        $idSize = $request->request->get("idSize");
-        $sizeValue = $request->request->get("idGarment");
-
-        $response = $this->handler->handle(new CreateGarmentSizeTableCommand($idGarment, $idSize, $sizeValue));
-
-        return new JsonResponse($response, HttpResponses::OK);
+        return new JsonResponse(
+            $handler->handle(
+                new CreateGarmentSizeTableCommand(
+                    $request->request->get("idGarment"),
+                    $request->request->get("idSize"),
+                    $request->request->get("sizeValue")
+                )
+            ),
+            HttpResponses::OK
+        );
     }
 }

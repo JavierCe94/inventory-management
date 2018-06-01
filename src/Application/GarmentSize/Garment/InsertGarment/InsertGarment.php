@@ -2,10 +2,11 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\InsertGarment;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepositoryI;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentNameExistsI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 
 class InsertGarment
 {
@@ -16,11 +17,11 @@ class InsertGarment
     private $findGarmentTypeIfExists;
     
     public function __construct(
-        GarmentRepositoryI $garmentRepository,
-        GarmentTypeRepositoryI $garmentTypeRepository,
+        GarmentRepository $garmentRepository,
+        GarmentTypeRepository $garmentTypeRepository,
         InsertGarmentTransformI $insertGarmentTransform,
-        GarmentNameExistsI $garmentNameExists,
-        FindGarmentTypeIfExistsI $findGarmentTypeIfExists
+        GarmentNameExists $garmentNameExists,
+        FindGarmentTypeIfExists $findGarmentTypeIfExists
     ) {
         $this->garmentRepository = $garmentRepository;
         $this->garmentTypeRepository = $garmentTypeRepository;
@@ -29,23 +30,19 @@ class InsertGarment
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
     }
 
-    /**
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNameExistsException
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
-     */
     public function handle(InsertGarmentCommand $insertGarmentCommand): array
     {
-        $garmentTypeEntity = $this->findGarmentTypeIfExists->execute(
-            $insertGarmentCommand->getGarmentTypeId()
-        );
-        $this->garmentNameExists->check(
+        $this->garmentNameExists->execute(
             $insertGarmentCommand->getName()
         );
-        $garmentEntity = $this->garmentRepository->insertGarment(
-            $insertGarmentCommand->getName(),
-            $garmentTypeEntity
+        $this->garmentRepository->insertGarment(
+            new Garment(
+                $this->findGarmentTypeIfExists->execute(
+                    $insertGarmentCommand->getGarmentTypeId()
+                ),
+                $insertGarmentCommand->getName()
+            )
         );
-        $this->garmentRepository->persistAndFlush($garmentEntity);
 
         return $this->insertGarmentTransform->transform();
     }

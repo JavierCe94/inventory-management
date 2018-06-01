@@ -16,11 +16,14 @@ class UpdateGarmentController extends RoleAdmin
         Request $request,
         UpdateGarment $updateGarment
     ) {
-        $output = $updateGarment->handle(new UpdateGarmentCommand(
-            $request->request->get('id'),
-            $request->request->get('name')
-        ));
-
-        return new JsonResponse($output, HttpResponses::OK);
+        return new JsonResponse(
+            $updateGarment->handle(
+                new UpdateGarmentCommand(
+                    $request->request->get('id'),
+                    $request->request->get('name')
+                )
+            ),
+            HttpResponses::OK
+        );
     }
 }

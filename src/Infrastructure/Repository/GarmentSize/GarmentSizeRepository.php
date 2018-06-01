@@ -2,35 +2,49 @@
 
 namespace Inventory\Management\Infrastructure\Repository\GarmentSize;
 
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository as GarmentSizeRepositoryI;
 
-class GarmentSizeRepository extends EntityRepository implements GarmentSizeRepositoryI
+class GarmentSizeRepository extends ServiceEntityRepository implements GarmentSizeRepositoryI
 {
     /**
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function persistAndFlush(GarmentSize $garmentSize)
+    public function createGarmentSize(GarmentSize $garmentSize): GarmentSize
     {
         $this->getEntityManager()->persist($garmentSize);
         $this->getEntityManager()->flush();
+
+        return $garmentSize;
     }
 
-    public function findAllGarmentSize()
+    /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function updateStockGarmentSize(GarmentSize $garmentSize, int $stock): GarmentSize
+    {
+        $garmentSize->setStock($stock);
+        $this->getEntityManager()->flush();
+
+        return $garmentSize;
+    }
+
+    public function findAllGarmentSize(): array
     {
         return $this->findAll();
     }
 
+    /**
+     * @return object|GarmentSize
+     */
     public function findByGarmentAndSizeId(int $size, int $garment): ?GarmentSize
     {
-        /* @var GarmentSize $query */
-        $query = $this->findOneBy([
+        return $this->findOneBy([
             "size" => $size,
             "garment" => $garment
         ]);
-
-        return $query;
     }
 }

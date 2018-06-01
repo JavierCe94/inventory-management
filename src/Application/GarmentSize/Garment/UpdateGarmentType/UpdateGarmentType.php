@@ -2,8 +2,8 @@
 
 namespace Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExistsI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentTypeIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 
 class UpdateGarmentType
 {
@@ -12,25 +12,21 @@ class UpdateGarmentType
     private $findGarmentTypeIfExists;
     
     public function __construct(
-        GarmentTypeRepositoryI $garmentTypeRepository,
+        GarmentTypeRepository $garmentTypeRepository,
         UpdateGarmentTypeTransformI $updateGarmentTypeTransform,
-        FindGarmentTypeIfExistsI $findGarmentIfExists
+        FindGarmentTypeIfExists $findGarmentIfExists
     ) {
         $this->garmentTypeRepository = $garmentTypeRepository;
         $this->updateGarmentTypeTransform = $updateGarmentTypeTransform;
         $this->findGarmentTypeIfExists = $findGarmentIfExists;
     }
 
-    /**
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException
-     */
-    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): array
+    public function handle(UpdateGarmentTypeCommand $updateGarmentTypeCommand): string
     {
-        $garmentTypeEntity = $this->findGarmentTypeIfExists->execute(
-            $updateGarmentTypeCommand->getId()
-        );
         $this->garmentTypeRepository->updateGarmentType(
-            $garmentTypeEntity,
+            $this->findGarmentTypeIfExists->execute(
+                $updateGarmentTypeCommand->getId()
+            ),
             $updateGarmentTypeCommand->getName()
         );
 

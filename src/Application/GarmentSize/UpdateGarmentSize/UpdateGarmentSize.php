@@ -2,13 +2,11 @@
 
 namespace Inventory\Management\Application\GarmentSize\UpdateGarmentSize;
 
-use Inventory\Management\Application\GarmentSize\CreateGarmentSizeTable\CreateGarmentSizeTableTransformI;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepositoryI;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
-use Inventory\Management\Domain\Service\GarmentSize\FindGarmentSizeIfExistI;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\CheckGarmentTypeAreEqualsI;
-use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExistsI;
-use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExistsI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\FindGarmentSizeIfExist;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\CheckGarmentTypeAreEquals;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeEntityIfExists;
 
 class UpdateGarmentSize
 {
@@ -20,12 +18,12 @@ class UpdateGarmentSize
     private $dataTransform;
     
     public function __construct(
-        GarmentSizeRepositoryI $garmentSizeRepository,
-        FindGarmentIfExistsI $findGarmentIfExist,
-        FindSizeEntityIfExistsI $findSizeEntityIfExist,
-        FindGarmentSizeIfExistI $findGarmentSizeIfExist,
-        CheckGarmentTypeAreEqualsI $checkGarmentTypeAreEquals,
-        CreateGarmentSizeTableTransformI $dataTransform
+        GarmentSizeRepository $garmentSizeRepository,
+        FindGarmentIfExists $findGarmentIfExist,
+        FindSizeEntityIfExists $findSizeEntityIfExist,
+        FindGarmentSizeIfExist $findGarmentSizeIfExist,
+        CheckGarmentTypeAreEquals $checkGarmentTypeAreEquals,
+        UpdateGarmentSizeTransformI $dataTransform
     ) {
         $this->garmentSizeRepository = $garmentSizeRepository;
         $this->findGarmentIfExist = $findGarmentIfExist;
@@ -34,13 +32,7 @@ class UpdateGarmentSize
         $this->checkGarmentTypeAreEquals = $checkGarmentTypeAreEquals;
         $this->dataTransform = $dataTransform;
     }
-
-    /**
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeNotExist
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypesAreNotEquals
-     * @throws \Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist
-     */
+    
     public function handle(UpdateGarmentSizeCommand $updateGarmentSizeCommand)
     {
         $size = $this->findSizeEntityIfExist->execute(
@@ -54,12 +46,13 @@ class UpdateGarmentSize
             $size->getGarmentType(),
             $garment->getGarmentType()
         );
-        $garmentSize = $this->findGarmentSizeIfExist->__invoke(
-            $size,
-            $garment
+        $this->garmentSizeRepository->updateStockGarmentSize(
+            $this->findGarmentSizeIfExist->execute(
+                $size,
+                $garment
+            ),
+            $updateGarmentSizeCommand->getStock()
         );
-        $garmentSize->setStock($updateGarmentSizeCommand->getStock());
-        $this->garmentSizeRepository->persistAndFlush($garmentSize);
 
         return $this->dataTransform->transform();
     }

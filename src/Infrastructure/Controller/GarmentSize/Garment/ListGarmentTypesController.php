@@ -6,12 +6,17 @@ use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGa
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Infrastructure\Util\Role\RoleEmployee;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ListGarmentTypesController extends RoleEmployee
 {
     public function listGarmentTypes(ListGarmentTypes $listGarmentTypes)
     {
-        $queryOutput = $listGarmentTypes->handle(new ListGarmentTypesCommand());
-        return $this->json($queryOutput, HttpResponses::OK);
+        return new JsonResponse(
+            $listGarmentTypes->handle(
+                new ListGarmentTypesCommand()
+            ),
+            HttpResponses::OK
+        );
     }
 }

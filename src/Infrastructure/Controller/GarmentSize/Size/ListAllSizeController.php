@@ -10,17 +10,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ListAllSizeController extends RoleEmployee
 {
-    private $listAllSize;
-
-    public function __construct(ListAllSize $listAllSize)
+    public function __invoke(ListAllSize $listAllSize)
     {
-        parent::__construct();
-        $this->listAllSize = $listAllSize;
-    }
-
-    public function __invoke()
-    {
-        $dataToShow = $this->listAllSize->handle(new ListAllSizeCommand());
-        return new JsonResponse($dataToShow, HttpResponses::OK);
+        return new JsonResponse(
+            $listAllSize->handle(
+                new ListAllSizeCommand()
+            ),
+            HttpResponses::OK
+        );
     }
 }

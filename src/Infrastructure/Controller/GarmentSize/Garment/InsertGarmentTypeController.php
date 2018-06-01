@@ -6,6 +6,7 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Infrastructure\Service\ReactRequestTransform\ReactRequestTransform;
+use Inventory\Management\Infrastructure\Util\Role\RoleAdmin;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -15,10 +16,13 @@ class InsertGarmentTypeController extends RoleAdmin
         Request $request,
         InsertGarmentType $insertGarmentType
     ) {
-        $output = $insertGarmentType->handle(new InsertGarmentTypeCommand(
-            $request->request->get('name')
-        ));
-
-        return new JsonResponse($output, HttpResponses::OK);
+        return new JsonResponse(
+            $insertGarmentType->handle(
+                new InsertGarmentTypeCommand(
+                    $request->request->get('name')
+                )
+            ),
+            HttpResponses::OK
+        );
     }
 }

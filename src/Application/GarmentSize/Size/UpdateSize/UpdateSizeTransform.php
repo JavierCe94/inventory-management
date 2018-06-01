@@ -6,6 +6,6 @@ class UpdateSizeTransform implements UpdateSizeTransformI
 {
     public function transform(): string
     {
-        return "talla modificada con exito";
+        return "Talla modificada con exito";
     }
 }

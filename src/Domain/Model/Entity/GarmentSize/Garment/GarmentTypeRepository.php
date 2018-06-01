@@ -2,13 +2,11 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-interface GarmentTypeRepositoryI
+interface GarmentTypeRepository
 {
-    public function insertGarmentType(string $name): GarmentType;
+    public function insertGarmentType(GarmentType $garmentType): GarmentType;
     public function listGarmentTypes(): array;
     public function findGarmentTypeById(int $id): ?GarmentType;
     public function findGarmentTypeByName(string $name): ?GarmentType;
-    public function persistAndFlush(GarmentType $garmentTypeEntity): void;
-    public function updateGarmentType(GarmentType $garmentTypeEntity, string $name): void;
-
+    public function updateGarmentType(GarmentType $garmentType, string $name): GarmentType;
 }
