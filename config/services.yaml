@@ -86,3 +86,8 @@ services:
         arguments:
             - '@Doctrine\Common\Persistence\ManagerRegistry'
             - Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size
+
+    Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee

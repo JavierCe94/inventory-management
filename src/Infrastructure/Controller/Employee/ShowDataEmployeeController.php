@@ -2,22 +2,22 @@
 
 namespace Inventory\Management\Infrastructure\Controller\Employee;
 
-use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployee;
-use Inventory\Management\Application\Employee\ShowDataEmployee\ShowDataEmployeeCommand;
+use Inventory\Management\Application\Employee\ShowEmployeeByNif\ShowEmployeeByNif;
+use Inventory\Management\Application\Employee\ShowEmployeeByNif\ShowEmployeeByNifCommand;
 use Inventory\Management\Infrastructure\Util\Role\RoleEmployee;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 class ShowDataEmployeeController extends RoleEmployee
 {
-    public function showDataEmployee(ShowDataEmployee $showDataEmployee): Response
+    public function showDataEmployee(ShowEmployeeByNif $showEmployeeByNif): Response
     {
-        $showDataEmployeeCommand = new ShowDataEmployeeCommand(
-            $this->dataToken()
+        $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
+            $this->dataToken()->nif
         );
 
         return new JsonResponse(
-            $showDataEmployee->handle($showDataEmployeeCommand),
+            $showEmployeeByNif->handle($showEmployeeByNifCommand),
             Response::HTTP_OK
         );
     }

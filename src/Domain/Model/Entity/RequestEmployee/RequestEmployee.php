@@ -19,7 +19,8 @@ class RequestEmployee
     private $id;
 
     /**
-     * @ORM\Column(type="integer", nullable=false)
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\Employee\Employee")
+     * @ORM\JoinColumn(nullable=false)
      */
     private $employee;
 
@@ -29,14 +30,22 @@ class RequestEmployee
     private $dateCreation;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true, options={"default"=null})
+     * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateModification;
 
     /**
-     * @ORM\Column(type="string", length=50, nullable=false, options={"default"="DRAFT"})
+     * @ORM\Column(type="string", length=50, nullable=false)
      */
     private $status;
+
+    public function __construct(Employee $employee)
+    {
+        $this->employee = $employee;
+        $this->dateCreation = new \DateTime();
+        $this->dateModification = new \DateTime();
+        $this->status = RequestEmployeeStatus::STATUS_DRAFT;
+    }
 
     public function getId(): int
     {
@@ -48,27 +57,17 @@ class RequestEmployee
         return $this->employee;
     }
 
-    public function setEmployee(Employee $employee): void
-    {
-        $this->employee = $employee;
-    }
-
-    public function getDateCreation(): string
+    public function getDateCreation(): \DateTime
     {
         return $this->dateCreation;
     }
 
-    public function setDateCreation(string $dateCreation): void
-    {
-        $this->dateCreation = $dateCreation;
-    }
-
-    public function getDateModification(): string
+    public function getDateModification(): \DateTime
     {
         return $this->dateModification;
     }
 
-    public function setDateModification(string $dateModification): void
+    public function setDateModification(\DateTime $dateModification): void
     {
         $this->dateModification = $dateModification;
     }

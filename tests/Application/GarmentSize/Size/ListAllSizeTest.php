@@ -5,7 +5,7 @@ namespace Inventory\Management\Tests\Application\GarmentSize\Size;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSize;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeCommand;
 use Inventory\Management\Application\GarmentSize\Size\ListAllSize\ListAllSizeTransform;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -22,7 +22,7 @@ class ListAllSizeTest extends TestCase
 
     public function setUp()
     {
-        $this->sizeRepositoryStub = $this->createMock(SizeRepositoryI::class);
+        $this->sizeRepositoryStub = $this->createMock(SizeRepository::class);
         $this->handler = new ListAllSize($this->sizeRepositoryStub, new ListAllSizeTransform());
     }
 

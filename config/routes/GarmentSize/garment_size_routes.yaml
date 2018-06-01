@@ -5,7 +5,7 @@ list_stock:
 
 create_garmentsize:
     path: /newgarmentsize
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeTableController:__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController:__invoke
     methods: [POST]
 
 update_garmentsize:

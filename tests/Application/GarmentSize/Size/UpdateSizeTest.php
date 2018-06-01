@@ -8,10 +8,10 @@ use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeComma
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
@@ -35,8 +35,8 @@ class UpdateSizeTest extends TestCase
 
     public function setUp()
     {
-        $this->sizeRepositoryStub = $this->createMock(SizeRepositoryI::class);
-        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryI::class);
+        $this->sizeRepositoryStub = $this->createMock(SizeRepository::class);
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class);
         $this->handler = new UpdateSize(
             $this->sizeRepositoryStub,
             new FindGarmentTypeIfExists($this->garmentTypeRepositoryStub),

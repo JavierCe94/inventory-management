@@ -1,6 +1,6 @@
 <?php
 
-namespace Inventory\Management\Infrastructure\Specification\Employee;
+namespace Inventory\Management\Infrastructure\Util\Specification\Employee;
 
 use Doctrine\ORM\QueryBuilder;
 use Inventory\Management\Domain\Model\Specification\Specification;
@@ -14,13 +14,13 @@ class FilterEmployeeByName implements Specification
         $this->name = $name;
     }
 
-    public function match(QueryBuilder $qb)
+    public function match(QueryBuilder $queryBuilder)
     {
         if (null !== $this->name && '' !== $this->name) {
-            $qb->andWhere('em.name = :name');
-            $qb->setParameter('name', $this->name);
+            $queryBuilder->andWhere('em.name = :name');
+            $queryBuilder->setParameter('name', $this->name);
         }
 
-        return $qb->expr()->eq('em.name', ':name');
+        return $queryBuilder->expr()->eq('em.name', ':name');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Inventory\Management\Infrastructure\Specification\Employee;
+namespace Inventory\Management\Infrastructure\Util\Specification\Employee;
 
 use Doctrine\ORM\QueryBuilder;
 use Inventory\Management\Domain\Model\Specification\Specification;
@@ -14,13 +14,13 @@ class FilterEmployeeBySubDepartment implements Specification
         $this->subDepartment = $subDepartment;
     }
 
-    public function match(QueryBuilder $qb)
+    public function match(QueryBuilder $queryBuilder)
     {
         if (null !== $this->subDepartment && 0 !== $this->subDepartment) {
-            $qb->andWhere('ems.subDepartment = :subDepartment');
-            $qb->setParameter('subDepartment', $this->subDepartment);
+            $queryBuilder->andWhere('ems.subDepartment = :subDepartment');
+            $queryBuilder->setParameter('subDepartment', $this->subDepartment);
         }
 
-        return $qb->expr()->eq('ems.subDepartment', ':subDepartment');
+        return $queryBuilder->expr()->eq('ems.subDepartment', ':subDepartment');
     }
 }

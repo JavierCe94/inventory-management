@@ -12,7 +12,7 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\Updat
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarmentType\UpdateGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,7 +32,7 @@ class UpdateGarmentTypesTest extends TestCase
 
     public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
     {
-        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryI::class);
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class);
         $this->handler = new UpdateGarmentType(
             $this->garmentTypeRepositoryStub,
             new UpdateGarmentTypeTransform(),

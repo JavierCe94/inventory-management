@@ -7,8 +7,8 @@ use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\List
 use Inventory\Management\Application\GarmentSize\Size\ListSizeByGarmentType\ListSizeByGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepositoryI;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepositoryI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -31,8 +31,8 @@ class ListSizeByGarmentTypeTest extends TestCase
 
     public function setUp()
     {
-        $this->sizeRepositoryStub = $this->createMock(SizeRepositoryI::class) ;
-        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepositoryI::class) ;
+        $this->sizeRepositoryStub = $this->createMock(SizeRepository::class) ;
+        $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class) ;
         $this->handler = new ListSizeByGarmentType(
             $this->sizeRepositoryStub,
             new FindGarmentTypeIfExists($this->garmentTypeRepositoryStub),

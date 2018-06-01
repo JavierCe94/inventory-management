@@ -1,6 +1,6 @@
 <?php
 
-namespace Inventory\Management\Infrastructure\Specification;
+namespace Inventory\Management\Infrastructure\Util\Specification;
 
 use Doctrine\ORM\QueryBuilder;
 use Inventory\Management\Domain\Model\Specification\Specification;

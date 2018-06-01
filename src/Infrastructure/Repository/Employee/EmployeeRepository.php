@@ -7,12 +7,12 @@ use Inventory\Management\Domain\Model\Entity\Department\Department;
 use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 use Inventory\Management\Domain\Model\Entity\Employee\EmployeeRepository as EmployeeRepositoryI;
-use Inventory\Management\Infrastructure\Specification\AndX;
-use Inventory\Management\Infrastructure\Specification\AsArray;
-use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByCode;
-use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByDepartment;
-use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeByName;
-use Inventory\Management\Infrastructure\Specification\Employee\FilterEmployeeBySubDepartment;
+use Inventory\Management\Infrastructure\Util\Specification\AndX;
+use Inventory\Management\Infrastructure\Util\Specification\AsArray;
+use Inventory\Management\Infrastructure\Util\Specification\Employee\FilterEmployeeByCode;
+use Inventory\Management\Infrastructure\Util\Specification\Employee\FilterEmployeeByDepartment;
+use Inventory\Management\Infrastructure\Util\Specification\Employee\FilterEmployeeByName;
+use Inventory\Management\Infrastructure\Util\Specification\Employee\FilterEmployeeBySubDepartment;
 
 class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepositoryI
 {
