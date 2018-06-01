@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShowDataEmployeeController extends RoleEmployee
 {
-    public function showDataEmployee(ShowEmployeeByNif $showEmployeeByNif): Response
+    public function __invoke(ShowEmployeeByNif $showEmployeeByNif): Response
     {
         $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
             $this->dataToken()->nif

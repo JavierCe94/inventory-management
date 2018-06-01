@@ -1,11 +1,14 @@
 login_employee:
     path: /login
-    controller: Inventory\Management\Infrastructure\Controller\Employee\CheckLoginEmployeeController::checkLoginEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\CheckLoginEmployeeController::__invoke
+    methods: [PUT]
 
 search_employee_user:
     path: /data
-    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowDataEmployeeController::showDataEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowDataEmployeeController::__invoke
+    methods: [PUT]
 
 update_basic_employee:
     path: /update
-    controller: Inventory\Management\Infrastructure\Controller\Employee\UpdateBasicFieldsEmployeeController::updateBasicFieldsEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\UpdateBasicFieldsEmployeeController::__invoke
+    methods: [PUT]

@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckLoginEmployeeController
 {
-    public function checkLoginEmployee(Request $request, CheckLoginEmployee $checkLoginEmployee): Response
+    public function __invoke(Request $request, CheckLoginEmployee $checkLoginEmployee): Response
     {
         $checkLoginEmployeeCommand = new CheckLoginEmployeeCommand(
-            $request->query->get('nif'),
-            $request->query->get('password')
+            $request->request->get('nif'),
+            $request->request->get('password')
         );
 
         return new JsonResponse(

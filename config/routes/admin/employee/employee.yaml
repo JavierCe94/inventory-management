@@ -1,23 +1,29 @@
 disable_employee:
     path: /{nif}/disable
-    controller: Inventory\Management\Infrastructure\Controller\Employee\ChangeStatusToDisableEmployeeController::changeStatusToDisableEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ChangeStatusToDisableEmployeeController::__invoke
+    methods: [PUT]
 
 enable_employee:
     path: /{nif}/enable
-    controller: Inventory\Management\Infrastructure\Controller\Employee\ChangeStatusToEnableEmployeeController::changeStatusToEnableEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ChangeStatusToEnableEmployeeController::__invoke
+    methods: [PUT]
 
 create_employee:
     path: /create
-    controller: Inventory\Management\Infrastructure\Controller\Employee\CreateEmployeeController::createEmployee
+    controller: Inventory\Management\Infrastructure\Controller\Employee\CreateEmployeeController::__invoke
+    methods: [PUT]
 
 list_employees:
     path: /list/{firstresultposition}
-    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowByFirstResultEmployeesController::showByFirstResultEmployees
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowByFirstResultEmployeesController::__invoke
+    methods: [PUT]
 
 search_employee_admin:
     path: /{nif}
-    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowEmployeeByNifController::showEmployeeByNif
+    controller: Inventory\Management\Infrastructure\Controller\Employee\ShowEmployeeByNifController::__invoke
+    methods: [PUT]
 
 update_employee_status:
     path: /{nif}/update
-    controller: Inventory\Management\Infrastructure\Controller\Employee\UpdateFieldsEmployeeStatusController::UpdateFieldsEmployeeStatus
+    controller: Inventory\Management\Infrastructure\Controller\Employee\UpdateFieldsEmployeeStatusController::__invoke
+    methods: [PUT]

@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateNameDepartmentController extends RoleAdmin
 {
-    public function updateNameDepartment(Request $request, UpdateNameDepartment $updateNameDepartment): Response
+    public function __invoke(Request $request, UpdateNameDepartment $updateNameDepartment): Response
     {
         $updateNameDepartmentCommand = new UpdateNameDepartmentCommand(
             $request->attributes->get('department'),
-            $request->query->get('name')
+            $request->request->get('name')
         );
 
         return new JsonResponse(

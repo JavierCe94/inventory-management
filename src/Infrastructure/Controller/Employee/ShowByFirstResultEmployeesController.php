@@ -11,16 +11,16 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShowByFirstResultEmployeesController extends RoleAdmin
 {
-    public function showByFirstResultEmployees(
+    public function __invoke(
         Request $request,
         ShowByFirstResultEmployees $showByFirstResultEmployees
     ): Response {
         $showByFirstResultEmployeesCommand = new ShowByFirstResultEmployeesCommand(
             $request->attributes->get('firstresultposition'),
-            $request->query->get('name'),
-            $request->query->get('code'),
-            $request->query->get('department'),
-            $request->query->get('subdepartment')
+            $request->request->get('name'),
+            $request->request->get('code'),
+            $request->request->get('department'),
+            $request->request->get('subdepartment')
         );
 
         return new JsonResponse(

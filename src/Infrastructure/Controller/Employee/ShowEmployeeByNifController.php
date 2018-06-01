@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ShowEmployeeByNifController extends RoleAdmin
 {
-    public function showEmployeeByNif(Request $request, ShowEmployeeByNif $showEmployeeByNif): Response
+    public function __invoke(Request $request, ShowEmployeeByNif $showEmployeeByNif): Response
     {
         $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
             $request->attributes->get('nif')

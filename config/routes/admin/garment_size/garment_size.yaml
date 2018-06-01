@@ -1,14 +1,14 @@
 list_stock:
-    path: /
+    path: /list
     controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController::__invoke
-    methods: [GET]
+    methods: [PUT]
 
 create_garmentsize:
-    path: /newgarmentsize
+    path: /create
     controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController:__invoke
-    methods: [POST]
+    methods: [PUT]
 
 update_garmentsize:
-    path: /updategarmentsize
+    path: /update
     controller: Inventory\Management\Infrastructure\Controller\GarmentSize\UpdateGarmentSizeController:__invoke
-    methods: [POST]
+    methods: [PUT]

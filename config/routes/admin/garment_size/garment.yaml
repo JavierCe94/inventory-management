@@ -1,0 +1,14 @@
+insertGarment:
+    path: /create
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\InsertGarmentController::insertGarment
+    methods: [PUT]
+
+listGarment:
+    path: /list
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\ListGarmentController::listGarment
+    methods: [PUT]
+
+updateGarment:
+    path: /update
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\Garment\UpdateGarmentController::updateGarment
+    methods: [PUT]

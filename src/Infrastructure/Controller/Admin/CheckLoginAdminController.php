@@ -10,11 +10,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CheckLoginAdminController
 {
-    public function checkLoginAdmin(Request $request, CheckLoginAdmin $checkLoginAdmin): Response
+    public function __invoke(Request $request, CheckLoginAdmin $checkLoginAdmin): Response
     {
         $checkLoginAdminCommand = new CheckLoginAdminCommand(
-            $request->query->get('username'),
-            $request->query->get('password')
+            $request->request->get('username'),
+            $request->request->get('password')
         );
 
         return new JsonResponse(

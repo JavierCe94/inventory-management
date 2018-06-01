@@ -11,19 +11,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateFieldsEmployeeStatusController extends RoleAdmin
 {
-    public function UpdateFieldsEmployeeStatus(
+    public function __invoke(
         Request $request,
         UpdateFieldsEmployeeStatus $updateFieldsEmployeeStatus
     ): Response {
         $updateFieldsEmployeeStatusCommand = new UpdateFieldsEmployeeStatusCommand(
             $request->attributes->get('nif'),
-            $request->query->get('image'),
-            $request->query->get('expirationcontractdate'),
-            $request->query->get('possiblerenewal'),
-            $request->query->get('availableholidays'),
-            $request->query->get('holidayspendingtoapplyfor'),
-            $request->query->get('department'),
-            $request->query->get('subdepartment')
+            $request->request->get('image'),
+            $request->request->get('expirationcontractdate'),
+            $request->request->get('possiblerenewal'),
+            $request->request->get('availableholidays'),
+            $request->request->get('holidayspendingtoapplyfor'),
+            $request->request->get('department'),
+            $request->request->get('subdepartment')
         );
 
         return new JsonResponse(

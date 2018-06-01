@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ChangeStatusToEnableEmployeeController extends RoleAdmin
 {
-    public function changeStatusToEnableEmployee(
+    public function __invoke(
         Request $request,
         ChangeStatusToEnableEmployee $changeStatusToEnableEmployee
     ): Response {

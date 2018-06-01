@@ -50,17 +50,16 @@ class CreateEmployee
         $subDepartment = $this->searchSubDepartmentById->execute(
             $createEmployeeCommand->subDepartment()
         );
-        $createdEmployeeStatus = $this->employeeStatusRepository->createEmployeeStatus(
-            new EmployeeStatus(
-                $createEmployeeCommand->codeEmployee(),
-                new \DateTime($createEmployeeCommand->firstContractDate()),
-                new \DateTime($createEmployeeCommand->seniorityDate()),
-                $subDepartment->getDepartment(),
-                $subDepartment
-            )
-        );
         $employee = new Employee(
-            $createdEmployeeStatus,
+            $this->employeeStatusRepository->createEmployeeStatus(
+                new EmployeeStatus(
+                    $createEmployeeCommand->codeEmployee(),
+                    new \DateTime($createEmployeeCommand->firstContractDate()),
+                    new \DateTime($createEmployeeCommand->seniorityDate()),
+                    $subDepartment->getDepartment(),
+                    $subDepartment
+                )
+            ),
             $this->uploadFile->execute(
                 $createEmployeeCommand->image(),
                 Employee::URL_IMAGE

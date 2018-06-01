@@ -14,14 +14,22 @@ employee_employee:
     resource: ./routes/employee/employee.yaml
     prefix: /employee
 
-SizeRoutes:
-    resource: 'routes/SizeRoutes/size_routes.yaml'
-    prefix: /size
+admin_size:
+    resource: './routes/admin/garment_size/size.yaml'
+    prefix: /admin/size
 
-GarmentRoutes:
-    resource: 'routes/GarmentRoutes/garment_routes.yaml'
-    prefix: /garment
+admin_garment:
+    resource: './routes/admin/garment_size/garment.yaml'
+    prefix: /admin/garment
 
-Stock:
-    resource: 'routes/GarmentSize/garment_size_routes.yaml'
-    prefix: /stock
+admin_garment_type:
+    resource: './routes/admin/garment_size/garment_type.yaml'
+    prefix: /admin/garmenttype
+
+admin_garment_size:
+    resource: './routes/admin/garment_size/garment_size.yaml'
+    prefix: /admin/garmentsize
+
+employee_garment_size:
+    resource: './routes/employee/garment_size/garment_size.yaml'
+    prefix: /employee/garmentsize

@@ -11,15 +11,15 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UpdateBasicFieldsEmployeeController extends RoleEmployee
 {
-    public function updateBasicFieldsEmployee(
+    public function __invoke(
         Request $request,
         UpdateBasicFieldsEmployee $updateBasicFieldsEmployee
     ): Response {
         $updateBasicFieldsEmployeeCommand = new UpdateBasicFieldsEmployeeCommand(
             $this->dataToken(),
-            $request->query->get('name'),
-            $request->query->get('password'),
-            $request->query->get('telephone')
+            $request->request->get('name'),
+            $request->request->get('password'),
+            $request->request->get('telephone')
         );
 
         return new JsonResponse(

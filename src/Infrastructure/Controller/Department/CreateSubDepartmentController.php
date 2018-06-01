@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CreateSubDepartmentController extends RoleAdmin
 {
-    public function createSubDepartment(Request $request, CreateSubDepartment $createSubDepartment): Response
+    public function __invoke(Request $request, CreateSubDepartment $createSubDepartment): Response
     {
         $createSubDepartmentCommand = new CreateSubDepartmentCommand(
             $request->attributes->get('department'),
-            $request->query->get('name')
+            $request->request->get('name')
         );
 
         return new JsonResponse(
