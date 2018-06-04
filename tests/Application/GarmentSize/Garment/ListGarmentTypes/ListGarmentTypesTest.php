@@ -1,14 +1,9 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: programador
- * Date: 27/04/18
- * Time: 9:03
- */
 
 namespace Inventory\Management\Tests\Application\GarmentSize\Garment\ListGarmentTypes;
 
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypes;
+use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesCommand;
 use Inventory\Management\Application\GarmentSize\Garment\ListGarmentTypes\ListGarmentTypesTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentTypeRepository;
@@ -26,13 +21,11 @@ class ListGarmentTypesTest extends TestCase
         $garmentTypeEntity = $this->createMock(GarmentType::class);
         $garmentTypeEntity->method('getId')->willReturn($id);
         $garmentTypeEntity->method('getName')->willReturn($name);
-
         $listGarmentTypeRepository = $this->createMock(GarmentTypeRepository::class);
         $listGarmentTypeRepository->method('listGarmentTypes')->willReturn([$garmentTypeEntity]);
         $listGarmentTypeTransform = new ListGarmentTypesTransform();
-
-        $output = (new ListGarmentTypes($listGarmentTypeRepository, $listGarmentTypeTransform))->handle();
-
+        $output = (new ListGarmentTypes($listGarmentTypeRepository, $listGarmentTypeTransform))
+            ->handle(new ListGarmentTypesCommand());
         $this->assertArraySubset(
             [["id" => 2,"name" => "poncho"]],
             $output

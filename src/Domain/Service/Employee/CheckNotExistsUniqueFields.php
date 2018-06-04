@@ -24,10 +24,6 @@ class CheckNotExistsUniqueFields implements CheckNotExistsUniqueFieldsI
     }
 
     /**
-     * @param string $nif
-     * @param string $inSsNumber
-     * @param string $telephone
-     * @param string $codeEmployee
      * @throws FoundCodeEmployeeStatusException
      * @throws FoundInSsNumberEmployeeException
      * @throws FoundNifEmployeeException

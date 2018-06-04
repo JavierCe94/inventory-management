@@ -42,6 +42,21 @@ class RequestEmployeeRepository extends ServiceEntityRepository implements Reque
     }
 
     /**
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function checkRequestIsFromEmployee(string $nifEmployee, int $idRequestEmployee): ?RequestEmployee
+    {
+        return $this->createQueryBuilder('re')
+            ->innerJoin('re.employee', 'em')
+            ->andWhere('em.nif = :nifEmployee')
+            ->andWhere('re.id = :idRequestEmployee')
+            ->setParameter('nifEmployee', $nifEmployee)
+            ->setParameter('idRequestEmployee', $idRequestEmployee)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    /**
      * @param int $id
      * @return object|RequestEmployee
      */

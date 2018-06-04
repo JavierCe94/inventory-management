@@ -23,10 +23,11 @@ class ChangeStatusToEnableEmployee
 
     public function handle(ChangeStatusToEnableEmployeeCommand $enableEmployeeCommand): string
     {
-        $this->employeeRepository->changeStatusToEnableEmployee(
+        $this->employeeRepository->changeStatusEmployee(
             $this->searchEmployeeByNif->execute(
                 $enableEmployeeCommand->nif()
-            )
+            ),
+            false
         );
 
         return $this->changeStatusToEnableEmployeeTransform->transform();

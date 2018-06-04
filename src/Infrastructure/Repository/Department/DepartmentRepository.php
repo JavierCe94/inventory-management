@@ -9,8 +9,6 @@ use Inventory\Management\Domain\Model\Entity\Department\DepartmentRepository as 
 class DepartmentRepository extends ServiceEntityRepository implements DepartmentRepositoryI
 {
     /**
-     * @param Department $department
-     * @return Department
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -23,9 +21,6 @@ class DepartmentRepository extends ServiceEntityRepository implements Department
     }
 
     /**
-     * @param Department $department
-     * @param string $name
-     * @return Department
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -38,7 +33,6 @@ class DepartmentRepository extends ServiceEntityRepository implements Department
     }
 
     /**
-     * @param int $idDepartment
      * @return object|Department
      */
     public function findDepartmentById(int $idDepartment): ?Department
@@ -52,7 +46,6 @@ class DepartmentRepository extends ServiceEntityRepository implements Department
     }
 
     /**
-     * @param $name
      * @return object|Department
      */
     public function checkNotExistNameDepartment($name): ?Department

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: programador
- * Date: 2/05/18
- * Time: 9:12
- */
 
 namespace Inventory\Management\Tests\Application\GarmentSize\Garment\UpdateGarment;
 
@@ -12,7 +6,7 @@ use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGar
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentCommand;
 use Inventory\Management\Application\GarmentSize\Garment\UpdateGarment\UpdateGarmentTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\Garment;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentIfExists;
 use Inventory\Management\Infrastructure\Repository\GarmentSize\Garment\GarmentRepository;
@@ -25,21 +19,20 @@ class UpdateGarmentTest extends TestCase
      * @var UpdateGarment
      */
     private $handler;
-
     /**
      * @var MockObject
      */
     private $garmentRepositoryStub;
     private $garmentTypeRepositoryStub;
 
-    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    public function setUp()
     {
         $this->garmentRepositoryStub = $this->createMock(GarmentRepository::class);
         $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class);
         $this->handler = new UpdateGarment(
             $this->garmentRepositoryStub,
-            new UpdateGarmentTransform(),
-            new FindGarmentIfExists($this->garmentRepositoryStub)
+            new FindGarmentIfExists($this->garmentRepositoryStub),
+            new UpdateGarmentTransform()
         );
     }
 
@@ -53,18 +46,13 @@ class UpdateGarmentTest extends TestCase
         $garmentEntity = $this->createMock(Garment::class);
         $garmentEntity->method('getId')->willReturn($id);
         $garmentEntity->method('getName')->willReturn($name);
-
-
         $this->garmentRepositoryStub->method('findGarmentById')
             ->withConsecutive($this->returnValue(true))
             ->willReturn($garmentEntity);
-
         $this->garmentRepositoryStub->expects($this->once())
             ->method('updateGarment');
-
-        $output = $this->handler->handle(new UpdateGarmentCommand($id, $name));
-
-        $this->assertEquals(200, $output['code']);
+        $this->handler->handle(new UpdateGarmentCommand($id, $name));
+        $this->assertTrue(true, true);
     }
 
     /**
@@ -74,13 +62,10 @@ class UpdateGarmentTest extends TestCase
     {
         $id = 2;
         $name = 'poncho floreado';
-
         $this->garmentRepositoryStub->method('findGarmentById')
             ->withConsecutive($this->returnValue(true))
             ->willReturn(null);
-
-        $output = $this->handler->handle(new UpdateGarmentCommand($id, $name));
-
-        $this->assertEquals(404, $output['code']);
+        $this->expectException(GarmentNotExistsException::class);
+        $this->handler->handle(new UpdateGarmentCommand($id, $name));
     }
 }

@@ -6,7 +6,7 @@ interface SizeRepository
 {
     public function addSize(Size $size): Size;
     public function findAllSize(): array;
-    public function updateSize(Size $size, $sizeValue): Size;
-    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId);
-    public function findByGarmentType($garmentTypeId): array;
+    public function updateSize(Size $size, string $sizeValue): Size;
+    public function findSizeBySizeValueAndGarmentType(string $sizeValue, int $garmentTypeId): ?Size;
+    public function findByGarmentType(int $garmentTypeId): array;
 }

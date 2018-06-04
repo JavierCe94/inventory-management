@@ -12,7 +12,7 @@ class InsertNewSizeCommand
     /**
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(int $sizeValue, int $garmentTypeId)
+    public function __construct($sizeValue, $garmentTypeId)
     {
         Assertion::numeric($sizeValue, "El valor no es un integer valido");
         Assertion::numeric($garmentTypeId, 'No es un valor Valido');

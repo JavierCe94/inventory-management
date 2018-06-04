@@ -1,0 +1,14 @@
+accept_request_employee:
+    path: /{id}/accept
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeStatusToAcceptedRequestController
+    methods: [PUT]
+
+deny_request_employee:
+    path: /{id}/deny
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeStatusToDeniedRequestController
+    methods: [PUT]
+
+admin_show_request_employee:
+    path: /employee/{nif}/showrequests
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ShowRequestsEmployeeController
+    methods: [PUT]

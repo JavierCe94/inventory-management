@@ -12,12 +12,12 @@ class ShowDataEmployeeController extends RoleEmployee
 {
     public function __invoke(ShowEmployeeByNif $showEmployeeByNif): Response
     {
-        $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
-            $this->dataToken()->nif
-        );
-
         return new JsonResponse(
-            $showEmployeeByNif->handle($showEmployeeByNifCommand),
+            $showEmployeeByNif->handle(
+                new ShowEmployeeByNifCommand(
+                    $this->dataToken()->nif
+                )
+            ),
             Response::HTTP_OK
         );
     }

@@ -17,8 +17,6 @@ class SearchSubDepartmentById implements SearchSubDepartmentByIdI
     }
 
     /**
-     * @param int $subDepartment
-     * @return SubDepartment|null
      * @throws NotFoundSubDepartmentsException
      */
     public function execute(int $subDepartment): ?SubDepartment

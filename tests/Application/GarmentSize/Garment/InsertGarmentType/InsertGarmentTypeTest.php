@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: programador
- * Date: 4/05/18
- * Time: 8:51
- */
 
 namespace Inventory\Management\Tests\Application\GarmentSize\Garment\InsertGarmentType;
 
@@ -12,6 +6,7 @@ use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\Inser
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeCommand;
 use Inventory\Management\Application\GarmentSize\Garment\InsertGarmentType\InsertGarmentTypeTransform;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNameExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\GarmentTypeNameExists;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -28,14 +23,13 @@ class InsertGarmentTypeTest extends TestCase
      */
     private $garmentTypeRepositoryStub;
 
-    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    public function setUp()
     {
         $this->garmentTypeRepositoryStub = $this->createMock(GarmentTypeRepository::class);
-
         $this->handler = new InsertGarmentType(
             $this->garmentTypeRepositoryStub,
-            new InsertGarmentTypeTransform(),
-            new GarmentTypeNameExists($this->garmentTypeRepositoryStub)
+            new GarmentTypeNameExists($this->garmentTypeRepositoryStub),
+            new InsertGarmentTypeTransform()
         );
     }
 
@@ -47,17 +41,13 @@ class InsertGarmentTypeTest extends TestCase
         $this->garmentTypeRepositoryStub->method('findGarmentTypeByName')
             ->withConsecutive($this->returnValue(true))
             ->willReturn(null);
-
         $this->garmentTypeRepositoryStub->method('insertGarmentType')
             ->withConsecutive($this->returnValue(true))
             ->willReturn($this->createMock(GarmentType::class));
-
         $this->garmentTypeRepositoryStub->expects($this->once())
-            ->method('persistAndFlush');
-
-        $output = $this->handler->handle(new InsertGarmentTypeCommand('zapatillas'));
-
-        $this->assertEquals(200, $output['code']);
+            ->method('insertGarmentType');
+        $this->handler->handle(new InsertGarmentTypeCommand('zapatillas'));
+        $this->assertTrue(true, true);
     }
 
     /**
@@ -68,8 +58,7 @@ class InsertGarmentTypeTest extends TestCase
         $this->garmentTypeRepositoryStub->method('findGarmentTypeByName')
             ->withConsecutive($this->returnValue(true))
             ->willReturn($this->createMock(GarmentType::class));
-
-        $output = $this->handler->handle(new InsertGarmentTypeCommand('poncho'));
-
-        $this->assertEquals(409, $output['code']);    }
+        $this->expectException(GarmentTypeNameExistsException::class);
+        $this->handler->handle(new InsertGarmentTypeCommand('poncho'));
+    }
 }

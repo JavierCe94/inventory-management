@@ -12,7 +12,7 @@ class UpdateGarmentCommand
     /**
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(int $id, string $name)
+    public function __construct($id, $name)
     {
         Assertion::notBlank($id, 'El id no puede estar en blanco');
         Assertion::numeric($id, 'El id tiene que ser un numero');

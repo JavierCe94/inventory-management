@@ -1,14 +1,14 @@
 list_stock:
     path: /list
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController
     methods: [PUT]
 
 create_garmentsize:
     path: /create
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController:__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\GarmentSizeFillTableController
     methods: [PUT]
 
 update_garmentsize:
     path: /update
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\UpdateGarmentSizeController:__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\UpdateGarmentSizeController
     methods: [PUT]

@@ -2,7 +2,6 @@
 
 namespace Inventory\Management\Tests\Application\GarmentSize\Size;
 
-use Inventory\Management\Application\GarmentSize\Size\InsertNewSize\InsertNewSize;
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSize;
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeCommand;
 use Inventory\Management\Application\GarmentSize\Size\UpdateSize\UpdateSizeTransform;
@@ -10,18 +9,17 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentType;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotExistsException;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeDoNotExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Service\GarmentSize\Size\FindSizeIfExists;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class UpdateSizeTest extends TestCase
 {
     /**
-     * @var InsertNewSize
+     * @var UpdateSize
      */
     private $handler;
     /**
@@ -41,7 +39,7 @@ class UpdateSizeTest extends TestCase
             $this->sizeRepositoryStub,
             new FindGarmentTypeIfExists($this->garmentTypeRepositoryStub),
             new UpdateSizeTransform(),
-            new FindSizeEntityIfExists($this->sizeRepositoryStub)
+            new FindSizeIfExists($this->sizeRepositoryStub)
         );
     }
     
@@ -60,7 +58,7 @@ class UpdateSizeTest extends TestCase
             ->withConsecutive($this->returnValue(true), $this->returnValue(true))
             ->willReturn($this->createMock(Size::class));
         $this->sizeRepositoryStub->expects($this->once())
-            ->method('persistAndFlush');
+            ->method('updateSize');
         $this->handler->handle(new UpdateSizeCommand(2, 2, 30));
         $this->assertTrue(true, true);
     }
@@ -83,12 +81,12 @@ class UpdateSizeTest extends TestCase
     public function given_a_good_garmenttype_but_a_size_who_dont_exist_when_update_then_expect_exception()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->withConsecutive($this->returnValue(true))
             ->willReturn($this->createMock(GarmentType::class));
         $this->sizeRepositoryStub->method('findSizeBySizeValueAndGarmentType')
-            ->with(true, true)
+            ->withConsecutive($this->returnValue(true), $this->returnValue(true))
             ->willReturn(null);
-        $this->expectException(SizeAlreadyExist::class);
+        $this->expectException(SizeDoNotExist::class);
         $this->handler->handle(new UpdateSizeCommand(2, 5, 30));
     }
 }

@@ -12,13 +12,13 @@ class CheckLoginEmployeeController
 {
     public function __invoke(Request $request, CheckLoginEmployee $checkLoginEmployee): Response
     {
-        $checkLoginEmployeeCommand = new CheckLoginEmployeeCommand(
-            $request->request->get('nif'),
-            $request->request->get('password')
-        );
-
         return new JsonResponse(
-            $checkLoginEmployee->handle($checkLoginEmployeeCommand),
+            $checkLoginEmployee->handle(
+                new CheckLoginEmployeeCommand(
+                    $request->request->get('nif'),
+                    $request->request->get('password')
+                )
+            ),
             Response::HTTP_OK
         );
     }

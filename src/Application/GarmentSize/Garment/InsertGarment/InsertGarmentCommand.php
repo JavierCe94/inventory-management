@@ -12,7 +12,7 @@ class InsertGarmentCommand
     /**
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(string $name, int $garmentTypeId)
+    public function __construct($name, $garmentTypeId)
     {
         Assertion::notBlank($name);
         Assertion::string($name);

@@ -7,7 +7,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\CheckGarmentTyp
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentIfExists;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeIfExists;
 
 class CreateGarmentSizeTable
 {
@@ -21,7 +21,7 @@ class CreateGarmentSizeTable
     public function __construct(
         GarmentSizeRepository $garmentSizeRepository,
         FindGarmentIfExists $findGarmentIfExist,
-        FindSizeEntityIfExists $findSizeEntityIfExist,
+        FindSizeIfExists $findSizeEntityIfExist,
         CheckGarmentSizeExist $checkGarmentSizeExist,
         CheckGarmentTypeAreEquals $checkGarmentTypeAreEquals,
         CreateGarmentSizeTableTransformI $dataTransform
@@ -34,7 +34,7 @@ class CreateGarmentSizeTable
         $this->dataTransform = $dataTransform;
     }
 
-    public function handle(CreateGarmentSizeTableCommand $createGarmentSizeTableCommand)
+    public function handle(CreateGarmentSizeTableCommand $createGarmentSizeTableCommand): string
     {
         $size = $this->findSizeEntityIfExist->execute(
             $createGarmentSizeTableCommand->getIdSize(),

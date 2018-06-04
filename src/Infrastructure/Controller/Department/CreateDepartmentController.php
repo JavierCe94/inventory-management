@@ -13,12 +13,12 @@ class CreateDepartmentController extends RoleAdmin
 {
     public function __invoke(Request $request, CreateDepartment $createDepartment): Response
     {
-        $createDepartmentCommand = new CreateDepartmentCommand(
-            $request->request->get('name')
-        );
-
         return new JsonResponse(
-            $createDepartment->handle($createDepartmentCommand),
+            $createDepartment->handle(
+                new CreateDepartmentCommand(
+                    $request->request->get('name')
+                )
+            ),
             Response::HTTP_CREATED
         );
     }

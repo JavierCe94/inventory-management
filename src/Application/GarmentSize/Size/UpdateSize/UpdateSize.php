@@ -3,7 +3,7 @@
 namespace Inventory\Management\Application\GarmentSize\Size\UpdateSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeIfExists;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 
 class UpdateSize
@@ -11,27 +11,27 @@ class UpdateSize
     private $sizeRepository;
     private $findGarmentTypeIfExist;
     private $dataTransform;
-    private $findSizeEntityIfExist;
+    private $findSizeIfExist;
     
     public function __construct(
         SizeRepository $sizeRepository,
         FindGarmentTypeIfExists $findGarmentTypeIfExist,
         UpdateSizeTransformI $dataTransform,
-        FindSizeEntityIfExists $findSizeEntityIfExist
+        FindSizeIfExists $findSizeIfExist
     ) {
         $this->sizeRepository = $sizeRepository;
         $this->findGarmentTypeIfExist = $findGarmentTypeIfExist;
         $this->dataTransform = $dataTransform;
-        $this->findSizeEntityIfExist = $findSizeEntityIfExist;
+        $this->findSizeIfExist = $findSizeIfExist;
     }
     
-    public function handle(UpdateSizeCommand $updateSizeCommand)
+    public function handle(UpdateSizeCommand $updateSizeCommand): string
     {
         $this->findGarmentTypeIfExist->execute(
             $updateSizeCommand->getGarmentTypeId()
         );
         $this->sizeRepository->updateSize(
-            $this->findSizeEntityIfExist->execute(
+            $this->findSizeIfExist->execute(
                 $updateSizeCommand->getGarmentTypeId(),
                 $updateSizeCommand->getSizeValue()
             ),

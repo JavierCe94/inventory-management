@@ -13,13 +13,13 @@ class UpdateNameDepartmentController extends RoleAdmin
 {
     public function __invoke(Request $request, UpdateNameDepartment $updateNameDepartment): Response
     {
-        $updateNameDepartmentCommand = new UpdateNameDepartmentCommand(
-            $request->attributes->get('department'),
-            $request->request->get('name')
-        );
-
         return new JsonResponse(
-            $updateNameDepartment->handle($updateNameDepartmentCommand),
+            $updateNameDepartment->handle(
+                new UpdateNameDepartmentCommand(
+                    $request->attributes->get('department'),
+                    $request->request->get('name')
+                )
+            ),
             Response::HTTP_OK
         );
     }

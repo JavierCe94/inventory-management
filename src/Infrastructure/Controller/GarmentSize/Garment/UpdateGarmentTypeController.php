@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UpdateGarmentTypeController extends RoleAdmin
 {
-    public function updateGarmentType(
+    public function __invoke(
         Request $request,
         UpdateGarmentType $updateGarmentType
     ) {

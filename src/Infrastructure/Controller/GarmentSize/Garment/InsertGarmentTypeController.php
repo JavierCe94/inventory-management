@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class InsertGarmentTypeController extends RoleAdmin
 {
-    public function insertGarmentType(
+    public function __invoke(
         Request $request,
         InsertGarmentType $insertGarmentType
     ) {

@@ -19,8 +19,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     private const MAX_RESULTS_QUERY = 20;
 
     /**
-     * @param Employee $employee
-     * @return Employee
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -33,39 +31,18 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     }
 
     /**
-     * @param Employee $employee
-     * @return Employee|null
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function changeStatusToDisableEmployee(Employee $employee): Employee
+    public function changeStatusEmployee(Employee $employee, bool $isDisabled): Employee
     {
-        $employee->getEmployeeStatus()->setDisabledEmployee(true);
+        $employee->getEmployeeStatus()->setDisabledEmployee($isDisabled);
         $this->getEntityManager()->flush();
 
         return $employee;
     }
 
     /**
-     * @param Employee $employee
-     * @return Employee|null
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
-    public function changeStatusToEnableEmployee(Employee $employee): Employee
-    {
-        $employee->getEmployeeStatus()->setDisabledEmployee(false);
-        $this->getEntityManager()->flush();
-
-        return $employee;
-    }
-
-    /**
-     * @param Employee $employee
-     * @param string $passwordHash
-     * @param string $name
-     * @param string $telephone
-     * @return Employee
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -84,15 +61,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     }
 
     /**
-     * @param Employee $employee
-     * @param string $image
-     * @param \DateTime $expirationContractDate
-     * @param \DateTime $possibleRenewal
-     * @param int $availableHolidays
-     * @param int $holidaysPendingToApplyFor
-     * @param Department $department
-     * @param SubDepartment $subDepartment
-     * @return Employee
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -120,8 +88,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     }
 
     /**
-     * @param string $nif
-     * @return Employee|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function findEmployeeByNif(string $nif): ?Employee
@@ -161,7 +127,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     }
 
     /**
-     * @param string $inSsNumber
      * @return object|Employee
      */
     public function checkNotExistsInSsNumberEmployee(string $inSsNumber): ?Employee
@@ -170,9 +135,6 @@ class EmployeeRepository extends ServiceEntityRepository implements EmployeeRepo
     }
 
     /**
-     * @param string $telephone
-     * @param string $nif
-     * @return Employee|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
     public function checkNotExistsTelephoneEmployee(string $telephone, string $nif): ?Employee

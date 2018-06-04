@@ -12,13 +12,13 @@ class CheckLoginAdminController
 {
     public function __invoke(Request $request, CheckLoginAdmin $checkLoginAdmin): Response
     {
-        $checkLoginAdminCommand = new CheckLoginAdminCommand(
-            $request->request->get('username'),
-            $request->request->get('password')
-        );
-
         return new JsonResponse(
-            $checkLoginAdmin->handle($checkLoginAdminCommand),
+            $checkLoginAdmin->handle(
+                new CheckLoginAdminCommand(
+                    $request->request->get('username'),
+                    $request->request->get('password')
+                )
+            ),
             Response::HTTP_OK
         );
     }

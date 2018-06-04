@@ -8,8 +8,6 @@ use Inventory\Management\Domain\Model\PasswordHash\CheckDecryptPassword as Check
 class CheckDecryptPassword implements CheckDecryptPasswordI
 {
     /**
-     * @param string $password
-     * @param string $passwordEncrypted
      * @throws IncorrectPasswordException
      */
     public function execute(string $password, string $passwordEncrypted): void

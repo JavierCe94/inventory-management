@@ -46,7 +46,7 @@ class ListSizeByGarmentTypeTest extends TestCase
     public function given_a_bad_garmenttype_when_try_to_list_then_return_non_valid_garmenttype()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->with(2)
             ->willReturn(null);
         $this->expectException(GarmentTypeNotExistsException::class);
         $this->handler->handle(new ListSizeByGarmentTypeCommand(2));
@@ -58,10 +58,10 @@ class ListSizeByGarmentTypeTest extends TestCase
     public function given_a_valid_garmenttype_when_try_to_list_then_succes()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->with(3)
             ->willReturn($this->createMock(GarmentType::class));
         $this->sizeRepositoryStub->method('findByGarmentType')
-            ->with(true)
+            ->with(3)
             ->willReturn(array());
         $this->handler->handle(new ListSizeByGarmentTypeCommand(3));
         $this->assertTrue(true, true);

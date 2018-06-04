@@ -1,24 +1,24 @@
 create_department:
     path: /create
-    controller: Inventory\Management\Infrastructure\Controller\Department\CreateDepartmentController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Department\CreateDepartmentController
     methods: [PUT]
 
 create_subdepartment:
     path: /{department}/subdepartment/create
-    controller: Inventory\Management\Infrastructure\Controller\Department\CreateSubDepartmentController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Department\CreateSubDepartmentController
     methods: [PUT]
 
 list_departments:
     path: /list
-    controller: Inventory\Management\Infrastructure\Controller\Department\ShowDepartmentsController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Department\ShowDepartmentsController
     methods: [PUT]
 
 update_department:
     path: /{department}/update
-    controller: Inventory\Management\Infrastructure\Controller\Department\UpdateNameDepartmentController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Department\UpdateNameDepartmentController
     methods: [PUT]
 
 update_subdepartment:
     path: /subdepartment/{subdepartment}/update
-    controller: Inventory\Management\Infrastructure\Controller\Department\UpdateNameSubDepartmentController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Department\UpdateNameSubDepartmentController
     methods: [PUT]

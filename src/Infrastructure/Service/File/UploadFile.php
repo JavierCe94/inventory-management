@@ -16,9 +16,6 @@ class UploadFile implements UploadFileI
     }
 
     /**
-     * @param array $file
-     * @param string $urlFile
-     * @return string
      * @throws ImageCanNotUploadException
      */
     public function execute(array $file, string $urlFile): string

@@ -13,21 +13,21 @@ class CreateEmployeeController extends RoleAdmin
 {
     public function __invoke(Request $request, CreateEmployee $createEmployee): Response
     {
-        $createEmployeeCommand = new CreateEmployeeCommand(
-            $request->files->get('image'),
-            $request->request->get('nif'),
-            $request->request->get('password'),
-            $request->request->get('name'),
-            $request->request->get('inssnumber'),
-            $request->request->get('telephone'),
-            $request->request->get('codeemployee'),
-            $request->request->get('firstcontractdate'),
-            $request->request->get('senioritydate'),
-            $request->request->get('subdepartment')
-        );
-
         return new JsonResponse(
-            $createEmployee->handle($createEmployeeCommand),
+            $createEmployee->handle(
+                new CreateEmployeeCommand(
+                    $request->files->get('image'),
+                    $request->request->get('nif'),
+                    $request->request->get('password'),
+                    $request->request->get('name'),
+                    $request->request->get('inssnumber'),
+                    $request->request->get('telephone'),
+                    $request->request->get('codeemployee'),
+                    $request->request->get('firstcontractdate'),
+                    $request->request->get('senioritydate'),
+                    $request->request->get('subdepartment')
+                )
+            ),
             Response::HTTP_CREATED
         );
     }

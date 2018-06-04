@@ -15,15 +15,15 @@ class UpdateBasicFieldsEmployeeController extends RoleEmployee
         Request $request,
         UpdateBasicFieldsEmployee $updateBasicFieldsEmployee
     ): Response {
-        $updateBasicFieldsEmployeeCommand = new UpdateBasicFieldsEmployeeCommand(
-            $this->dataToken(),
-            $request->request->get('name'),
-            $request->request->get('password'),
-            $request->request->get('telephone')
-        );
-
         return new JsonResponse(
-            $updateBasicFieldsEmployee->handle($updateBasicFieldsEmployeeCommand),
+            $updateBasicFieldsEmployee->handle(
+                new UpdateBasicFieldsEmployeeCommand(
+                    $this->dataToken(),
+                    $request->request->get('name'),
+                    $request->request->get('password'),
+                    $request->request->get('telephone')
+                )
+            ),
             Response::HTTP_OK
         );
     }

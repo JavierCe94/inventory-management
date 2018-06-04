@@ -23,10 +23,11 @@ class ChangeStatusToDisableEmployee
 
     public function handle(ChangeStatusToDisableEmployeeCommand $disableEmployeeCommand): string
     {
-        $this->employeeRepository->changeStatusToDisableEmployee(
+        $this->employeeRepository->changeStatusEmployee(
             $this->searchEmployeeByNif->execute(
                 $disableEmployeeCommand->nif()
-            )
+            ),
+            true
         );
 
         return $this->changeStatusToDisableEmployeeTransform->transform();

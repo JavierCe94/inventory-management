@@ -17,8 +17,6 @@ class SearchRequestEmployeeById implements SearchRequestEmployeeByIdI
     }
 
     /**
-     * @param int $id
-     * @return RequestEmployee
      * @throws NotFoundRequestsEmployeeException
      */
     public function execute(int $id): RequestEmployee

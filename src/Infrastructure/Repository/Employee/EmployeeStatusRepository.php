@@ -9,8 +9,6 @@ use Inventory\Management\Domain\Model\Entity\Employee\EmployeeStatusRepository a
 class EmployeeStatusRepository extends ServiceEntityRepository implements EmployeeStatusRepositoryI
 {
     /**
-     * @param EmployeeStatus $employeeStatus
-     * @return EmployeeStatus
      * @throws \Doctrine\ORM\ORMException
      */
     public function createEmployeeStatus(EmployeeStatus $employeeStatus): EmployeeStatus
@@ -21,7 +19,6 @@ class EmployeeStatusRepository extends ServiceEntityRepository implements Employ
     }
 
     /**
-     * @param string $codeEmployee
      * @return object|EmployeeStatus
      */
     public function checkNotExistsCodeEmployeeStatus(string $codeEmployee): ?EmployeeStatus

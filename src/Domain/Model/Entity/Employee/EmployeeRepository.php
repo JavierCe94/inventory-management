@@ -10,8 +10,7 @@ use Inventory\Management\Domain\Model\Entity\Department\SubDepartment;
 interface EmployeeRepository
 {
     public function createEmployee(Employee $employee): Employee;
-    public function changeStatusToDisableEmployee(Employee $employee): Employee;
-    public function changeStatusToEnableEmployee(Employee $employee): Employee;
+    public function changeStatusEmployee(Employee $employee, bool $isDisabled): Employee;
     public function updateBasicFieldsEmployee(
         Employee $employee,
         string $passwordHash,

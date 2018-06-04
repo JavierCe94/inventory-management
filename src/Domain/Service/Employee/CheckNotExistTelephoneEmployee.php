@@ -16,8 +16,6 @@ class CheckNotExistTelephoneEmployee implements CheckNotExistTelephoneEmployeeI
     }
 
     /**
-     * @param string $telephone
-     * @param string $nif
      * @throws FoundTelephoneEmployeeException
      */
     public function execute(string $telephone, string $nif): void

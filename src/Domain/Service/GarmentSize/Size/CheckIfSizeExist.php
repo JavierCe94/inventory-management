@@ -4,9 +4,9 @@ namespace Inventory\Management\Domain\Service\GarmentSize\Size;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\CheckIfSizeEntityExist as CheckIfSizeEntityExistI;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\CheckIfSizeExist as CheckIfSizeExistI;
 
-class CheckIfSizeEntityExist implements CheckIfSizeEntityExistI
+class CheckIfSizeExist implements CheckIfSizeExistI
 {
     private $sizeRepository;
     
@@ -18,7 +18,7 @@ class CheckIfSizeEntityExist implements CheckIfSizeEntityExistI
     /**
      * @throws SizeAlreadyExist
      */
-    public function execute(int $id, int $sizeValue)
+    public function execute(int $id, string $sizeValue)
     {
         $output = $this->sizeRepository->findSizeBySizeValueAndGarmentType($sizeValue, $id);
         if (null !== $output) {

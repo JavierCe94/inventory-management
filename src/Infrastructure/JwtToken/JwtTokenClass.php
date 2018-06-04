@@ -35,8 +35,6 @@ class JwtTokenClass implements JwtTokenClassI
     }
 
     /**
-     * @param array $roles
-     * @return mixed
      * @throws InvalidRoleTokenException
      * @throws InvalidTokenException
      * @throws InvalidUserTokenException

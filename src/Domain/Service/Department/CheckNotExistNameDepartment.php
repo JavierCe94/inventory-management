@@ -16,7 +16,6 @@ class CheckNotExistNameDepartment implements CheckNotExistNameDepartmentI
     }
 
     /**
-     * @param string $name
      * @throws FoundNameDepartmentException
      */
     public function execute(string $name): void

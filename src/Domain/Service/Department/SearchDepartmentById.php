@@ -17,8 +17,6 @@ class SearchDepartmentById implements SearchDepartmentByIdI
     }
 
     /**
-     * @param int $department
-     * @return Department|null
      * @throws NotFoundDepartmentsException
      */
     public function execute(int $department): ?Department

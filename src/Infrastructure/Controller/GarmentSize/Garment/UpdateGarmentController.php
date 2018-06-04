@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class UpdateGarmentController extends RoleAdmin
 {
-    public function updateGarment(
+    public function __invoke(
         Request $request,
         UpdateGarment $updateGarment
     ) {

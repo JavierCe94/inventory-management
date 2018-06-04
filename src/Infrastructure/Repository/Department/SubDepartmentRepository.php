@@ -9,8 +9,6 @@ use Inventory\Management\Domain\Model\Entity\Department\SubDepartmentRepository 
 class SubDepartmentRepository extends ServiceEntityRepository implements SubDepartmentRepositoryI
 {
     /**
-     * @param SubDepartment $subDepartment
-     * @return SubDepartment
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -23,9 +21,6 @@ class SubDepartmentRepository extends ServiceEntityRepository implements SubDepa
     }
 
     /**
-     * @param SubDepartment $subDepartment
-     * @param string $name
-     * @return SubDepartment
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
@@ -38,7 +33,6 @@ class SubDepartmentRepository extends ServiceEntityRepository implements SubDepa
     }
 
     /**
-     * @param int $idSubDepartment
      * @return object|SubDepartment
      */
     public function findSubDepartmentById(int $idSubDepartment): ?SubDepartment
@@ -47,7 +41,6 @@ class SubDepartmentRepository extends ServiceEntityRepository implements SubDepa
     }
 
     /**
-     * @param $name
      * @return object|SubDepartment
      */
     public function checkNotExistNameSubDepartment($name): ?SubDepartment

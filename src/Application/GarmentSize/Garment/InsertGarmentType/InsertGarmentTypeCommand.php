@@ -11,7 +11,7 @@ class InsertGarmentTypeCommand
     /**
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(string $name)
+    public function __construct($name)
     {
         Assertion::notBlank($name, 'Tienes que especificar un nombre al tipo de prenda');
         $this->name = $name;

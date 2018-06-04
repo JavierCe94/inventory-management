@@ -11,7 +11,7 @@ class ListSizeByGarmentTypeCommand
     /**
      * @throws \Assert\AssertionFailedException
      */
-    public function __construct(int $garmentTypeId)
+    public function __construct($garmentTypeId)
     {
         Assertion::numeric($garmentTypeId);
         $this->garmentTypeId = $garmentTypeId;

@@ -72,8 +72,8 @@ class ChangeStatusToDisableEmployeeTest extends TestCase
         $this->employeeRepository->method('findEmployeeByNif')
             ->with('45678324F')
             ->willReturn($employee);
-        $this->employeeRepository->method('changeStatusToDisableEmployee')
-            ->with($employee)
+        $this->employeeRepository->method('changeStatusEmployee')
+            ->with($employee, true)
             ->willReturn($employee);
         $changeStatusEmployee = new ChangeStatusToDisableEmployee(
             $this->employeeRepository,

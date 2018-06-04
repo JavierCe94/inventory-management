@@ -13,12 +13,12 @@ class ShowEmployeeByNifController extends RoleAdmin
 {
     public function __invoke(Request $request, ShowEmployeeByNif $showEmployeeByNif): Response
     {
-        $showEmployeeByNifCommand = new ShowEmployeeByNifCommand(
-            $request->attributes->get('nif')
-        );
-
         return new JsonResponse(
-            $showEmployeeByNif->handle($showEmployeeByNifCommand),
+            $showEmployeeByNif->handle(
+                new ShowEmployeeByNifCommand(
+                    $request->attributes->get('nif')
+                )
+            ),
             Response::HTTP_OK
         );
     }

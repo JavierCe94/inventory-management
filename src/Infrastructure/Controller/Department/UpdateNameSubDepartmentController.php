@@ -15,13 +15,13 @@ class UpdateNameSubDepartmentController extends RoleAdmin
         Request $request,
         UpdateNameSubDepartment $updateNameSubDepartment
     ): Response {
-        $updateNameSubDepartmentCommand = new UpdateNameSubDepartmentCommand(
-            $request->attributes->get('subdepartment'),
-            $request->request->get('name')
-        );
-
         return new JsonResponse(
-            $updateNameSubDepartment->handle($updateNameSubDepartmentCommand),
+            $updateNameSubDepartment->handle(
+                new UpdateNameSubDepartmentCommand(
+                    $request->attributes->get('subdepartment'),
+                    $request->request->get('name')
+                )
+            ),
             Response::HTTP_OK
         );
     }

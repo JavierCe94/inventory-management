@@ -17,8 +17,6 @@ class SearchEmployeeByNif implements SearchEmployeeByNifI
     }
 
     /**
-     * @param string $nifEmployee
-     * @return Employee|null
      * @throws NotFoundEmployeesException
      */
     public function execute(string $nifEmployee): ?Employee

@@ -1,4 +1,4 @@
 login_admin:
     path: /login
-    controller: Inventory\Management\Infrastructure\Controller\Admin\CheckLoginAdminController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\Admin\CheckLoginAdminController
     methods: [PUT]

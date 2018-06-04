@@ -1,0 +1,19 @@
+delete_request_employee:
+    path: /{id}/delete
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeStatusToDeletedRequestController
+    methods: [PUT]
+
+send_request_employee:
+    path: /{id}/send
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeStatusToSendRequestController
+    methods: [PUT]
+
+create_request_employee:
+    path: /create
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\CreateRequestEmployeeController
+    methods: [PUT]
+
+employee_show_request_employee:
+    path: /showrequests
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ShowDataRequestsEmployeeController
+    methods: [PUT]

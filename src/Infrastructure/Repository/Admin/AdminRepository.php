@@ -9,7 +9,6 @@ use Inventory\Management\Domain\Model\Entity\Admin\AdminRepository as AdminRepos
 class AdminRepository extends ServiceEntityRepository implements AdminRepositoryI
 {
     /**
-     * @param string $username
      * @return object|Admin
      */
     public function findAdminByUsername(string $username): ?Admin

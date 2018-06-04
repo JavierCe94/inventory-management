@@ -6,7 +6,7 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\FindGarmentSizeIfExist;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\CheckGarmentTypeAreEquals;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\FindGarmentIfExists;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeEntityIfExists;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\FindSizeIfExists;
 
 class UpdateGarmentSize
 {
@@ -20,7 +20,7 @@ class UpdateGarmentSize
     public function __construct(
         GarmentSizeRepository $garmentSizeRepository,
         FindGarmentIfExists $findGarmentIfExist,
-        FindSizeEntityIfExists $findSizeEntityIfExist,
+        FindSizeIfExists $findSizeEntityIfExist,
         FindGarmentSizeIfExist $findGarmentSizeIfExist,
         CheckGarmentTypeAreEquals $checkGarmentTypeAreEquals,
         UpdateGarmentSizeTransformI $dataTransform
@@ -33,7 +33,7 @@ class UpdateGarmentSize
         $this->dataTransform = $dataTransform;
     }
     
-    public function handle(UpdateGarmentSizeCommand $updateGarmentSizeCommand)
+    public function handle(UpdateGarmentSizeCommand $updateGarmentSizeCommand): string
     {
         $size = $this->findSizeEntityIfExist->execute(
             $updateGarmentSizeCommand->getIdSize(),

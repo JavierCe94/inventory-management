@@ -13,13 +13,13 @@ class CreateSubDepartmentController extends RoleAdmin
 {
     public function __invoke(Request $request, CreateSubDepartment $createSubDepartment): Response
     {
-        $createSubDepartmentCommand = new CreateSubDepartmentCommand(
-            $request->attributes->get('department'),
-            $request->request->get('name')
-        );
-
         return new JsonResponse(
-            $createSubDepartment->handle($createSubDepartmentCommand),
+            $createSubDepartment->handle(
+                new CreateSubDepartmentCommand(
+                    $request->attributes->get('department'),
+                    $request->request->get('name')
+                )
+            ),
             Response::HTTP_CREATED
         );
     }

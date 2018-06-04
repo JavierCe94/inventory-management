@@ -10,9 +10,9 @@ use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeNotE
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Garment\GarmentTypeRepository;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeAlreadyExist;
-use Inventory\Management\Domain\Model\Entity\GarmentSize\Size\SizeRepository;
 use Inventory\Management\Domain\Service\GarmentSize\Garment\FindGarmentTypeIfExists;
-use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeEntityExist;
+use Inventory\Management\Domain\Service\GarmentSize\Size\CheckIfSizeExist;
+use Inventory\Management\Infrastructure\Repository\GarmentSize\Size\SizeRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +38,7 @@ class InsertNewSizeTest extends TestCase
         $this->handler = new InsertNewSize(
             $this->sizeRepositoryStub,
             new FindGarmentTypeIfExists($this->garmentTypeRepositoryStub),
-            new CheckIfSizeEntityExist($this->sizeRepositoryStub),
+            new CheckIfSizeExist($this->sizeRepositoryStub),
             new InsertNewSizeTransform()
         );
     }
@@ -49,16 +49,17 @@ class InsertNewSizeTest extends TestCase
     public function given_a_valid_sizevalue_and_garmenttype_when_they_are_not_already_created_then_insert_into_size_table()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->with(2)
             ->willReturn($this->createMock(GarmentType::class));
         $this->sizeRepositoryStub->method('findSizeBySizeValueAndGarmentType')
-            ->with(true, true)
+            ->with(2, 2)
             ->willReturn(null);
+        $size = new Size($this->createMock(GarmentType::class), 2);
         $this->sizeRepositoryStub->method('addSize')
-            ->with(true, true)
-            ->willReturn($this->createMock(Size::class));
+            ->with($size)
+            ->willReturn($size);
         $this->sizeRepositoryStub->expects($this->once())
-            ->method('persistAndFlush');
+            ->method('addSize');
         $this->handler->handle(new InsertNewSizeCommand(2, 2));
         $this->assertTrue(true, true);
     }
@@ -69,11 +70,11 @@ class InsertNewSizeTest extends TestCase
     public function given_a_valid_garmenttype_and_valid_sizevalue_when_already_created_then_expect_exception()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->with(2)
             ->willReturn($this->createMock(GarmentType::class));
         $this->sizeRepositoryStub->method('findSizeBySizeValueAndGarmentType')
-            ->with(true, true)
-            ->willReturn(Size::class);
+            ->with(2, 2)
+            ->willReturn($this->createMock(Size::class));
         $this->expectException(SizeAlreadyExist::class);
         $this->handler->handle(new InsertNewSizeCommand(2, 2));
     }
@@ -84,7 +85,7 @@ class InsertNewSizeTest extends TestCase
     public function given_a_bad_garmenttype_and_valid_sizevalue_when_insert_then_return_non_valid_garmenttype()
     {
         $this->garmentTypeRepositoryStub->method('findGarmentTypeById')
-            ->with(true)
+            ->with(2)
             ->willReturn(null);
         $this->expectException(GarmentTypeNotExistsException::class);
         $this->handler->handle(new InsertNewSizeCommand(2, 2));

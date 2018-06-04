@@ -17,8 +17,6 @@ class SearchAdminByUsername implements SearchAdminByUsernameI
     }
 
     /**
-     * @param string $username
-     * @return Admin|null
      * @throws NotFoundAdminsException
      */
     public function execute(string $username): ?Admin

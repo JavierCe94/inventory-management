@@ -24,7 +24,7 @@ class SizeRepository extends ServiceEntityRepository implements SizeRepositoryI
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function updateSize(Size $size, $sizeValue): Size
+    public function updateSize(Size $size, string $sizeValue): Size
     {
         $size->setSizeValue($sizeValue);
         $this->getEntityManager()->flush();
@@ -37,27 +37,25 @@ class SizeRepository extends ServiceEntityRepository implements SizeRepositoryI
         return $this->findAll();
     }
 
-    public function findSizeBySizeValueAndGarmentType($sizeValue, $garmentTypeId): ?Size
+    /**
+     * @return object|Size
+     */
+    public function findSizeBySizeValueAndGarmentType(string $sizeValue, int $garmentTypeId): ?Size
     {
-        /* @var Size $query */
-        $query = $this->findOneBy([
+        return $this->findOneBy([
             'sizeValue' => $sizeValue,
             'garmentType' => $garmentTypeId
         ]);
-
-        return $query;
     }
     
-    public function findByGarmentType($garmentTypeId): array
+    public function findByGarmentType(int $garmentTypeId): array
     {
-        $query = $this->getEntityManager()->createQueryBuilder()
+        return $this->getEntityManager()->createQueryBuilder()
             ->select('size.sizeValue')
             ->from('Inventory\Management\Domain\Model\Entity\GarmentSize\Size\Size', 'size')
             ->Where('size.garmentType = :garmentTypeId')
             ->setParameter('garmentTypeId', $garmentTypeId)
             ->getQuery()
             ->execute();
-
-        return $query;
     }
 }

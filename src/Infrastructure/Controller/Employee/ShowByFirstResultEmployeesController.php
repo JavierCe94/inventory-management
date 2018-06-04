@@ -15,16 +15,16 @@ class ShowByFirstResultEmployeesController extends RoleAdmin
         Request $request,
         ShowByFirstResultEmployees $showByFirstResultEmployees
     ): Response {
-        $showByFirstResultEmployeesCommand = new ShowByFirstResultEmployeesCommand(
-            $request->attributes->get('firstresultposition'),
-            $request->request->get('name'),
-            $request->request->get('code'),
-            $request->request->get('department'),
-            $request->request->get('subdepartment')
-        );
-
         return new JsonResponse(
-            $showByFirstResultEmployees->handle($showByFirstResultEmployeesCommand),
+            $showByFirstResultEmployees->handle(
+                new ShowByFirstResultEmployeesCommand(
+                    $request->attributes->get('firstresultposition'),
+                    $request->request->get('name'),
+                    $request->request->get('code'),
+                    $request->request->get('department'),
+                    $request->request->get('subdepartment')
+                )
+            ),
             Response::HTTP_OK
         );
     }

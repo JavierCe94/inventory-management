@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class InsertGarmentController extends RoleAdmin
 {
-    public function insertGarment(
+    public function __invoke(
         Request $request,
         InsertGarment $insertGarment
     ) {

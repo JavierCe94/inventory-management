@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ListGarmentTypesController extends RoleAdmin
 {
-    public function listGarmentTypes(ListGarmentTypes $listGarmentTypes)
+    public function __invoke(ListGarmentTypes $listGarmentTypes)
     {
         return new JsonResponse(
             $listGarmentTypes->handle(

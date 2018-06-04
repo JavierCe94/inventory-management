@@ -1,4 +1,4 @@
 list_stock:
     path: /list
-    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController::__invoke
+    controller: Inventory\Management\Infrastructure\Controller\GarmentSize\ListGarmentSizeController
     methods: [PUT]

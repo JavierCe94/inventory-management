@@ -37,19 +37,19 @@ class GarmentRepository extends ServiceEntityRepository implements GarmentReposi
         return $garment;
     }
 
+    /**
+     * @return object|Garment
+     */
     public function findGarmentByName(string $name): ?Garment
     {
-        /* @var Garment $query */
-        $query = $this->findOneBy(["name" => $name]);
-
-        return $query;
+        return $this->findOneBy(["name" => $name]);
     }
 
+    /**
+     * @return object|Garment
+     */
     public function findGarmentById(int $id): ?Garment
     {
-        /* @var Garment $query */
-        $query = $this->findOneBy(["id" => $id]);
-
-        return $query;
+        return $this->findOneBy(["id" => $id]);
     }
 }

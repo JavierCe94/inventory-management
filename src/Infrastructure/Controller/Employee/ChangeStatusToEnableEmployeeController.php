@@ -15,12 +15,12 @@ class ChangeStatusToEnableEmployeeController extends RoleAdmin
         Request $request,
         ChangeStatusToEnableEmployee $changeStatusToEnableEmployee
     ): Response {
-        $changeStatusToEnableEmployeeCommand = new ChangeStatusToEnableEmployeeCommand(
-            $request->attributes->get('nif')
-        );
-
         return new JsonResponse(
-            $changeStatusToEnableEmployee->handle($changeStatusToEnableEmployeeCommand),
+            $changeStatusToEnableEmployee->handle(
+                new ChangeStatusToEnableEmployeeCommand(
+                    $request->attributes->get('nif')
+                )
+            ),
             Response::HTTP_OK
         );
     }

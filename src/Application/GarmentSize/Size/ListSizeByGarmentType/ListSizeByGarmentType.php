@@ -21,7 +21,7 @@ class ListSizeByGarmentType
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
     }
     
-    public function handle(ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand)
+    public function handle(ListSizeByGarmentTypeCommand $listSizeByGarmentTypeCommand): array
     {
         $this->findGarmentTypeIfExists->execute(
             $listSizeByGarmentTypeCommand->getGarmentTypeId()

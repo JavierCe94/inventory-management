@@ -30,7 +30,7 @@ class InsertGarment
         $this->findGarmentTypeIfExists = $findGarmentTypeIfExists;
     }
 
-    public function handle(InsertGarmentCommand $insertGarmentCommand): array
+    public function handle(InsertGarmentCommand $insertGarmentCommand): string
     {
         $this->garmentNameExists->execute(
             $insertGarmentCommand->getName()
