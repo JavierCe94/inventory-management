@@ -19,16 +19,28 @@ class RequestEmployeeGarment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee", inversedBy="request_employees")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee")
      * @ORM\JoinColumn(nullable=false)
      */
     private $requestEmployee;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize", inversedBy="garment_sizes")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize")
      * @ORM\JoinColumn(nullable=false)
      */
     private $garmentSize;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $isDeleted;
+
+    public function __construct(RequestEmployee $requestEmployee, GarmentSize $garmentSize)
+    {
+        $this->requestEmployee = $requestEmployee;
+        $this->garmentSize = $garmentSize;
+        $this->isDeleted = false;
+    }
 
     public function getId(): int
     {
@@ -40,18 +52,18 @@ class RequestEmployeeGarment
         return $this->requestEmployee;
     }
 
-    public function setRequestEmployee(RequestEmployee $requestEmployee): void
-    {
-        $this->requestEmployee = $requestEmployee;
-    }
-
     public function getGarmentSize(): GarmentSize
     {
         return $this->garmentSize;
     }
 
-    public function setGarmentSize(GarmentSize $garmentSize): void
+    public function getIsDeleted(): bool
     {
-        $this->garmentSize = $garmentSize;
+        return $this->isDeleted;
+    }
+
+    public function setIsDeleted(bool $isDeleted): void
+    {
+        $this->isDeleted = $isDeleted;
     }
 }
