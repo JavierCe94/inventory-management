@@ -12,7 +12,7 @@ persistAndflush();
 #datatransform
 
 CasoDeUsoTransform.php function execute or transform?¿
-CasoDeUsoTransformInterface.php
+CasoDeUsoTransformI.php
 
 #command
 
@@ -24,7 +24,7 @@ funciones con mismo nombre que caso de uso
 
 #repository interfaz
 
-EntidadRepositoryInterface.php
+EntidadRepositoryI.php
 
 #caso de uso
 
