@@ -48,8 +48,8 @@ class UpdateGarmentSize
         );
         $this->garmentSizeRepository->updateStockGarmentSize(
             $this->findGarmentSizeIfExist->execute(
-                $size,
-                $garment
+                $size->getId(),
+                $garment->getId()
             ),
             $updateGarmentSizeCommand->getStock()
         );

@@ -48,8 +48,8 @@ class CreateGarmentSizeTable
             $garment->getGarmentType()
         );
         $this->checkGarmentSizeExist->execute(
-            $size,
-            $garment
+            $size->getId(),
+            $garment->getId()
         );
         $this->garmentSizeRepository->createGarmentSize(
             GarmentSize::createFromApi(
