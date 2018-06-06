@@ -33,6 +33,11 @@ class RequestEmployee
     private $requestEmployeeGarment;
 
     /**
+     * @ORM\OneToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\Firm")
+     */
+    private $firm;
+
+    /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreation;
@@ -71,6 +76,11 @@ class RequestEmployee
     public function getRequestEmployeeGarment(): Collection
     {
         return $this->requestEmployeeGarment;
+    }
+
+    public function getFirm()
+    {
+        return $this->firm;
     }
 
     public function getDateCreation(): \DateTime

@@ -18,12 +18,12 @@ class Firm
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee")
+     * @ORM\OneToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee", inversedBy="firm")
      */
     private $requestEmployee;
 
     /**
-     * @ORM\Column(type="string", length=75, nullable=true, options={"default"=null})
+     * @ORM\Column(type="string", length=100, nullable=true, options={"default"=null})
      */
     private $url;
 
@@ -31,6 +31,13 @@ class Firm
      * @ORM\Column(type="datetime", nullable=false)
      */
     private $dateCreation;
+
+    public function __construct(RequestEmployee $requestEmployee, string $url)
+    {
+        $this->requestEmployee = $requestEmployee;
+        $this->url = $url;
+        $this->dateCreation = new \DateTime();
+    }
 
     public function getId(): int
     {
