@@ -1,0 +1,4 @@
+admin_show_request_garments:
+    path: /show
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ShowRequestEmployeeGarmentsController
+    methods: [PUT]

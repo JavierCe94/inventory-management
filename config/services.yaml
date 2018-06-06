@@ -91,3 +91,8 @@ services:
         arguments:
             - '@Doctrine\Common\Persistence\ManagerRegistry'
             - Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee
+
+    Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeGarmentRepository:
+        arguments:
+            - '@Doctrine\Common\Persistence\ManagerRegistry'
+            - Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment

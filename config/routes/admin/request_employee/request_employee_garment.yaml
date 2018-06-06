@@ -1,0 +1,19 @@
+change_request_garment_to_deleted:
+    path: /{requestgarment}/changetodeleted
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeToDeletedRequestGarmentController
+    methods: [PUT]
+
+change_request_garment_to_not_deleted:
+    path: /{requestgarment}/changetonotdeleted
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ChangeToNotDeletedRequestGarmentController
+    methods: [PUT]
+
+create_request_garment:
+    path: /create
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\CreateRequestEmployeeGarmentsController
+    methods: [PUT]
+
+employee_show_request_garments:
+    path: /show
+    controller: Inventory\Management\Infrastructure\Controller\RequestEmployee\ShowDataRequestEmployeeGarmentsController
+    methods: [PUT]

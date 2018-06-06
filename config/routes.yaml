@@ -30,6 +30,10 @@ admin_garment_size:
     resource: './routes/admin/garment_size/garment_size.yaml'
     prefix: /admin/garmentsize
 
+employee_garment_size:
+    resource: './routes/employee/garment_size/garment_size.yaml'
+    prefix: /employee/garmentsize
+
 admin_request_employee:
     resource: './routes/admin/request_employee/request_employee.yaml'
     prefix: /admin/requestemployee
@@ -38,6 +42,10 @@ employee_request_employee:
     resource: './routes/employee/request_employee/request_employee.yaml'
     prefix: /employee/requestemployee
 
-employee_garment_size:
-    resource: './routes/employee/garment_size/garment_size.yaml'
-    prefix: /employee/garmentsize
+admin_request_employee_garment:
+    resource: './routes/admin/request_employee/request_employee_garment.yaml'
+    prefix: /admin/requestemployeegarment
+
+employee_request_employee_garment:
+    resource: './routes/employee/request_employee/request_employee_garment.yaml'
+    prefix: /employee/requestemployeegarment

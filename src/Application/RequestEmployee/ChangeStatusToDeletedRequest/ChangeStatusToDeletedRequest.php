@@ -2,40 +2,46 @@
 
 namespace Inventory\Management\Application\RequestEmployee\ChangeStatusToDeletedRequest;
 
+use Inventory\Management\Domain\Model\Entity\GarmentSize\IncreaseStockGarmentSize;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\CheckRequestIsFromEmployee;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeStatus;
-use Inventory\Management\Domain\Model\Entity\RequestEmployee\SearchRequestEmployeeById;
 
 class ChangeStatusToDeletedRequest
 {
+    private const ONE_GARMENT = 1;
+
     private $requestEmployeeRepository;
     private $changeStatusToDeletedRequestTransform;
-    private $searchRequestEmployeeById;
     private $checkRequestIsFromEmployee;
+    private $increaseStockGarmentSize;
 
     public function __construct(
         RequestEmployeeRepository $requestEmployeeRepository,
         ChangeStatusToDeletedRequestTransformI $changeStatusToDeletedRequestTransform,
-        SearchRequestEmployeeById $searchRequestEmployeeById,
-        CheckRequestIsFromEmployee $checkRequestIsFromEmployee
+        CheckRequestIsFromEmployee $checkRequestIsFromEmployee,
+        IncreaseStockGarmentSize $increaseStockGarmentSize
     ) {
         $this->requestEmployeeRepository = $requestEmployeeRepository;
         $this->changeStatusToDeletedRequestTransform = $changeStatusToDeletedRequestTransform;
-        $this->searchRequestEmployeeById = $searchRequestEmployeeById;
         $this->checkRequestIsFromEmployee = $checkRequestIsFromEmployee;
+        $this->increaseStockGarmentSize = $increaseStockGarmentSize;
     }
 
     public function handle(ChangeStatusToDeletedRequestCommand $changeStatusToDeletedRequestCommand): string
     {
-        $this->checkRequestIsFromEmployee->execute(
+        $requestEmployee = $this->checkRequestIsFromEmployee->execute(
             $changeStatusToDeletedRequestCommand->employee(),
             $changeStatusToDeletedRequestCommand->id()
         );
+        foreach ($requestEmployee->getRequestEmployeeGarment() as $requestEmployeeGarment) {
+            $this->increaseStockGarmentSize->execute(
+                $requestEmployeeGarment->getGarmentSize(),
+                self::ONE_GARMENT
+            );
+        }
         $this->requestEmployeeRepository->changeStatusRequestEmployee(
-            $this->searchRequestEmployeeById->execute(
-                $changeStatusToDeletedRequestCommand->id()
-            ),
+            $requestEmployee,
             RequestEmployeeStatus::STATUS_DRAFT_DELETED
         );
 
