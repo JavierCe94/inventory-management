@@ -4,7 +4,8 @@ namespace Inventory\Management\Infrastructure\Repository\RequestEmployee;
 
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment;
-use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarmentRepository as RequestEmployeeGarmentRepositoryI;
+use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarmentRepository
+    as RequestEmployeeGarmentRepositoryI;
 
 class RequestEmployeeGarmentRepository extends ServiceEntityRepository implements RequestEmployeeGarmentRepositoryI
 {
