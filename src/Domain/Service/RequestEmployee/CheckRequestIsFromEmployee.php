@@ -3,6 +3,7 @@
 namespace Inventory\Management\Domain\Service\RequestEmployee;
 
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\NotFoundRequestsEmployeeException;
+use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeRepository;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\CheckRequestIsFromEmployee as CheckRequestIsFromEmployeeI;
 
@@ -18,7 +19,7 @@ class CheckRequestIsFromEmployee implements CheckRequestIsFromEmployeeI
     /**
      * @throws NotFoundRequestsEmployeeException
      */
-    public function execute(string $nifEmployee, int $idRequestEmployee): void
+    public function execute(string $nifEmployee, int $idRequestEmployee): RequestEmployee
     {
         $requestEmployee = $this->requestEmployeeRepository->checkRequestIsFromEmployee(
             $nifEmployee,
@@ -27,5 +28,7 @@ class CheckRequestIsFromEmployee implements CheckRequestIsFromEmployeeI
         if (null === $requestEmployee) {
             throw new NotFoundRequestsEmployeeException();
         }
+
+        return $requestEmployee;
     }
 }

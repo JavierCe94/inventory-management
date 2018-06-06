@@ -20,14 +20,9 @@ class GarmentSizeRepository extends ServiceEntityRepository implements GarmentSi
         return $garmentSize;
     }
 
-    /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     */
     public function updateStockGarmentSize(GarmentSize $garmentSize, int $stock): GarmentSize
     {
         $garmentSize->setStock($stock);
-        $this->getEntityManager()->flush();
 
         return $garmentSize;
     }

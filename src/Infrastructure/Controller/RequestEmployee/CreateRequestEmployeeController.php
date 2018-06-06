@@ -18,7 +18,7 @@ class CreateRequestEmployeeController extends RoleEmployee
                     $this->dataToken()->nif
                 )
             ),
-            Response::HTTP_OK
+            Response::HTTP_CREATED
         );
     }
 }
