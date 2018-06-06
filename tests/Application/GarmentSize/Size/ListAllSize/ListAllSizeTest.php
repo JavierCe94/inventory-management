@@ -32,7 +32,6 @@ class ListAllSizeTest extends TestCase
     public function given_a_call_to_listall_when_handle_then_succes()
     {
         $this->sizeRepositoryStub->method('findAllSize')->willReturn(array());
-        $this-
         $this->handler->handle(new ListAllSizeCommand());
         $this->assertTrue(true, true);
     }
