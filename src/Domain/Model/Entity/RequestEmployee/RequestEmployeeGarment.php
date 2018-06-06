@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeGarmentRepository")
+ * @ORM\Entity(
+ *     repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeGarmentRepository"
+ * )
  * @ORM\Table(name="request_employee_garment")
  */
 class RequestEmployeeGarment
@@ -19,7 +21,7 @@ class RequestEmployeeGarment
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee")
+     * @ORM\ManyToOne(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployee", inversedBy="requestEmployeeGarment")
      * @ORM\JoinColumn(nullable=false)
      */
     private $requestEmployee;

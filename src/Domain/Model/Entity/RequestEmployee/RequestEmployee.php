@@ -2,11 +2,14 @@
 
 namespace Inventory\Management\Domain\Model\Entity\RequestEmployee;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Inventory\Management\Domain\Model\Entity\Employee\Employee;
 
 /**
- * @ORM\Entity(repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository")
+ * @ORM\Entity(
+ *     repositoryClass="Inventory\Management\Infrastructure\Repository\RequestEmployee\RequestEmployeeRepository"
+ * )
  * @ORM\Table(name="request_employee")
  */
 class RequestEmployee
@@ -23,6 +26,11 @@ class RequestEmployee
      * @ORM\JoinColumn(nullable=false)
      */
     private $employee;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment", mappedBy="requestEmployee")
+     */
+    private $requestEmployeeGarment;
 
     /**
      * @ORM\Column(type="datetime", nullable=false)
@@ -55,6 +63,14 @@ class RequestEmployee
     public function getEmployee(): Employee
     {
         return $this->employee;
+    }
+
+    /**
+     * @return Collection|RequestEmployeeGarment[]
+     */
+    public function getRequestEmployeeGarment(): Collection
+    {
+        return $this->requestEmployeeGarment;
     }
 
     public function getDateCreation(): \DateTime

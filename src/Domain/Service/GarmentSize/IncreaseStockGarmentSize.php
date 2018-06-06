@@ -4,8 +4,9 @@ namespace Inventory\Management\Domain\Service\GarmentSize;
 
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSize;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\GarmentSizeRepository;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\IncreaseStockGarmentSize as IncreaseStockGarmentSizeI;
 
-class IncreaseStockGarmentSize
+class IncreaseStockGarmentSize implements IncreaseStockGarmentSizeI
 {
     private $garmentSizeRepository;
 

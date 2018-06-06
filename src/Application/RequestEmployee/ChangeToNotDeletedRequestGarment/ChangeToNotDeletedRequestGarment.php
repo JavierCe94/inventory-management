@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\RequestEmployee\ChangeToNotDeletedRequestGarment;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\CheckStockGarmentSize;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\DecreaseStockGarmentSize;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\CheckRequestGarmentIsFromEmployee;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarmentRepository;
 
@@ -13,18 +13,18 @@ class ChangeToNotDeletedRequestGarment
     private $requestEmployeeGarmentRepository;
     private $changeToNotDeletedRequestGarmentTransform;
     private $checkRequestGarmentIsFromEmployee;
-    private $checkStockGarmentSize;
+    private $decreaseStockGarmentSize;
 
     public function __construct(
         RequestEmployeeGarmentRepository $requestEmployeeGarmentRepository,
         ChangeToNotDeletedRequestGarmentTransformI $changeToNotDeletedRequestGarmentTransform,
         CheckRequestGarmentIsFromEmployee $checkRequestGarmentIsFromEmployee,
-        CheckStockGarmentSize $checkStockGarmentSize
+        DecreaseStockGarmentSize $decreaseStockGarmentSize
     ) {
         $this->requestEmployeeGarmentRepository = $requestEmployeeGarmentRepository;
         $this->changeToNotDeletedRequestGarmentTransform = $changeToNotDeletedRequestGarmentTransform;
         $this->checkRequestGarmentIsFromEmployee = $checkRequestGarmentIsFromEmployee;
-        $this->checkStockGarmentSize = $checkStockGarmentSize;
+        $this->decreaseStockGarmentSize = $decreaseStockGarmentSize;
     }
 
     public function handle(ChangeToNotDeletedRequestGarmentCommand $changeToNotDeletedRequestGarmentCommand)
@@ -33,7 +33,7 @@ class ChangeToNotDeletedRequestGarment
             $changeToNotDeletedRequestGarmentCommand->nifEmployee(),
             $changeToNotDeletedRequestGarmentCommand->idRequestGarment()
         );
-        $this->checkStockGarmentSize->execute(
+        $this->decreaseStockGarmentSize->execute(
             $requestGarment->getGarmentSize(),
             self::ONE_GARMENT
         );

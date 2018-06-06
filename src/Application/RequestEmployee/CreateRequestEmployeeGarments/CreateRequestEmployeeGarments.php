@@ -2,7 +2,7 @@
 
 namespace Inventory\Management\Application\RequestEmployee\CreateRequestEmployeeGarments;
 
-use Inventory\Management\Domain\Model\Entity\GarmentSize\CheckStockGarmentSize;
+use Inventory\Management\Domain\Model\Entity\GarmentSize\DecreaseStockGarmentSize;
 use Inventory\Management\Domain\Model\Entity\GarmentSize\FindGarmentSizeIfExist;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\CheckRequestIsFromEmployee;
 use Inventory\Management\Domain\Model\Entity\RequestEmployee\RequestEmployeeGarment;
@@ -14,20 +14,20 @@ class CreateRequestEmployeeGarments
     private $createRequestEmployeeGarmentsTransform;
     private $checkRequestIsFromEmployee;
     private $findGarmentSizeIfExist;
-    private $checkStockGarmentSize;
+    private $decreaseStockGarmentSize;
 
     public function __construct(
         RequestEmployeeGarmentRepository $requestEmployeeGarmentRepository,
         CreateRequestEmployeeGarmentsTransformI $createRequestEmployeeGarmentsTransform,
         CheckRequestIsFromEmployee $checkRequestIsFromEmployee,
         FindGarmentSizeIfExist $findGarmentSizeIfExist,
-        CheckStockGarmentSize $checkStockGarmentSize
+        DecreaseStockGarmentSize $decreaseStockGarmentSize
     ) {
         $this->requestEmployeeGarmentRepository = $requestEmployeeGarmentRepository;
         $this->createRequestEmployeeGarmentsTransform = $createRequestEmployeeGarmentsTransform;
         $this->checkRequestIsFromEmployee = $checkRequestIsFromEmployee;
         $this->findGarmentSizeIfExist = $findGarmentSizeIfExist;
-        $this->checkStockGarmentSize = $checkStockGarmentSize;
+        $this->decreaseStockGarmentSize = $decreaseStockGarmentSize;
     }
 
     public function handle(CreateRequestEmployeeGarmentsCommand $createRequestEmployeeGarmentsCommand): string
@@ -40,7 +40,7 @@ class CreateRequestEmployeeGarments
             $createRequestEmployeeGarmentsCommand->size(),
             $createRequestEmployeeGarmentsCommand->garment()
         );
-        $this->checkStockGarmentSize->execute(
+        $this->decreaseStockGarmentSize->execute(
             $garmentSize,
             $createRequestEmployeeGarmentsCommand->count()
         );
