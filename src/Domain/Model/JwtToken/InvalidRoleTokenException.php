@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\JwtToken;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\UnauthorizedException;
 
-class InvalidRoleTokenException extends \Exception
+class InvalidRoleTokenException extends UnauthorizedException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No puedes acceder a esta información';
-        $code = HttpResponses::UNAUTHORIZED;
-        parent::__construct($message, $code);
+        return 'No puedes acceder a esta información';
     }
 }

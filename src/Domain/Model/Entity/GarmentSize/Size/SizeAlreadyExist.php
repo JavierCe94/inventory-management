@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Size;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class SizeAlreadyExist extends \Exception
+class SizeAlreadyExist extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'Esta talla ya existe';
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'Esta talla ya existe';
     }
 }

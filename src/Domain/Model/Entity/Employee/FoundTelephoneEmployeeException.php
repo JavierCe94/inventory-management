@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\Employee;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class FoundTelephoneEmployeeException extends \Exception
+class FoundTelephoneEmployeeException extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'El teléfono introducido ya existe';
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'El teléfono introducido ya existe';
     }
 }

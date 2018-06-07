@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Size;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class SizeDoNotExist extends \Exception
+class SizeDoNotExist extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'Esta talla no existe';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'Esta talla no existe';
     }
 }

@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\Employee;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class FoundCodeEmployeeStatusException extends \Exception
+class FoundCodeEmployeeStatusException extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'El código de trabajador introducido ya existe';
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'El código de trabajador introducido ya existe';
     }
 }

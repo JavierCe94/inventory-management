@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\Department;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class FoundNameDepartmentException extends \Exception
+class FoundNameDepartmentException extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'El departamento ya existe';
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'El departamento ya existe';
     }
 }

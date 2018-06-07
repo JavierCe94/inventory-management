@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\JwtToken;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\UnauthorizedException;
 
-class InvalidUserTokenException extends \Exception
+class InvalidUserTokenException extends UnauthorizedException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'El usuario al que intentas acceder no es tuyo';
-        $code = HttpResponses::UNAUTHORIZED;
-        parent::__construct($message, $code);
+        return 'El usuario al que intentas acceder no es tuyo';
     }
 }

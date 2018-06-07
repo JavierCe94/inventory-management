@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class GarmentTypeNameExistsException extends \Exception
+class GarmentTypeNameExistsException extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = "El tipo de prenda ya existe";
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'El tipo de prenda ya existe';
     }
 }

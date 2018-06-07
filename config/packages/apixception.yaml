@@ -1,0 +1,13 @@
+apixception:
+  - exception: Assert\InvalidArgumentException
+    transformer: Pccomponentes\Apixception\Core\Transformer\NoSerializableTransformer
+    http_code: 400
+  - exception: Inventory\Management\Domain\Model\Exception\UnauthorizedException
+    transformer: Pccomponentes\Apixception\Core\Transformer\NoSerializableTransformer
+    http_code: 401
+  - exception: Inventory\Management\Domain\Model\Exception\NotFoundException
+    transformer: Pccomponentes\Apixception\Core\Transformer\NoSerializableTransformer
+    http_code: 404
+  - exception: Inventory\Management\Domain\Model\Exception\ConflictSearchException
+    transformer: Pccomponentes\Apixception\Core\Transformer\NoSerializableTransformer
+    http_code: 409

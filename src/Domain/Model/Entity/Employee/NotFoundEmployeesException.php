@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\Employee;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class NotFoundEmployeesException extends \Exception
+class NotFoundEmployeesException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No se ha encontrado ningún trabajador';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'No se ha encontrado ningún trabajador';
     }
 }

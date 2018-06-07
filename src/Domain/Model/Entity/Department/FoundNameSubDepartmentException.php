@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\Department;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\ConflictSearchException;
 
-class FoundNameSubDepartmentException extends \Exception
+class FoundNameSubDepartmentException extends ConflictSearchException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'El subdepartamento ya existe';
-        $code = HttpResponses::CONFLICT_SEARCH;
-        parent::__construct($message, $code);
+        return 'El subdepartamento ya existe';
     }
 }

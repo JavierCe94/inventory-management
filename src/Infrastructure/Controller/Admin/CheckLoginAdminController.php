@@ -2,18 +2,18 @@
 
 namespace Inventory\Management\Infrastructure\Controller\Admin;
 
-use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdmin;
 use Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdminCommand;
+use Inventory\Management\Infrastructure\Util\CommandBus\CommandBus;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckLoginAdminController
 {
-    public function __invoke(Request $request, CheckLoginAdmin $checkLoginAdmin): Response
+    public function __invoke(Request $request, CommandBus $commandBus): Response
     {
         return new JsonResponse(
-            $checkLoginAdmin->handle(
+            $commandBus->handle(
                 new CheckLoginAdminCommand(
                     $request->request->get('username'),
                     $request->request->get('password')

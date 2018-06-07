@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class NotFoundStockGarmentSizeException extends \Exception
+class NotFoundStockGarmentSizeException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No hay suficiente stock';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'No hay suficiente stock';
     }
 }

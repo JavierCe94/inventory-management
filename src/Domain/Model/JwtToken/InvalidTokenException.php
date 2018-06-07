@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\JwtToken;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\UnauthorizedException;
 
-class InvalidTokenException extends \Exception
+class InvalidTokenException extends UnauthorizedException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No se ha iniciado una sesión';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'No se ha iniciado una sesión';
     }
 }

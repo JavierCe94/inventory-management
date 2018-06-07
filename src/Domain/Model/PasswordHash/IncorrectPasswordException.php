@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\PasswordHash;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class IncorrectPasswordException extends \Exception
+class IncorrectPasswordException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'La contraseña introducida no es correcta';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'La contraseña introducida no es correcta';
     }
 }

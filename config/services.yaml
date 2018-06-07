@@ -26,11 +26,6 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    # add onKernelException for return a json response with custom message error
-    Inventory\Management\Infrastructure\Event\ExceptionListener:
-        tags:
-            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
-
     # add onKernelController for add content to request and files attributes on PUT OR POST
     Inventory\Management\Infrastructure\Event\ControllerListener:
         tags:
@@ -40,6 +35,18 @@ services:
     Inventory\Management\Infrastructure\JwtToken\JwtTokenClass:
         arguments:
             - '@Symfony\Component\HttpFoundation\RequestStack'
+
+    # CommandBus
+    app.command_handler_locator:
+        class: Symfony\Component\DependencyInjection\ServiceLocator
+        tags: ['container.service_locator']
+        arguments:
+            -
+                Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdminCommand: '@Inventory\Management\Application\Admin\CheckLoginAdmin\CheckLoginAdmin'
+
+    Inventory\Management\Infrastructure\Util\CommandBus\CommandBus:
+        arguments:
+            - '@app.command_handler_locator'
 
     # repositories
     Inventory\Management\Infrastructure\Repository\Admin\AdminRepository:

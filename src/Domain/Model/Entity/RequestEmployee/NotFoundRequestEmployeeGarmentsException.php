@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\RequestEmployee;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class NotFoundRequestEmployeeGarmentsException extends \Exception
+class NotFoundRequestEmployeeGarmentsException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No se ha encontrado ninguna solicitud de prenda';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'No se ha encontrado ninguna solicitud de prenda';
     }
 }

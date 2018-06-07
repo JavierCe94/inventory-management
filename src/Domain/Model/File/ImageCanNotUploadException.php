@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\File;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class ImageCanNotUploadException extends \Exception
+class ImageCanNotUploadException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = 'No se ha podido subir la imágen';
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'No se ha podido subir la imagen';
     }
 }

@@ -2,14 +2,12 @@
 
 namespace Inventory\Management\Domain\Model\Entity\GarmentSize\Garment;
 
-use Inventory\Management\Domain\Model\HttpResponses\HttpResponses;
+use Inventory\Management\Domain\Model\Exception\NotFoundException;
 
-class GarmentTypeNotExistsException extends \Exception
+class GarmentTypeNotExistsException extends NotFoundException
 {
-    public function __construct()
+    public function message(): string
     {
-        $message = "El tipo de prenda no existe";
-        $code = HttpResponses::NOT_FOUND;
-        parent::__construct($message, $code);
+        return 'El tipo de prenda no existe';
     }
 }
